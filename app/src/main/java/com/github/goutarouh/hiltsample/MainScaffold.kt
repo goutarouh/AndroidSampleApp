@@ -8,17 +8,22 @@ import com.github.goutarouh.hiltsample.navigation.MainNavigation
 
 @Composable
 fun MainScaffold(
+    mainUiState: MainUiState,
     scaffoldState: ScaffoldState,
     navController: NavHostController
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-
+            if (mainUiState.isTopBarShow.value) {
+                MainTopBar("App")
+            }
         },
         bottomBar = {
-            MainBottomNavigation() {
-                navController.navigate(it)
+            if (mainUiState.isBottomBarShow.value) {
+                MainBottomNavigation() {
+                    navController.navigate(it)
+                }
             }
         }
     ) {

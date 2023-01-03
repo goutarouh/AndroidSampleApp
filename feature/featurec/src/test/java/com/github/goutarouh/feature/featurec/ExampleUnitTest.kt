@@ -1,4 +1,4 @@
-package com.github.goutarouh.core.navigation
+package com.github.goutarouh.feature.featurec
 
 import org.junit.Test
 

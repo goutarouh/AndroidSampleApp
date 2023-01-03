@@ -9,17 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.goutarouh.feature.featurea.featureARoute
 import com.github.goutarouh.feature.featureb.featureBRoute
+import com.github.goutarouh.feature.featurec.featureCRoute
 
 enum class BottomItem(
     val displayName: String,
     val route: String,
 ) {
     FEATURE_A("feature-a", featureARoute),
-    FEATURE_B("feature-b", featureBRoute);
+    FEATURE_B("feature-b", featureBRoute),
+    FEATURE_C("feature-c", featureCRoute);
 
     companion object {
         fun ordered(): List<BottomItem> {
-            return listOf(FEATURE_A, FEATURE_B)
+            return listOf(FEATURE_A, FEATURE_B, FEATURE_C)
         }
     }
 }

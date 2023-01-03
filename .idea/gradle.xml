@@ -11,9 +11,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core/navigation" />
             <option value="$PROJECT_DIR$/feature/featurea" />
             <option value="$PROJECT_DIR$/feature/featureb" />
+            <option value="$PROJECT_DIR$/feature/featurec" />
           </set>
         </option>
       </GradleProjectSettings>

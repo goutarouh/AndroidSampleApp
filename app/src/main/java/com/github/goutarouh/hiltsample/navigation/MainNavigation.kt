@@ -7,6 +7,7 @@ import com.github.goutarouh.feature.featurea.featureARoute
 import com.github.goutarouh.feature.featurea.featureAScreen
 import com.github.goutarouh.feature.featureb.featureBRoute
 import com.github.goutarouh.feature.featureb.featureBScreen
+import com.github.goutarouh.feature.featurec.featureCScreen
 
 @Composable
 fun MainNavigation(
@@ -19,5 +20,6 @@ fun MainNavigation(
         featureBScreen() {
             navController.navigate(featureARoute)
         }
+        featureCScreen()
     }
 }
