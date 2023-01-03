@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.github.goutarouh.feature.featurea'
+    namespace 'com.github.goutarouh.androidsampleapp.feature.featurea'
     compileSdk 32
 
     defaultConfig {

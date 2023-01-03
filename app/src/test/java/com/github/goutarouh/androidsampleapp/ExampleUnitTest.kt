@@ -1,4 +1,4 @@
-package com.github.goutarouh.feature.`com/github/goutarouh/androidsampleapp/feature/featurea`
+package com.github.goutarouh.androidsampleapp
 
 import org.junit.Test
 

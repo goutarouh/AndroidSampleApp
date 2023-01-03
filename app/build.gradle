@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.github.goutarouh.hiltsample'
+    namespace 'com.github.goutarouh.androidsampleapp'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.github.goutarouh.hiltsample"
+        applicationId "com.github.goutarouh.androidsampleapp"
         minSdk 26
         targetSdk 32
         versionCode 1

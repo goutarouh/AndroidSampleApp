@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.github.goutarouh.core.network'
+    namespace 'com.github.goutarouh.androidsampleapp.core.network'
     compileSdk 32
 
     defaultConfig {
