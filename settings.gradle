@@ -24,7 +24,3 @@ file('core').eachDir { dir ->
     include dir.name
     project(":${dir.name}").projectDir = dir
 }
-include ':featurec'
-include ':repository'
-include ':database'
-include ':network'
