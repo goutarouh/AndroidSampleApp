@@ -16,3 +16,4 @@ rootProject.name = "HiltSample"
 include ':app'
 include 'feature:featurea'
 include 'feature:featureb'
+include 'core:navigation'
