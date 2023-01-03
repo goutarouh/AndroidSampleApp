@@ -24,6 +24,10 @@ gradlePlugin {
             id = "androidsampleapp.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("androidHilt") {
+            id = "androidsampleapp.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
     }
 
 }
