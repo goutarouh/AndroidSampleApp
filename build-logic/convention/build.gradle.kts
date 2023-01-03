@@ -16,9 +16,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidApplicationCompose") {
-            id = "androidsampleapp.android.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
+        register("androidApplication") {
+            id = "androidsampleapp.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidLibrary") {
             id = "androidsampleapp.android.library"
