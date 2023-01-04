@@ -1,6 +1,7 @@
 package com.github.goutarouh.androidsampleapp.core.network.di
 
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
+import com.github.goutarouh.androidsampleapp.core.util.data.AppConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(
+        appConfig: AppConfig
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
             .build()
