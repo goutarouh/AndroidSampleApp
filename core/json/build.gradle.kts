@@ -28,5 +28,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    api("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 }
