@@ -18,8 +18,8 @@ class IgnoreTest {
     fun decode_isCorrect() {
         val actual = Json {
             ignoreUnknownKeys = true
-        }.decodeFromString<IProject>(encodedData)
-        Assert.assertEquals(encodedData, actual)
+        }.decodeFromString<IProject>(encodedDataIncludeUnknown)
+        Assert.assertEquals(decodedData, actual)
     }
 
     // TODO JsonDecodingExceptionでキャッチしたい
@@ -32,5 +32,5 @@ class IgnoreTest {
 @Serializable
 private data class IProject(val name: String)
 private val decodedData = IProject("kotlin")
-private const val encodedDataIncludeUnknown = """{"name":"kotlin","age":23"}"""
+private const val encodedDataIncludeUnknown = """{"name":"kotlin","age":23}"""
 private const val encodedData = """{"name":"kotlin"}"""
