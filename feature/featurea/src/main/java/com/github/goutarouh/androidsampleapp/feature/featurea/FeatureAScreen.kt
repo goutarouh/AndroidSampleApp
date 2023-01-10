@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
@@ -20,7 +21,9 @@ fun NavGraphBuilder.featureAScreen(
 }
 
 @Composable
-fun FeatureAScreen() {
+fun FeatureAScreen(
+    viewModel: FeatureAViewModel = hiltViewModel()
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
