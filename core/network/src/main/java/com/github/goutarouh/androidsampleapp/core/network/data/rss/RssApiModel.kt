@@ -1,6 +1,6 @@
 package com.github.goutarouh.androidsampleapp.core.network.data.rss
 
-data class Rss(
+data class RssApiModel(
     val title: String,
     val items: List<RssItem>
 )

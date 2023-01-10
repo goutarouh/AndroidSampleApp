@@ -1,7 +1,7 @@
 package com.github.goutarouh.androidsampleapp.core.network.parser
 
 import android.util.Xml
-import com.github.goutarouh.androidsampleapp.core.network.data.rss.Rss
+import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItem
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -10,7 +10,7 @@ import java.io.InputStream
  * 参考：https://developer.android.com/training/basics/network-ops/xml?hl=ja#consume
  */
 class RssParser {
-    fun parse(input: InputStream): Rss {
+    fun parse(input: InputStream): RssApiModel {
         val parser = Xml.newPullParser()
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
         parser.setInput(input, null)
@@ -18,7 +18,7 @@ class RssParser {
         return readRss(parser)
     }
 
-    internal fun readRss(parser: XmlPullParser): Rss {
+    internal fun readRss(parser: XmlPullParser): RssApiModel {
         parser.require(XmlPullParser.START_TAG, null, "rss")
         parser.nextTag() // channelタグへ移動
         parser.require(XmlPullParser.START_TAG, null, "channel")
@@ -33,7 +33,7 @@ class RssParser {
                 else -> skip(parser)
             }
         }
-        return Rss(title = title, items = items)
+        return RssApiModel(title = title, items = items)
     }
 
     internal fun readItem(parser: XmlPullParser): RssItem {

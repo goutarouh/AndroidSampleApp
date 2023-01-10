@@ -2,7 +2,7 @@ package com.github.goutarouh.androidsampleapp.core.network.parser
 
 
 import android.util.Xml
-import com.github.goutarouh.androidsampleapp.core.network.data.rss.Rss
+import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItem
 import org.junit.Assert
 import org.junit.Before
@@ -59,7 +59,7 @@ internal class RssParserTest {
 
 }
 
-private val RSS_ALL = Rss(
+private val RSS_ALL = RssApiModel(
     title = "Zennの「Android」のフィード",
     items = List(2) { RssItem() },
 )
