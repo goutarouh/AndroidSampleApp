@@ -2,7 +2,7 @@ package com.github.goutarouh.androidsampleapp.core.network.parser
 
 import android.util.Xml
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
-import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItem
+import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItemApiModel
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 
@@ -24,7 +24,7 @@ class RssParser {
         parser.require(XmlPullParser.START_TAG, null, "channel")
 
         var title = ""
-        val items = mutableListOf<RssItem>()
+        val items = mutableListOf<RssItemApiModel>()
 
         while (parser.next() != XmlPullParser.END_TAG) {
             when (parser.name) {
@@ -36,7 +36,7 @@ class RssParser {
         return RssApiModel(title = title, items = items)
     }
 
-    internal fun readItem(parser: XmlPullParser): RssItem {
+    internal fun readItem(parser: XmlPullParser): RssItemApiModel {
         var title = ""
         var link = ""
         parser.require(XmlPullParser.START_TAG, null, "item")
@@ -47,7 +47,7 @@ class RssParser {
                 else -> skip(parser)
             }
         }
-        return RssItem(title, link)
+        return RssItemApiModel(title, link)
     }
 
     private fun readItemContent(parser: XmlPullParser, tag: String): String {

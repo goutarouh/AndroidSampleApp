@@ -3,7 +3,7 @@ package com.github.goutarouh.androidsampleapp.core.network.parser
 
 import android.util.Xml
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
-import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItem
+import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItemApiModel
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -61,7 +61,7 @@ internal class RssParserTest {
 
 private val RSS_ALL = RssApiModel(
     title = "Zennの「Android」のフィード",
-    items = List(2) { RssItem() },
+    items = List(2) { RssItemApiModel() },
 )
 private val RSS_ALL_XML = """
     <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
@@ -115,7 +115,7 @@ private val RSS_ALL_XML = """
 """.trimIndent().replace("\n", "")
 
 
-private val RSS_ITEM = RssItem("App モジュールの BuildConfig をプロジェクト全体で使う", "https://zenn.dev/gottie/articles/88668d2571dc37")
+private val RSS_ITEM = RssItemApiModel("App モジュールの BuildConfig をプロジェクト全体で使う", "https://zenn.dev/gottie/articles/88668d2571dc37")
 private val RSS_ITEM_XML = """
     <item>
     <title>
