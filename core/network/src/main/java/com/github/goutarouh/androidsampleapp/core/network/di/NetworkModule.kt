@@ -1,6 +1,8 @@
 package com.github.goutarouh.androidsampleapp.core.network.di
 
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
+import com.github.goutarouh.androidsampleapp.core.network.factory.RssConverterFactory
+import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.github.goutarouh.androidsampleapp.core.util.data.AppConfig
 import dagger.Module
@@ -16,17 +18,34 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+//    @Singleton
+//    @Provides
+//    fun provideJsonRetrofit(
+//        json: Json,
+//        appConfig: AppConfig
+//    ): Retrofit {
+//        val contentType = "application/json".toMediaType()
+//        return Retrofit.Builder()
+//            .baseUrl("https://api.github.com/")
+//            .addConverterFactory(json.asConverterFactory(contentType))
+//            .build()
+//    }
+
     @Singleton
     @Provides
-    fun provideRetrofit(
-        json: Json,
-        appConfig: AppConfig
-    ): Retrofit {
-        val contentType = "application/json".toMediaType()
+    fun provideXmlRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .addConverterFactory(json.asConverterFactory(contentType))
+            .baseUrl("https://zenn.dev")
+            .addConverterFactory(RssConverterFactory.create())
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideZennRssService(
+        retrofit: Retrofit
+    ): ZennRssService {
+        return retrofit.create(ZennRssService::class.java)
     }
 
     @Singleton
