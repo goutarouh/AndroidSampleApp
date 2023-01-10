@@ -1,6 +1,7 @@
 package com.github.goutarouh.androidsampleapp.core.repository.di
 
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
+import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
 import com.github.goutarouh.androidsampleapp.core.repository.*
 import com.github.goutarouh.androidsampleapp.core.repository.Data1RepositoryImpl
 import com.github.goutarouh.androidsampleapp.core.repository.Data2RepositoryImpl
@@ -16,10 +17,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun data1Repository(
-        myApiService: MyApiService
+        zennRssService: ZennRssService,
     ): Data1Repository {
         return Data1RepositoryImpl(
-            myApiService = myApiService
+            zennRssService = zennRssService
         )
     }
     @Singleton
