@@ -6,6 +6,9 @@ import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItem
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 
+/**
+ * 参考：https://developer.android.com/training/basics/network-ops/xml?hl=ja#consume
+ */
 class RssParser {
     fun parse(input: InputStream): Rss {
         val parser = Xml.newPullParser()
