@@ -6,14 +6,15 @@ import com.github.goutarouh.androidsampleapp.core.repository.model.rss.toRss
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-interface Data1Repository {
+interface RssRepository {
     suspend fun getRss(): Rss
 }
 
-internal class Data1RepositoryImpl(
+internal class RssRepositoryImpl(
     val zennRssService: ZennRssService,
-): Data1Repository {
+): RssRepository {
     override suspend fun getRss(): Rss = withContext(Dispatchers.IO) {
         return@withContext zennRssService.getData().toRss()
     }
 }
+
