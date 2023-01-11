@@ -1,8 +1,10 @@
 package com.github.goutarouh.androidsampleapp
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.github.goutarouh.androidsampleapp.navigation.MainNavigation
 
@@ -22,6 +24,9 @@ fun MainScaffold(
             }
         }
     ) { paddingValues ->
-        MainNavigation(paddingValues, navController)
+        MainNavigation(
+            navController = navController,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }

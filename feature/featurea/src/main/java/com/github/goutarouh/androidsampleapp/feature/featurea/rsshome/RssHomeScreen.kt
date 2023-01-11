@@ -17,12 +17,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.github.goutarouh.androidsampleapp.feature.featurea.rssitemlist.RssItemListScreen
+import com.github.goutarouh.androidsampleapp.feature.featurea.rssitemlist.RssItemScreenAction
 
 const val RSS_HOME_ROUTE = "RSS_HOME_ROUTE"
 const val RSS_LIST_ROUTE = "RSS_LIST_ROUTE"
 
 fun NavGraphBuilder.rssHome(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     composable(route = RSS_HOME_ROUTE) {
         RssHomeScreen() {
@@ -30,7 +32,13 @@ fun NavGraphBuilder.rssHome(
         }
     }
     composable(route = RSS_LIST_ROUTE) {
-        RssItemListScreen()
+        RssItemListScreen(
+            rssItemScreenAction = object: RssItemScreenAction {
+                override fun navigateBack() { navController.popBackStack() }
+                override fun onCardClick(link: String) {}
+            },
+            modifier = modifier
+        )
     }
 }
 
