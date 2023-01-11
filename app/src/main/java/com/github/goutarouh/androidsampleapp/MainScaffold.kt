@@ -14,11 +14,6 @@ fun MainScaffold(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
-            if (mainUiState.isTopBarShow.value) {
-                MainTopBar("App")
-            }
-        },
         bottomBar = {
             if (mainUiState.isBottomBarShow.value) {
                 MainBottomNavigation() {
@@ -26,7 +21,7 @@ fun MainScaffold(
                 }
             }
         }
-    ) {
-        MainNavigation(navController)
+    ) { paddingValues ->
+        MainNavigation(paddingValues, navController)
     }
 }

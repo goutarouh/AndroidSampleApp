@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -33,10 +34,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideXmlRetrofit(): Retrofit {
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideXmlRetrofit(
+        okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://zenn.dev")
             .addConverterFactory(RssConverterFactory.create())
+            .client(okHttpClient)
             .build()
     }
 

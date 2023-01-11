@@ -28,7 +28,7 @@ class RssItemListScreenViewModel @Inject constructor(
             val rss = rssRepository.getRss()
             _uiState.emit(RssItemListScreenUiState.Success(rss))
         } catch (e: Exception) {
-            _uiState.emit(RssItemListScreenUiState.Loading)
+            _uiState.emit(RssItemListScreenUiState.Error(e))
         }
     }
 

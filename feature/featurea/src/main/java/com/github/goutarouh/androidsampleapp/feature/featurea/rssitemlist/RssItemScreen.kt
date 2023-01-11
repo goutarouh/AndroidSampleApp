@@ -3,7 +3,10 @@ package com.github.goutarouh.androidsampleapp.feature.featurea.rssitemlist
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -21,6 +24,9 @@ fun RssItemListScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         when (val state = uiState.value) {
             is Loading -> {}
+            is Error -> {
+                Text(text = "${state.e}")
+            }
             is Success -> {
                 RssItemList(rss = state.rss)
             }
@@ -28,14 +34,24 @@ fun RssItemListScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RssItemList(
     rss: Rss
 ) {
-    Column {
-        Text(text = rss.title)
-        rss.items.forEach {
-            Text(text = it.title)
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = rss.title)
+                }
+            )
+        }
+    ) {
+        Column {
+            rss.items.forEach {
+                Text(text = it.title)
+            }
         }
     }
 
