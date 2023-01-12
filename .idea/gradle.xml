@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/core/json" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/repository" />
+            <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/util" />
             <option value="$PROJECT_DIR$/feature/featurea" />
             <option value="$PROJECT_DIR$/feature/featureb" />

@@ -55,8 +55,11 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.25.1"
+
     implementation(project(":featurea"))
     implementation(project(":featureb"))
     implementation(project(":featurec"))
+    implementation(project(":ui"))
     implementation(project(":util"))
 }
