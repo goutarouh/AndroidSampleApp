@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(
     foreignKeys = arrayOf(
         ForeignKey(
-            entity = RssDB::class,
+            entity = RssEntity::class,
             parentColumns = arrayOf("title"),
             childColumns = arrayOf("parentTitle"),
             onDelete = ForeignKey.CASCADE

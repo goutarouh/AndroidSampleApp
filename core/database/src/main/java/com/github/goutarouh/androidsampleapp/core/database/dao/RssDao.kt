@@ -4,24 +4,24 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssDB
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
 
 @Dao
 interface RssDao {
 
-    @Query("SELECT * FROM RssDB")
-    fun getRssDbALL(): List<RssDB>
+    @Query("SELECT * FROM RssEntity")
+    fun getRssEntityList(): List<RssEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRssDb(rssDB: RssDB)
+    fun insertRssEntity(rssEntity: RssEntity)
 
-    @Query("DELETE FROM RssDB WHERE title = :title")
+    @Query("DELETE FROM RssEntity WHERE title = :title")
     fun deleteRssDb(title: String)
 
     @Query("SELECT * FROM RssItemEntity")
     fun getRssItemEntityList(): List<RssItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRssItemEntityList(rssItemDBList: List<RssItemEntity>)
+    fun insertRssItemEntityList(rssItemEntityList: List<RssItemEntity>)
 }
