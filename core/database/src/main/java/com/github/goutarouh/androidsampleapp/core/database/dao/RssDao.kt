@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssDB
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemDB
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
 
 @Dao
 interface RssDao {
@@ -19,9 +19,9 @@ interface RssDao {
     @Query("DELETE FROM RssDB WHERE title = :title")
     fun deleteRssDb(title: String)
 
-    @Query("SELECT * FROM RssItemDB")
-    fun getRssItemDbAll(): List<RssItemDB>
+    @Query("SELECT * FROM RssItemEntity")
+    fun getRssItemEntityList(): List<RssItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRssItemDbs(rssItemDBList: List<RssItemDB>)
+    fun insertRssItemEntityList(rssItemDBList: List<RssItemEntity>)
 }

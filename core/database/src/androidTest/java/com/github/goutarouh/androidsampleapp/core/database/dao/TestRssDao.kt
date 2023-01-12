@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.goutarouh.androidsampleapp.core.database.AppDatabase
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssDB
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemDB
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -44,17 +44,17 @@ class TestRssDao {
 
     @Test
     @Throws(Exception::class)
-    fun `RssItemDBの書き込みと読み込みのテスト`() {
-        rssDao.insertRssItemDbs(RSS_ITEM_DB_LIST)
-        val actual = rssDao.getRssItemDbAll()
-        Assert.assertEquals(RSS_ITEM_DB_LIST.size, actual.size)
+    fun `RssItemEntityの書き込みと読み込みのテスト`() {
+        rssDao.insertRssItemEntityList(RSS_ITEM_ENTITY_LIST)
+        val actual = rssDao.getRssItemEntityList()
+        Assert.assertEquals(RSS_ITEM_ENTITY_LIST.size, actual.size)
     }
 
     @Test
     @Throws(Exception::class)
-    fun `親のRssDBを削除したら子のRssItemDBも削除されるか確認`() {
+    fun `親のRssDBを削除したら子のRssItemEntityも削除されるか確認`() {
         rssDao.insertRssDb(RSS_DB.copy(title = "title"))
-        rssDao.insertRssItemDbs(RSS_ITEM_DB_LIST.map { it.copy(parentTitle = "title") })
+        rssDao.insertRssItemEntityList(RSS_ITEM_ENTITY_LIST.map { it.copy(parentTitle = "title") })
         rssDao.deleteRssDb("title")
 
         run {
@@ -63,11 +63,11 @@ class TestRssDao {
         }
 
         run {
-            val actual = rssDao.getRssItemDbAll()
+            val actual = rssDao.getRssItemEntityList()
             Assert.assertEquals(0, actual.size)
         }
     }
 }
 
 private val RSS_DB = RssDB(title = "")
-private val RSS_ITEM_DB_LIST = List(10) { RssItemDB(title = "", link = "") }
+private val RSS_ITEM_ENTITY_LIST = List(10) { RssItemEntity(title = "", link = "") }

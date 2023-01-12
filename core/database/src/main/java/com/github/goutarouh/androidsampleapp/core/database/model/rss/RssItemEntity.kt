@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
         )
     )
 )
-data class RssItemDB(
+data class RssItemEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val parentTitle: String = "",
