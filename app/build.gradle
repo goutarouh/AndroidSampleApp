@@ -58,5 +58,6 @@ dependencies {
     implementation(project(":featurea"))
     implementation(project(":featureb"))
     implementation(project(":featurec"))
+    implementation(project(":ui"))
     implementation(project(":util"))
 }

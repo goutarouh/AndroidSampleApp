@@ -10,7 +10,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.github.goutarouh.androidsampleapp.ui.theme.HiltSampleTheme
+import com.github.goutarouh.androidsampleapp.core.ui.theme.AndroidSampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HiltSampleTheme {
+            AndroidSampleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
