@@ -16,8 +16,8 @@ interface RssDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssEntity(rssEntity: RssEntity)
 
-    @Query("DELETE FROM RssEntity WHERE title = :title")
-    fun deleteRssDb(title: String)
+    @Query("DELETE FROM RssEntity WHERE rssLink = :rssLink")
+    fun deleteRssEntity(rssLink: String)
 
     @Query("SELECT * FROM RssItemEntity")
     fun getRssItemEntityList(): List<RssItemEntity>

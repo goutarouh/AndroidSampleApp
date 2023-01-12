@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class RssEntity(
-    // TODO linkなどをPrimaryKeyに修正する
     @PrimaryKey
-    val title: String
+    val rssLink: String = "",
+    val title: String = ""
 )

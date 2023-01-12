@@ -36,7 +36,7 @@ class TestRssDao {
 
     @Test
     @Throws(Exception::class)
-    fun `RssDbの書き込みと読み込みのテスト`() {
+    fun `RssEntityの書き込みと読み込みのテスト`() {
         rssDao.insertRssEntity(RSS_ENTITY)
         val actual = rssDao.getRssEntityList()
         Assert.assertEquals(RSS_ENTITY, actual[0])
@@ -45,6 +45,7 @@ class TestRssDao {
     @Test
     @Throws(Exception::class)
     fun `RssItemEntityの書き込みと読み込みのテスト`() {
+        rssDao.insertRssEntity(RSS_ENTITY.copy(rssLink = "rssLink"))
         rssDao.insertRssItemEntityList(RSS_ITEM_ENTITY_LIST)
         val actual = rssDao.getRssItemEntityList()
         Assert.assertEquals(RSS_ITEM_ENTITY_LIST.size, actual.size)
@@ -52,10 +53,10 @@ class TestRssDao {
 
     @Test
     @Throws(Exception::class)
-    fun `親のRssDBを削除したら子のRssItemEntityも削除されるか確認`() {
-        rssDao.insertRssEntity(RSS_ENTITY.copy(title = "title"))
-        rssDao.insertRssItemEntityList(RSS_ITEM_ENTITY_LIST.map { it.copy(parentTitle = "title") })
-        rssDao.deleteRssDb("title")
+    fun `親のRssEntityを削除したら子のRssItemEntityも削除されるか確認`() {
+        rssDao.insertRssEntity(RSS_ENTITY.copy(rssLink = "rssLink"))
+        rssDao.insertRssItemEntityList(RSS_ITEM_ENTITY_LIST.map { it.copy(rssLink = "rssLink") })
+        rssDao.deleteRssEntity("rssLink")
 
         run {
             val actual = rssDao.getRssEntityList()
@@ -69,5 +70,5 @@ class TestRssDao {
     }
 }
 
-private val RSS_ENTITY = RssEntity(title = "")
-private val RSS_ITEM_ENTITY_LIST = List(10) { RssItemEntity(title = "", link = "") }
+private val RSS_ENTITY = RssEntity("rssLink", "title")
+private val RSS_ITEM_ENTITY_LIST = List(10) { RssItemEntity("rssLink", "title", "pageLink-$it") }

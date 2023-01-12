@@ -5,19 +5,18 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
+    primaryKeys = arrayOf("rssLink", "pageLink"),
     foreignKeys = arrayOf(
         ForeignKey(
             entity = RssEntity::class,
-            parentColumns = arrayOf("title"),
-            childColumns = arrayOf("parentTitle"),
+            parentColumns = arrayOf("rssLink"),
+            childColumns = arrayOf("rssLink"),
             onDelete = ForeignKey.CASCADE
         )
     )
 )
 data class RssItemEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val parentTitle: String = "",
-    val title: String,
-    val link: String
+    val rssLink: String = "",
+    val title: String = "",
+    val pageLink: String = ""
 )
