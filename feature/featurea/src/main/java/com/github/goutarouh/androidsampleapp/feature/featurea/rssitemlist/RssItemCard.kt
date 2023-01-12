@@ -26,7 +26,7 @@ fun RssItemCard(
             .clip(shape = RoundedCornerShape(size = 24.dp))
             .background(color = Color(0xFFf8f8ff))
             .clickable {
-                onCardClick(rssItem.link)
+                onCardClick(rssItem.pageLink)
             }
             .padding(horizontal = 16.dp)
             .heightIn(min = 80.dp)

@@ -6,9 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RssDao {
+
+    @Query("SELECT * FROM RssEntity")
+    fun getRssEntityListFlow(): Flow<List<RssEntity>>
 
     @Query("SELECT * FROM RssEntity")
     fun getRssEntityList(): List<RssEntity>
