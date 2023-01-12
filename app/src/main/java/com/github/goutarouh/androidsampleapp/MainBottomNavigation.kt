@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.goutarouh.androidsampleapp.feature.featurea.featureARoute
+import com.github.goutarouh.androidsampleapp.feature.featurea.RSS_HOME_ROUTE
 import com.github.goutarouh.androidsampleapp.feature.featureb.featureBRoute
 import com.github.goutarouh.androidsampleapp.feature.featurec.featureCRoute
 
@@ -15,13 +15,13 @@ enum class BottomItem(
     val displayName: String,
     val route: String,
 ) {
-    FEATURE_A("feature-a", featureARoute),
+    RSS_HOME("RSS", RSS_HOME_ROUTE),
     FEATURE_B("feature-b", featureBRoute),
     FEATURE_C("feature-c", featureCRoute);
 
     companion object {
         fun ordered(): List<BottomItem> {
-            return listOf(FEATURE_A, FEATURE_B, FEATURE_C)
+            return listOf(RSS_HOME, FEATURE_B, FEATURE_C)
         }
     }
 }

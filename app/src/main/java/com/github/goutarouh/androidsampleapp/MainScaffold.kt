@@ -1,8 +1,10 @@
 package com.github.goutarouh.androidsampleapp
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.github.goutarouh.androidsampleapp.navigation.MainNavigation
 
@@ -14,11 +16,6 @@ fun MainScaffold(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
-            if (mainUiState.isTopBarShow.value) {
-                MainTopBar("App")
-            }
-        },
         bottomBar = {
             if (mainUiState.isBottomBarShow.value) {
                 MainBottomNavigation() {
@@ -26,7 +23,10 @@ fun MainScaffold(
                 }
             }
         }
-    ) {
-        MainNavigation(navController)
+    ) { paddingValues ->
+        MainNavigation(
+            navController = navController,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
