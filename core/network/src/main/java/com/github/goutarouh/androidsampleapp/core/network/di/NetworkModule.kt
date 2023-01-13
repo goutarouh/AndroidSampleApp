@@ -3,15 +3,12 @@ package com.github.goutarouh.androidsampleapp.core.network.di
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
 import com.github.goutarouh.androidsampleapp.core.network.factory.RssConverterFactory
 import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.github.goutarouh.androidsampleapp.core.util.data.AppConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -35,7 +32,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
         return OkHttpClient.Builder()
+            .addNetworkInterceptor(logging)
             .build()
     }
 

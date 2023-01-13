@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.github.goutarouh.androidsampleapp.feature.featurea.RSS_HOME_ROUTE
-import com.github.goutarouh.androidsampleapp.feature.featurea.rssHome
+import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.RSS_HOME_ROUTE
+import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.rssHome
 import com.github.goutarouh.androidsampleapp.feature.featureb.featureBScreen
 import com.github.goutarouh.androidsampleapp.feature.featurec.featureCScreen
 

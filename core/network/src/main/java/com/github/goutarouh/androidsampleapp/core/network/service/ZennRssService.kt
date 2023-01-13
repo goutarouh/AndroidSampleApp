@@ -6,6 +6,6 @@ import retrofit2.http.GET
 interface ZennRssService {
 
     @GET("/topics/android/feed")
-    suspend fun getData(): RssApiModel
+    suspend fun getRss(): RssApiModel
 
 }

@@ -19,6 +19,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -31,9 +32,9 @@
             <option value="$PROJECT_DIR$/core/repository" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/util" />
-            <option value="$PROJECT_DIR$/feature/featurea" />
             <option value="$PROJECT_DIR$/feature/featureb" />
             <option value="$PROJECT_DIR$/feature/featurec" />
+            <option value="$PROJECT_DIR$/feature/rss" />
           </set>
         </option>
       </GradleProjectSettings>

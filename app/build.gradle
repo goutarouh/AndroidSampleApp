@@ -57,7 +57,7 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.25.1"
 
-    implementation(project(":featurea"))
+    implementation(project(":rss"))
     implementation(project(":featureb"))
     implementation(project(":featurec"))
     implementation(project(":ui"))
