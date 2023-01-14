@@ -17,8 +17,8 @@ data class RssItem(
 )
 
 // --------------------- ApiModel -> Entity --------------------
-internal fun RssApiModel.toRssEntity(): RssEntity = RssEntity(
-    rssLink = link,
+internal fun RssApiModel.toRssEntity(rssLink: String): RssEntity = RssEntity(
+    rssLink = rssLink,
     title = title
 )
 

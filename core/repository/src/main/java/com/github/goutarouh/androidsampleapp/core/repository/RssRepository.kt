@@ -30,9 +30,9 @@ internal class RssRepositoryImpl(
 
     override suspend fun getRss(rssLink: String): Rss = withContext(Dispatchers.IO) {
         val rssApiModel = zennRssService.getRss(rssLink)
-        val rssEntity = rssApiModel.toRssEntity()
+        val rssEntity = rssApiModel.toRssEntity(rssLink)
         val rssItemEntityList = rssApiModel.items.map {
-            it.toRssItemEntity(rssLink = rssEntity.rssLink)
+            it.toRssItemEntity(rssLink)
         }
         rssDao.insertRssEntity(rssEntity)
         rssDao.insertRssItemEntityList(rssItemEntityList)
