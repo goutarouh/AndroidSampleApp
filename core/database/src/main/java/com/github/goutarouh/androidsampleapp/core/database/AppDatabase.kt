@@ -14,7 +14,7 @@ import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEnti
         RssFavoriteEntity::class
     ],
     version = 1,
-    exportSchema = false // TODO trueにする
+    exportSchema = true
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun rssDao(): RssDao
