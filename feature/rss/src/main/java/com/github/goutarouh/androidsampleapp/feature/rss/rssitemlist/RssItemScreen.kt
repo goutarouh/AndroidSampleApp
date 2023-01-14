@@ -15,7 +15,6 @@ import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemList
 
 interface RssItemScreenAction {
     fun navigateBack()
-    fun onCardClick(link: String)
 }
 
 @Composable
@@ -28,7 +27,9 @@ fun RssItemListScreen(
 
     Scaffold(
         topBar = {
-            RssItemListTopBar(uiState.value, rssItemScreenAction)
+            RssItemListTopBar(uiState.value, rssItemScreenAction) { rssLink, isFavorite ->
+                viewModel.changeFavorite(rssLink, isFavorite)
+            }
         }
     ) {
         Box(modifier = modifier.fillMaxSize()) {
@@ -41,7 +42,7 @@ fun RssItemListScreen(
                 }
                 is Success -> {
                     RssItemList(rss = state.rss) {
-                        rssItemScreenAction.onCardClick(it)
+
                     }
                 }
             }

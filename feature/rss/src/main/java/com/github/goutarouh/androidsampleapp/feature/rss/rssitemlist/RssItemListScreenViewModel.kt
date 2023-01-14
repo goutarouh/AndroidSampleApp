@@ -18,13 +18,14 @@ class RssItemListScreenViewModel @Inject constructor(
 ): ViewModel() {
 
     private val rssItemListNavArgs = RssItemListNavArgs(savedStateHandle)
+    val rssItemLink = rssItemListNavArgs.rssLink.decode64()
 
     private val _uiState = MutableStateFlow<RssItemListScreenUiState>(RssItemListScreenUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            updateUiState(rssItemListNavArgs.rssLink.decode64())
+            updateUiState(rssItemLink)
         }
     }
 
@@ -35,6 +36,17 @@ class RssItemListScreenViewModel @Inject constructor(
         } catch (e: Exception) {
             _uiState.emit(RssItemListScreenUiState.Error(e))
         }
+    }
+
+    fun changeFavorite(rssLink: String, isFavorite: Boolean) {
+        viewModelScope.launch {
+            try {
+                rssRepository.changeFavorite(rssLink, isFavorite)
+            } catch (e: Exception) {
+                // TODO uiStateに送出するほどのエラーではない
+            }
+        }
+
     }
 
 }

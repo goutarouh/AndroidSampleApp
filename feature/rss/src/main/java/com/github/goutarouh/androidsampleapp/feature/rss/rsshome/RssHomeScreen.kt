@@ -48,7 +48,6 @@ fun NavGraphBuilder.rssHome(
         RssItemListScreen(
             rssItemScreenAction = object: RssItemScreenAction {
                 override fun navigateBack() { navController.popBackStack() }
-                override fun onCardClick(link: String) {}
             },
             modifier = modifier
         )

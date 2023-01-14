@@ -5,21 +5,26 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
+import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray100
+import com.github.goutarouh.androidsampleapp.core.ui.theme.Red300
 
 @Composable
 fun RssItemListTopBar(
     state: RssItemListScreenUiState,
-    rssItemScreenAction: RssItemScreenAction
+    rssItemScreenAction: RssItemScreenAction,
+    changeFavorite: (String, Boolean) -> Unit
 ) {
     when (state) {
         is RssItemListScreenUiState.Loading, is RssItemListScreenUiState.Error -> {
             LoadingOrError(rssItemScreenAction)
         }
         is RssItemListScreenUiState.Success -> {
-            Success(state, rssItemScreenAction)
+            Success(state.rss, rssItemScreenAction, changeFavorite)
         }
     }
 }
@@ -44,16 +49,41 @@ private fun LoadingOrError(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Success(
-    state: RssItemListScreenUiState.Success,
+    rss: Rss,
     rssItemScreenAction: RssItemScreenAction,
+    changeFavorite: (String, Boolean) -> Unit,
 ) {
+
+    var isFavorite by remember { mutableStateOf(false) }
+
     CenterAlignedTopAppBar(
         title = {
-            Text(text = state.rss.title)
+            Text(text = rss.title)
         },
         navigationIcon = {
             IconButton(onClick = { rssItemScreenAction.navigateBack() }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                val newFavorite = !isFavorite
+                isFavorite = newFavorite
+                changeFavorite(rss.rssLink, newFavorite)
+            }) {
+                if (isFavorite) {
+                    Icon(
+                        imageVector = Icons.Outlined.Favorite,
+                        contentDescription = null,
+                        tint = Red300
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.Favorite,
+                        contentDescription = null,
+                        tint = BlueGray100
+                    )
+                }
             }
         }
     )
