@@ -1,5 +1,6 @@
 package com.github.goutarouh.androidsampleapp.core.repository.di
 
+import com.github.goutarouh.androidsampleapp.core.database.TransactionProcessExecutor
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
 import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
@@ -17,12 +18,14 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun rssRepository(
+        transactionProcessExecutor: TransactionProcessExecutor,
         zennRssService: ZennRssService,
         rssDao: RssDao
     ): RssRepository {
         return RssRepositoryImpl(
+            transactionProcessExecutor = transactionProcessExecutor,
             zennRssService = zennRssService,
-            rssDao = rssDao
+            rssDao = rssDao,
         )
     }
     @Singleton

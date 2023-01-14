@@ -24,18 +24,16 @@ class RssParser {
         parser.require(XmlPullParser.START_TAG, null, "channel")
 
         var title = ""
-        var link = ""
         val items = mutableListOf<RssItemApiModel>()
 
         while (parser.next() != XmlPullParser.END_TAG) {
             when (parser.name) {
                 "title" -> title = readItemContent(parser, "title")
-                "link" -> link = readItemContent(parser, "link")
                 "item" -> items.add(readItem(parser))
                 else -> skip(parser)
             }
         }
-        return RssApiModel(title = title, link = link, items = items)
+        return RssApiModel(title = title, items = items)
     }
 
     internal fun readItem(parser: XmlPullParser): RssItemApiModel {

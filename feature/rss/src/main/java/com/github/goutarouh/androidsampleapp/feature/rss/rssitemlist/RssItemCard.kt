@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.RssItem
+import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray50
 
 @Composable
 fun RssItemCard(
@@ -24,11 +24,11 @@ fun RssItemCard(
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = 24.dp))
-            .background(color = Color(0xFFf8f8ff))
+            .background(color = BlueGray50)
             .clickable {
                 onCardClick(rssItem.pageLink)
             }
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 4.dp)
             .heightIn(min = 80.dp)
             .fillMaxWidth()
     ) {

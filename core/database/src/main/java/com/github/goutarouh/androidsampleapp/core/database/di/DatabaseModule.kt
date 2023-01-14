@@ -3,6 +3,7 @@ package com.github.goutarouh.androidsampleapp.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.github.goutarouh.androidsampleapp.core.database.AppDatabase
+import com.github.goutarouh.androidsampleapp.core.database.TransactionProcessExecutor
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
 import dagger.Module
 import dagger.Provides
@@ -25,6 +26,14 @@ object DatabaseModule {
             AppDatabase::class.java,
             "android-sample-app-db"
         ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideTransactionExecutor(
+        appDatabase: AppDatabase
+    ): TransactionProcessExecutor {
+        return TransactionProcessExecutor(appDatabase)
     }
 
     @Singleton
