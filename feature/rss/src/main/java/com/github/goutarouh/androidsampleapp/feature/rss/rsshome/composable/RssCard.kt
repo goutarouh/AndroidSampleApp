@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray50
 
@@ -20,7 +22,7 @@ fun RssCard(
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = 24.dp))
             .background(color = BlueGray50)
@@ -29,13 +31,30 @@ fun RssCard(
             }
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .heightIn(80.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        AsyncImage(
+            model = "https://storage.googleapis.com/zenn-user-upload/topics/489b9436a3.png",
+            contentDescription = null,
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(size = 8.dp))
+                .size(60.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = rss.title,
-            modifier = Modifier.align(Alignment.CenterStart),
+            modifier = Modifier.weight(1f),
             maxLines = 3,
             overflow = TextOverflow.Ellipsis
         )
     }
+}
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun PreviewRssCard() {
+    RssCard(rss = Rss("a".repeat(1000), "", listOf(), false), onCardClick = {})
 }
