@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 interface RssRepository {
-    suspend fun getRssListFlow(): Flow<List<Rss>>
+    fun getFavoriteRssListFlow(): Flow<List<Rss>>
+    fun getUnFavoriteRssListFlow(): Flow<List<Rss>>
     suspend fun getRss(rssLink: String): Rss
     suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
 }
@@ -23,9 +24,16 @@ internal class RssRepositoryImpl(
     val rssDao: RssDao,
 ): RssRepository {
 
-    override suspend fun getRssListFlow(): Flow<List<Rss>> {
-        val rssEntityListFlow = rssDao.getRssEntityListFlow()
-        return rssEntityListFlow.map {
+    override fun getFavoriteRssListFlow(): Flow<List<Rss>> {
+        val rssList = rssDao.getFavoriteRssEntityListFlow()
+        return rssList.map {
+            it.map { it.toRss(listOf()) }
+        }
+    }
+
+    override fun getUnFavoriteRssListFlow(): Flow<List<Rss>> {
+        val rssList = rssDao.getUnFavoriteRssEntityListFlow()
+        return rssList.map {
             it.map { it.toRss(listOf()) }
         }
     }

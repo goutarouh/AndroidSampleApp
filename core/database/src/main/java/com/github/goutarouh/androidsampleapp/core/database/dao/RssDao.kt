@@ -20,7 +20,7 @@ interface RssDao {
     fun getFavoriteRssEntityListFlow(): Flow<List<RssEntity>>
 
     @Query("SELECT * FROM RssEntity JOIN RssFavoriteEntity ON RssEntity.rssLink = RssFavoriteEntity.rssLink WHERE RssFavoriteEntity.isFavorite = 0")
-    fun getNonFavoriteRssEntityListFlow(): Flow<List<RssEntity>>
+    fun getUnFavoriteRssEntityListFlow(): Flow<List<RssEntity>>
 
     @Query("SELECT * FROM RssEntity")
     fun getRssEntityList(): List<RssEntity>

@@ -25,6 +25,7 @@ import androidx.navigation.navArgument
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 import com.github.goutarouh.androidsampleapp.core.util.string.encode64
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.RssHomeScreenUiState.*
+import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.composable.RssLinkTextField
 import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemListScreen
 import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemScreenAction
 
@@ -81,7 +82,7 @@ fun RssHomeScreen(
                 }
                 is Success -> {
                     RssHome(
-                        rssList = state.rssList,
+                        state = state,
                         onCardClick = navigateTo,
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
@@ -93,7 +94,7 @@ fun RssHomeScreen(
 
 @Composable
 fun RssHome(
-    rssList: List<Rss>,
+    state: Success,
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -101,27 +102,21 @@ fun RssHome(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var input by remember { mutableStateOf("") }
-        Row {
-            TextField(
-                value = input,
-                onValueChange = { input = it },
-                singleLine = true,
-                modifier = Modifier.weight(1f)
-            )
-            IconButton(
-                onClick = {
-                    onCardClick(input)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
-            }
-        }
+        RssLinkTextField(
+            onCardClick = onCardClick,
+            modifier = Modifier
+        )
         Spacer(modifier = Modifier.height(24.dp))
-        RssList(rssList = rssList, onCardClick = onCardClick)
+        Text(
+            text = "Favorite",
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
+        RssList(rssList = state.rssFavoriteList, onCardClick = onCardClick)
+        Text(
+            text = "Other",
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
+        RssList(rssList = state.rssUnFavoriteList, onCardClick = onCardClick)
     }
 }
 
