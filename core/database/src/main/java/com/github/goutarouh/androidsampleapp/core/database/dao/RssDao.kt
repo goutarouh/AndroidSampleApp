@@ -1,26 +1,26 @@
 package com.github.goutarouh.androidsampleapp.core.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssWrapperData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RssDao {
 
+    @Transaction
     @Query("SELECT * FROM RssEntity")
-    fun getRssEntityListFlow(): Flow<List<RssEntity>>
+    suspend fun getRssWrapperDataList(): List<RssWrapperData>
 
-    @Query("SELECT * FROM RssEntity JOIN RssFavoriteEntity ON RssEntity.rssLink = RssFavoriteEntity.rssLink WHERE RssFavoriteEntity.isFavorite = 1")
-    fun getFavoriteRssEntityListFlow(): Flow<List<RssEntity>>
+    @Transaction
+    @Query("SELECT * FROM RssEntity")
+    fun getRssWrapperDataListFlow(): Flow<List<RssWrapperData>>
 
-    @Query("SELECT * FROM RssEntity JOIN RssFavoriteEntity ON RssEntity.rssLink = RssFavoriteEntity.rssLink WHERE RssFavoriteEntity.isFavorite = 0")
-    fun getUnFavoriteRssEntityListFlow(): Flow<List<RssEntity>>
+    @Transaction
+    @Query("SELECT * FROM RssEntity WHERE rssLink = :rssLink")
+    suspend fun getRssWrapperData(rssLink: String): RssWrapperData
 
     @Query("SELECT * FROM RssEntity")
     fun getRssEntityList(): List<RssEntity>
@@ -36,6 +36,9 @@ interface RssDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssItemEntityList(rssItemEntityList: List<RssItemEntity>)
+
+    @Query("SELECT * FROM RssFavoriteEntity WHERE rssLink = :rssLink")
+    fun getRssFavorite(rssLink: String): RssFavoriteEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssFavoriteEntity(rssFavoriteEntity: RssFavoriteEntity)

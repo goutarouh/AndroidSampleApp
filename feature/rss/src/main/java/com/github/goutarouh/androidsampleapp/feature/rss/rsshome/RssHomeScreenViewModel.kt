@@ -15,19 +15,16 @@ class RssHomeScreenViewModel @Inject constructor(
     private val rssRepository: RssRepository
 ): ViewModel() {
 
-    private val rssFavoriteList = rssRepository.getFavoriteRssListFlow()
-    private val rssUnFavoriteList = rssRepository.getUnFavoriteRssListFlow()
-    private val rssList = combineTransform(rssFavoriteList, rssUnFavoriteList) { favorites, unFavorites ->
-        emit(Pair(favorites, unFavorites))
-    }
+    private val rssFavoriteList = rssRepository.getRssListFlow()
 
     private val _uiState = MutableStateFlow<RssHomeScreenUiState>(RssHomeScreenUiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            rssList.collect {
-                _uiState.emit(RssHomeScreenUiState.Success(it.first, it.second))
+            rssFavoriteList.collect {
+                val (favoriteList, unFavoriteList) = it.partition { it.isFavorite }
+                _uiState.emit(RssHomeScreenUiState.Success(favoriteList, unFavoriteList))
             }
         }
     }
