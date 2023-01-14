@@ -22,6 +22,10 @@ interface RssDao {
     @Query("SELECT * FROM RssEntity WHERE rssLink = :rssLink")
     suspend fun getRssWrapperData(rssLink: String): RssWrapperData
 
+    @Transaction
+    @Query("SELECT EXISTS(SELECT 1 FROM RssEntity WHERE rssLink = :rssLink LIMIT 1)")
+    suspend fun hasRssEntity(rssLink: String): Boolean
+
     @Query("SELECT * FROM RssEntity")
     fun getRssEntityList(): List<RssEntity>
 
@@ -38,7 +42,7 @@ interface RssDao {
     fun insertRssItemEntityList(rssItemEntityList: List<RssItemEntity>)
 
     @Query("SELECT * FROM RssFavoriteEntity WHERE rssLink = :rssLink")
-    fun getRssFavorite(rssLink: String): RssFavoriteEntity
+    fun getRssFavorite(rssLink: String): RssFavoriteEntity?
 
     @Query("SELECT EXISTS(SELECT 1 FROM RssFavoriteEntity WHERE rssLink = :rssLink LIMIT 1)")
     fun hasRssFavorite(rssLink: String): Boolean
