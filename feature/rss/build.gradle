@@ -39,5 +39,6 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
 
     implementation(project(":ui"))
+    implementation(project(":util"))
     implementation(project(":repository"))
 }
