@@ -51,8 +51,8 @@ internal class RssRepositoryImpl(
         return@withContext rssWrapperData.toRss()
     }
 
-    override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) {
-        rssDao.updateRssFavoriteEntity(RssFavoriteEntity(rssLink, true))
+    override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
+        rssDao.updateRssFavoriteEntity(RssFavoriteEntity(rssLink, isFavorite))
     }
 
 }
