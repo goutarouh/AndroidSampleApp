@@ -27,7 +27,7 @@ fun RssCard(
             .clickable {
                 onCardClick(rss.rssLink)
             }
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 4.dp)
             .heightIn(80.dp)
             .fillMaxWidth()
     ) {

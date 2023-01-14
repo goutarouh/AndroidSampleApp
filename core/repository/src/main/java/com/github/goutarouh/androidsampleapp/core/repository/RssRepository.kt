@@ -1,5 +1,6 @@
 package com.github.goutarouh.androidsampleapp.core.repository
 
+import com.github.goutarouh.androidsampleapp.core.database.TransactionProcessExecutor
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
 import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
@@ -19,8 +20,9 @@ interface RssRepository {
 }
 
 internal class RssRepositoryImpl(
+    val transactionProcessExecutor: TransactionProcessExecutor,
     val zennRssService: ZennRssService,
-    val rssDao: RssDao,
+    val rssDao: RssDao
 ): RssRepository {
 
     override fun getRssListFlow(): Flow<List<Rss>> {
@@ -43,9 +45,11 @@ internal class RssRepositoryImpl(
         }
         val rssFavoriteEntity = RssFavoriteEntity(rssLink)
 
-        rssDao.insertRssEntity(rssEntity)
-        rssDao.insertRssItemEntityList(rssItemEntityList)
-        rssDao.insertRssFavoriteEntity(rssFavoriteEntity)
+        transactionProcessExecutor.doTransactionProcess {
+            rssDao.insertRssEntity(rssEntity)
+            rssDao.insertRssItemEntityList(rssItemEntityList)
+            rssDao.insertRssFavoriteEntity(rssFavoriteEntity)
+        }
 
         val rssWrapperData = rssDao.getRssWrapperData(rssLink)
         return@withContext rssWrapperData.toRss()
