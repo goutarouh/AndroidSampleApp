@@ -1,6 +1,7 @@
 package com.github.goutarouh.androidsampleapp.core.repository
 
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
 import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.toRss
@@ -14,6 +15,7 @@ import kotlinx.coroutines.withContext
 interface RssRepository {
     suspend fun getRssListFlow(): Flow<List<Rss>>
     suspend fun getRss(rssLink: String): Rss
+    suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
 }
 
 internal class RssRepositoryImpl(
@@ -34,9 +36,18 @@ internal class RssRepositoryImpl(
         val rssItemEntityList = rssApiModel.items.map {
             it.toRssItemEntity(rssLink)
         }
+        val rssFavoriteEntity = RssFavoriteEntity(rssLink)
+
         rssDao.insertRssEntity(rssEntity)
         rssDao.insertRssItemEntityList(rssItemEntityList)
+        rssDao.insertRssFavoriteEntity(rssFavoriteEntity)
         return@withContext rssEntity.toRss(rssItemEntityList)
     }
+
+    override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) {
+        rssDao.updateRssFavoriteEntity(RssFavoriteEntity(rssLink, isFavorite))
+    }
+
+
 }
 
