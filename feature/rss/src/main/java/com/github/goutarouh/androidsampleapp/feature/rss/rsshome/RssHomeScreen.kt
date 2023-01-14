@@ -84,7 +84,7 @@ fun RssHomeScreen(
                     RssHome(
                         state = state,
                         onCardClick = navigateTo,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+                        modifier = Modifier
                     )
                 }
             }
@@ -126,13 +126,13 @@ fun RssList(
     onCardClick: (String) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(vertical = 16.dp)
     ) {
         items(rssList) { rss ->
             RssCard(
                 rss = rss,
                 onCardClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

@@ -54,7 +54,7 @@ private fun Success(
     changeFavorite: (String, Boolean) -> Unit,
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(rss.isFavorite) }
 
     CenterAlignedTopAppBar(
         title = {

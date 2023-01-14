@@ -56,13 +56,13 @@ fun RssItemList(
     onCardClick: (String) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(vertical = 16.dp)
     ) {
         items(rss.items) { rssItem ->
             RssItemCard(
                 rssItem = rssItem,
                 onCardClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
