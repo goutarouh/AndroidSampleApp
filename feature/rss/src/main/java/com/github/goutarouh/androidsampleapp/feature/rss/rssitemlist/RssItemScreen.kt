@@ -15,6 +15,7 @@ import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemList
 
 interface RssItemScreenAction {
     fun navigateBack()
+    fun itemClick(linkString: String)
 }
 
 @Composable
@@ -42,7 +43,7 @@ fun RssItemListScreen(
                 }
                 is Success -> {
                     RssItemList(rss = state.rss) {
-
+                        rssItemScreenAction.itemClick(it)
                     }
                 }
             }
