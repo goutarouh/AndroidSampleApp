@@ -40,6 +40,9 @@ interface RssDao {
     @Query("SELECT * FROM RssFavoriteEntity WHERE rssLink = :rssLink")
     fun getRssFavorite(rssLink: String): RssFavoriteEntity
 
+    @Query("SELECT EXISTS(SELECT 1 FROM RssFavoriteEntity WHERE rssLink = :rssLink LIMIT 1)")
+    fun hasRssFavorite(rssLink: String): Boolean
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssFavoriteEntity(rssFavoriteEntity: RssFavoriteEntity)
 
