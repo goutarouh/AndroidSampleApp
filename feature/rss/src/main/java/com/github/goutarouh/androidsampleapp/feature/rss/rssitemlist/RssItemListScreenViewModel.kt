@@ -52,7 +52,11 @@ class RssItemListScreenViewModel @Inject constructor(
     fun registerFeed(isRegister: Boolean) {
         val state = uiState.value
         if (state is RssItemListScreenUiState.Success) {
-            rssRepository.registerWorker(state.rss.rssLink)
+            if (isRegister) {
+                rssRepository.registerWorker(state.rss.rssLink)
+            } else {
+                rssRepository.unRegisterWorker(state.rss.rssLink)
+            }
         }
     }
 

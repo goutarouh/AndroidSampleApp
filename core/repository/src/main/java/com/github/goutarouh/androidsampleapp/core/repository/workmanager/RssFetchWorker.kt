@@ -1,7 +1,6 @@
 package com.github.goutarouh.androidsampleapp.core.repository.workmanager
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -18,8 +17,11 @@ class RssFetchWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val rssLink = inputData.getString(RSS_LINK) ?: return Result.failure()
-        Log.i("hasegawa", "RssFetchWorker: ${rssLink}")
-        val result = rssRepository.checkIfRssChanged(rssLink)
+        val changed = try {
+            rssRepository.checkIfRssChanged(rssLink)
+        } catch (e: Exception) {
+            false
+        }
         return Result.success()
     }
 
