@@ -26,10 +26,11 @@ internal fun RssApiModel.toRssEntity(rssLink: String): RssEntity = RssEntity(
     imageLink = imageLink
 )
 
-internal fun RssItemApiModel.toRssItemEntity(rssLink: String): RssItemEntity = RssItemEntity(
+internal fun RssItemApiModel.toRssItemEntity(order: Int, rssLink: String): RssItemEntity = RssItemEntity(
     rssLink = rssLink,
     title = title,
-    pageLink = link
+    pageLink = link,
+    order = order
 )
 
 // --------------------- DB -> UiModel --------------------

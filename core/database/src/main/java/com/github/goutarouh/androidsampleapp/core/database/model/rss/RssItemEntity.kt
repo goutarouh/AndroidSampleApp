@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey
     )
 )
 data class RssItemEntity(
+    val order: Int,
     val rssLink: String = "",
     val title: String = "",
     val pageLink: String = ""

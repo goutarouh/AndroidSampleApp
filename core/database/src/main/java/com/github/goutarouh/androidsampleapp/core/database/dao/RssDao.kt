@@ -19,8 +19,16 @@ interface RssDao {
     fun getRssWrapperDataListFlow(): Flow<List<RssWrapperData>>
 
     @Transaction
+    suspend fun getRssWrapperData(rssLink: String): RssWrapperData {
+        return RssWrapperData(
+            rssEntity = getRssEntity(rssLink),
+            rssFavoriteEntity = getRssFavoriteEntity(rssLink),
+            items = getRssItemEntityList(rssLink)
+        )
+    }
+
     @Query("SELECT * FROM RssEntity WHERE rssLink = :rssLink")
-    suspend fun getRssWrapperData(rssLink: String): RssWrapperData
+    suspend fun getRssEntity(rssLink: String): RssEntity
 
     @Transaction
     @Query("SELECT EXISTS(SELECT 1 FROM RssEntity WHERE rssLink = :rssLink LIMIT 1)")
@@ -35,14 +43,14 @@ interface RssDao {
     @Query("DELETE FROM RssEntity WHERE rssLink = :rssLink")
     fun deleteRssEntity(rssLink: String)
 
-    @Query("SELECT * FROM RssItemEntity")
-    fun getRssItemEntityList(): List<RssItemEntity>
+    @Query("SELECT * FROM RssItemEntity WHERE rssLink = :rssLink ORDER BY `order`")
+    fun getRssItemEntityList(rssLink: String): List<RssItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssItemEntityList(rssItemEntityList: List<RssItemEntity>)
 
     @Query("SELECT * FROM RssFavoriteEntity WHERE rssLink = :rssLink")
-    fun getRssFavorite(rssLink: String): RssFavoriteEntity?
+    fun getRssFavoriteEntity(rssLink: String): RssFavoriteEntity
 
     @Query("SELECT EXISTS(SELECT 1 FROM RssFavoriteEntity WHERE rssLink = :rssLink LIMIT 1)")
     fun hasRssFavorite(rssLink: String): Boolean

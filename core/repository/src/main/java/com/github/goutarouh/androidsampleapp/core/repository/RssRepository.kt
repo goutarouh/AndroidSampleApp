@@ -67,8 +67,8 @@ internal class RssRepositoryImpl(
         isInit: Boolean
     ): RssWrapperData {
         val rssEntity = rssApiModel.toRssEntity(rssLink)
-        val rssItemEntityList = rssApiModel.items.map {
-            it.toRssItemEntity(rssLink)
+        val rssItemEntityList = rssApiModel.items.mapIndexed { index, rssItemApiModel ->
+            rssItemApiModel.toRssItemEntity(index, rssLink)
         }
         val rssFavoriteEntity = RssFavoriteEntity(rssLink)
 
