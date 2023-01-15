@@ -1,5 +1,6 @@
 package com.github.goutarouh.androidsampleapp.core.repository.di
 
+import android.content.Context
 import com.github.goutarouh.androidsampleapp.core.database.TransactionProcessExecutor
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
 import com.github.goutarouh.androidsampleapp.core.network.MyApiService
@@ -9,6 +10,7 @@ import com.github.goutarouh.androidsampleapp.core.repository.Data2RepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -18,11 +20,13 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun rssRepository(
+        @ApplicationContext context: Context,
         transactionProcessExecutor: TransactionProcessExecutor,
         zennRssService: ZennRssService,
         rssDao: RssDao
     ): RssRepository {
         return RssRepositoryImpl(
+            context = context,
             transactionProcessExecutor = transactionProcessExecutor,
             zennRssService = zennRssService,
             rssDao = rssDao,
