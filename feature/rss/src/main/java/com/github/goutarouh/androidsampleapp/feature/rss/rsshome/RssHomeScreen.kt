@@ -104,12 +104,12 @@ fun RssHome(
     ) {
         item {
             RssLinkTextField(
-                onCardClick = onCardClick,
-                modifier = Modifier
+                searchClick = onCardClick,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
         item {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
         }
 
         RssList(rssList = state.rssFavoriteList, header = "Favorite", onCardClick = onCardClick)
