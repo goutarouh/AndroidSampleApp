@@ -11,7 +11,8 @@ data class Rss (
     val rssLink: String,
     val imageLink: String,
     val items: List<RssItem>,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val isUpdated: Boolean,
 )
 
 data class RssItem(
@@ -26,10 +27,11 @@ internal fun RssApiModel.toRssEntity(rssLink: String): RssEntity = RssEntity(
     imageLink = imageLink
 )
 
-internal fun RssItemApiModel.toRssItemEntity(rssLink: String): RssItemEntity = RssItemEntity(
+internal fun RssItemApiModel.toRssItemEntity(order: Int, rssLink: String): RssItemEntity = RssItemEntity(
     rssLink = rssLink,
     title = title,
-    pageLink = link
+    pageLink = link,
+    order = order
 )
 
 // --------------------- DB -> UiModel --------------------
@@ -38,7 +40,8 @@ internal fun RssWrapperData.toRss(): Rss = Rss(
     rssLink = rssEntity.rssLink,
     imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
-    isFavorite = rssFavoriteEntity.isFavorite
+    isFavorite = rssFavoriteEntity.isFavorite,
+    isUpdated = rssUpdateEntity.updated
 )
 
 internal fun RssItemEntity.toRssItem(): RssItem = RssItem(

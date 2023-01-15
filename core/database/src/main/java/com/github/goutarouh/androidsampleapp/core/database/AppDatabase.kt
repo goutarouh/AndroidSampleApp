@@ -6,12 +6,14 @@ import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssUpdateEntity
 
 @Database(
     entities = [
         RssEntity::class,
         RssItemEntity::class,
-        RssFavoriteEntity::class
+        RssFavoriteEntity::class,
+        RssUpdateEntity::class
     ],
     version = 1,
     exportSchema = true

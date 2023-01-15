@@ -29,6 +29,7 @@ fun RssItemListScreen(
     Scaffold(
         topBar = {
             RssItemListTopBar(uiState.value, rssItemScreenAction) { rssLink, isFavorite ->
+                viewModel.registerFeed(isFavorite)
                 viewModel.changeFavorite(rssLink, isFavorite)
             }
         }
@@ -42,7 +43,12 @@ fun RssItemListScreen(
                     Text(text = "${state.e}")
                 }
                 is Success -> {
-                    RssItemList(rss = state.rss) {
+                    RssItemList(
+                        rss = state.rss,
+                        subscribe = {
+                            viewModel.registerFeed(true)
+                        }
+                    ) {
                         rssItemScreenAction.itemClick(it)
                     }
                 }
@@ -51,9 +57,11 @@ fun RssItemListScreen(
     }
 }
 
+
 @Composable
 fun RssItemList(
     rss: Rss,
+    subscribe: (Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
     LazyColumn(

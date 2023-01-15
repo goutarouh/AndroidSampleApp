@@ -57,6 +57,9 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.25.1"
 
+    implementation libs.androidx.hilt.work
+    kapt libs.androidx.hilt.compiler
+
     implementation(project(":rss"))
     implementation(project(":featureb"))
     implementation(project(":featurec"))

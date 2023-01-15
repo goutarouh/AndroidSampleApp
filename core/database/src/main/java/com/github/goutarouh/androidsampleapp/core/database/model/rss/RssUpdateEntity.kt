@@ -2,10 +2,9 @@ package com.github.goutarouh.androidsampleapp.core.database.model.rss
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
-    primaryKeys = arrayOf("rssLink", "pageLink"),
+    primaryKeys = arrayOf("rssLink"),
     foreignKeys = arrayOf(
         ForeignKey(
             entity = RssEntity::class,
@@ -15,9 +14,7 @@ import androidx.room.PrimaryKey
         )
     )
 )
-data class RssItemEntity(
-    val order: Int,
-    val rssLink: String = "",
-    val title: String = "",
-    val pageLink: String = ""
+data class RssUpdateEntity(
+    val rssLink: String,
+    val updated: Boolean = false
 )
