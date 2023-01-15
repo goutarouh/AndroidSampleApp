@@ -4,6 +4,7 @@ androidxComposeUi = "1.1.1"
 androidxComposeMaterial = "1.1.1"
 androidxComposeMaterial3 = "1.0.1"
 androidxRoom = "2.4.3"
+androidxWork = "2.7.1"
 daggerHilt = "2.44"
 kotlin = "1.7.0"
 
@@ -20,6 +21,9 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidxRoom" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidxRoom" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidxRoom" }
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidxWork" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidxWork" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidxWork" }
 com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 com-google-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
