@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class RssEntity(
     @PrimaryKey
     val rssLink: String = "",
-    val title: String = ""
+    val title: String = "",
+    val imageLink: String
 )

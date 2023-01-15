@@ -2,16 +2,11 @@ package com.github.goutarouh.androidsampleapp.feature.rss.rsshome
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,29 +76,18 @@ fun RssHomeScreen(
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
-
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(text = "RSS LIST")
-                }
-            )
-        }
-    ) {
-        Box(modifier = modifier.fillMaxSize()) {
-            when (val state = uiState.value) {
-                is Initial -> {}
-                is Error -> {
-                    Text(text = "${state.e}")
-                }
-                is Success -> {
-                    RssHome(
-                        state = state,
-                        onCardClick = navigateTo,
-                        modifier = Modifier
-                    )
-                }
+    Box(modifier = modifier.fillMaxSize()) {
+        when (val state = uiState.value) {
+            is Initial -> {}
+            is Error -> {
+                Text(text = "${state.e}")
+            }
+            is Success -> {
+                RssHome(
+                    state = state,
+                    onCardClick = navigateTo,
+                    modifier = Modifier
+                )
             }
         }
     }
@@ -115,43 +99,46 @@ fun RssHome(
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    LazyColumn(
+        modifier = modifier.fillMaxSize()
     ) {
-        RssLinkTextField(
-            onCardClick = onCardClick,
-            modifier = Modifier
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = "Favorite",
-            modifier = Modifier.padding(horizontal = 24.dp)
-        )
-        RssList(rssList = state.rssFavoriteList, onCardClick = onCardClick)
-        Text(
-            text = "Other",
-            modifier = Modifier.padding(horizontal = 24.dp)
-        )
-        RssList(rssList = state.rssUnFavoriteList, onCardClick = onCardClick)
+        item {
+            RssLinkTextField(
+                searchClick = onCardClick,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        RssList(rssList = state.rssFavoriteList, header = "Favorite", onCardClick = onCardClick)
+        RssList(rssList = state.rssUnFavoriteList, header = "Other", onCardClick = onCardClick)
     }
 }
 
-@Composable
-fun RssList(
+fun LazyListScope.RssList(
     rssList: List<Rss>,
+    header: String,
     onCardClick: (String) -> Unit
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp)
-    ) {
-        items(rssList) { rss ->
-            RssCard(
-                rss = rss,
-                onCardClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+    if (rssList.isEmpty()) {
+        return
+    }
+    item {
+        Text(
+            text = header,
+            modifier = Modifier.padding(horizontal = 24.dp),
+            style = MaterialTheme.typography.h6
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+    items(rssList) { rss ->
+        RssCard(
+            rss = rss,
+            onCardClick = onCardClick,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
