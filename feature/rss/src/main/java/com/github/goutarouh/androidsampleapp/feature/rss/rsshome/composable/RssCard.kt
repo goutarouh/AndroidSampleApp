@@ -1,6 +1,7 @@
 package com.github.goutarouh.androidsampleapp.feature.rss.rsshome
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray50
+import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray800
 
 @Composable
 fun RssCard(
@@ -22,10 +24,18 @@ fun RssCard(
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val borderColor = if (rss.isUpdated) {
+        BlueGray800
+    } else {
+        BlueGray50
+    }
+
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = 24.dp))
             .background(color = BlueGray50)
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(size = 24.dp))
             .clickable {
                 onCardClick(rss.rssLink)
             }
@@ -56,5 +66,5 @@ fun RssCard(
 )
 @Composable
 fun PreviewRssCard() {
-    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false), onCardClick = {})
+    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false, true), onCardClick = {})
 }

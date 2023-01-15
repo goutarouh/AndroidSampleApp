@@ -11,7 +11,8 @@ data class Rss (
     val rssLink: String,
     val imageLink: String,
     val items: List<RssItem>,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val isUpdated: Boolean,
 )
 
 data class RssItem(
@@ -39,7 +40,8 @@ internal fun RssWrapperData.toRss(): Rss = Rss(
     rssLink = rssEntity.rssLink,
     imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
-    isFavorite = rssFavoriteEntity.isFavorite
+    isFavorite = rssFavoriteEntity.isFavorite,
+    isUpdated = rssUpdateEntity.updated
 )
 
 internal fun RssItemEntity.toRssItem(): RssItem = RssItem(
