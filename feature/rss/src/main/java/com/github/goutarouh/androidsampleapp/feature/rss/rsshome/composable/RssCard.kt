@@ -35,7 +35,7 @@ fun RssCard(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = "https://storage.googleapis.com/zenn-user-upload/topics/489b9436a3.png",
+            model = rss.imageLink,
             contentDescription = null,
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(size = 8.dp))
@@ -56,5 +56,5 @@ fun RssCard(
 )
 @Composable
 fun PreviewRssCard() {
-    RssCard(rss = Rss("a".repeat(1000), "", listOf(), false), onCardClick = {})
+    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false), onCardClick = {})
 }

@@ -9,6 +9,7 @@ import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItemApiMod
 data class Rss (
     val title: String,
     val rssLink: String,
+    val imageLink: String,
     val items: List<RssItem>,
     val isFavorite: Boolean
 )
@@ -21,7 +22,8 @@ data class RssItem(
 // --------------------- ApiModel -> Entity --------------------
 internal fun RssApiModel.toRssEntity(rssLink: String): RssEntity = RssEntity(
     rssLink = rssLink,
-    title = title
+    title = title,
+    imageLink = imageLink
 )
 
 internal fun RssItemApiModel.toRssItemEntity(rssLink: String): RssItemEntity = RssItemEntity(
@@ -34,6 +36,7 @@ internal fun RssItemApiModel.toRssItemEntity(rssLink: String): RssItemEntity = R
 internal fun RssWrapperData.toRss(): Rss = Rss(
     title = rssEntity.title,
     rssLink = rssEntity.rssLink,
+    imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
     isFavorite = rssFavoriteEntity.isFavorite
 )
