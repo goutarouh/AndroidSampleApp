@@ -2,6 +2,8 @@ package com.github.goutarouh.androidsampleapp.feature.rss.rsshome.composable
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,6 +18,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.goutarouh.androidsampleapp.core.ui.theme.Red600
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model.RssLinkInputText
@@ -78,6 +81,15 @@ fun RssLinkTextField(
                     }
                 }
             },
+            keyboardOptions = KeyboardOptions(
+                autoCorrect = false,
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    searchClick(field.input)
+                }
+            ),
             colors = TextFieldDefaults.outlinedTextFieldColors()
         )
     }
