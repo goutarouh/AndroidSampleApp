@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
@@ -30,6 +29,7 @@ fun RssItemListScreen(
     Scaffold(
         topBar = {
             RssItemListTopBar(uiState.value, rssItemScreenAction) { rssLink, isFavorite ->
+                viewModel.registerFeed(isFavorite)
                 viewModel.changeFavorite(rssLink, isFavorite)
             }
         }
@@ -57,28 +57,6 @@ fun RssItemListScreen(
     }
 }
 
-@Composable
-private fun Header(
-    subscribe: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier.fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "記事一覧",
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.h6,
-            textAlign = TextAlign.Start
-        )
-        OutlinedButton(onClick = {
-            subscribe(true)
-        }) {
-            Text(text = "購読")
-        }
-    }
-}
 
 @Composable
 fun RssItemList(
@@ -89,13 +67,6 @@ fun RssItemList(
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
-        item {
-            Header(
-                subscribe = subscribe,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
         items(rss.items) { rssItem ->
             RssItemCard(
                 rssItem = rssItem,
