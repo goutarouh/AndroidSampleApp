@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.goutarouh.androidsampleapp.core.ui.theme.Red600
+import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model.RssLinkInputStatus
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model.RssLinkInputText
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -53,12 +54,7 @@ fun RssLinkTextField(
             placeholder = {
                 Text(text = "Rssのリンク")
             },
-            label = {
-                Text(
-                    text = field.label,
-                    color = Red600
-                )
-            },
+            isError = field.isError,
             leadingIcon = {
                 if (isOnFocus) {
                     IconButton(onClick = {
@@ -87,7 +83,15 @@ fun RssLinkTextField(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchClick(field.input)
+                    when (field.getStatus()) {
+                        RssLinkInputStatus.Valid -> {
+                            searchClick(field.input)
+                        }
+                        RssLinkInputStatus.ShouldNotEmpty -> {}
+                        RssLinkInputStatus.ShouldStartWithHttps -> {
+                            field = field.copy(isError = true)
+                        }
+                    }
                 }
             ),
             colors = TextFieldDefaults.outlinedTextFieldColors()

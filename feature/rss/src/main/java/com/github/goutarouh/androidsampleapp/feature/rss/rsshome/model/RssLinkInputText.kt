@@ -2,7 +2,7 @@ package com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model
 
 data class RssLinkInputText(
     val input: String = "",
-    val label: String = "",
+    val isError: Boolean = false,
 ) {
 
     fun getStatus(): RssLinkInputStatus {
