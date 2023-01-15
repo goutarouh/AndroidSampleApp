@@ -100,8 +100,7 @@ fun RssHome(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize()
     ) {
         item {
             RssLinkTextField(
@@ -132,7 +131,7 @@ fun LazyListScope.RssList(
             modifier = Modifier.padding(horizontal = 24.dp),
             style = MaterialTheme.typography.h6
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
     }
     items(rssList) { rss ->
         RssCard(
