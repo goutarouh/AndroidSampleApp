@@ -1,10 +1,7 @@
 package com.github.goutarouh.androidsampleapp.core.database.dao
 
 import androidx.room.*
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssWrapperData
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,7 +20,8 @@ interface RssDao {
         return RssWrapperData(
             rssEntity = getRssEntity(rssLink),
             rssFavoriteEntity = getRssFavoriteEntity(rssLink),
-            items = getRssItemEntityList(rssLink)
+            items = getRssItemEntityList(rssLink),
+            rssUpdateEntity = getRssUpdateEntity(rssLink)
         )
     }
 
@@ -60,4 +58,13 @@ interface RssDao {
 
     @Update
     fun updateRssFavoriteEntity(rssFavoriteEntity: RssFavoriteEntity)
+
+    @Query("SELECT * FROM RssUpdateEntity WHERE rssLink = :rssLink")
+    suspend fun getRssUpdateEntity(rssLink: String): RssUpdateEntity
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRssUpdateEntity(rssUpdateEntity: RssUpdateEntity)
+
+    @Update
+    suspend fun updateRssUpdateEntity(rssUpdateEntity: RssUpdateEntity)
 }

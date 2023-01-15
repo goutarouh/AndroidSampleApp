@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0c5949ce1f8e6ac3d20e6e04fbafcac0",
+    "identityHash": "c791c334ef59e2725a316fcf60910afe",
     "entities": [
       {
         "tableName": "RssEntity",
@@ -124,12 +124,50 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "RssUpdateEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`rssLink`), FOREIGN KEY(`rssLink`) REFERENCES `RssEntity`(`rssLink`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "rssLink",
+            "columnName": "rssLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rssLink"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "RssEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rssLink"
+            ],
+            "referencedColumns": [
+              "rssLink"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c5949ce1f8e6ac3d20e6e04fbafcac0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c791c334ef59e2725a316fcf60910afe')"
     ]
   }
 }
