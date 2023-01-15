@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7fc2e3abf38215bf4e0cee03e8adecda",
+    "identityHash": "79a9e40d20ec1fa08e5813eefbc2347a",
     "entities": [
       {
         "tableName": "RssEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`rssLink`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `title` TEXT NOT NULL, `imageLink` TEXT NOT NULL, PRIMARY KEY(`rssLink`))",
         "fields": [
           {
             "fieldPath": "rssLink",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "title",
             "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageLink",
+            "columnName": "imageLink",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -117,7 +123,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7fc2e3abf38215bf4e0cee03e8adecda')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '79a9e40d20ec1fa08e5813eefbc2347a')"
     ]
   }
 }
