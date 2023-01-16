@@ -7,8 +7,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.github.goutarouh.androidsampleapp.core.database.TransactionProcessExecutor
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssUpdateEntity
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssMetaEntity
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssWrapperData
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
 import com.github.goutarouh.androidsampleapp.core.network.service.ZennRssService
@@ -21,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 interface RssRepository {
@@ -70,7 +70,7 @@ internal class RssRepositoryImpl(
     }
 
     override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
-        rssDao.updateRssFavoriteEntity(RssFavoriteEntity(rssLink, isFavorite))
+        rssDao.updateRssMetaEntity(rssLink, isFavorite)
     }
 
     override fun registerWorker(rssLink: String): Boolean {
@@ -107,15 +107,13 @@ internal class RssRepositoryImpl(
         val rssItemEntityList = rssApiModel.items.mapIndexed { index, rssItemApiModel ->
             rssItemApiModel.toRssItemEntity(index, rssLink)
         }
-        val rssFavoriteEntity = RssFavoriteEntity(rssLink)
-        val rssUpdateEntity = RssUpdateEntity(rssLink)
+        val rssMetaEntity = RssMetaEntity(rssLink, lastFetchedAt = LocalDateTime.now())
 
         transactionProcessExecutor.doTransactionProcess {
             rssDao.insertRssEntity(rssEntity)
             rssDao.insertRssItemEntityList(rssItemEntityList)
             if (isInit) {
-                rssDao.insertRssFavoriteEntity(rssFavoriteEntity)
-                rssDao.insertRssUpdateEntity(rssUpdateEntity)
+                rssDao.insertRssMetaEntity(rssMetaEntity)
             }
         }
         return rssDao.getRssWrapperData(rssLink)
@@ -146,7 +144,6 @@ internal class RssRepositoryImpl(
             }
         }
 
-        rssDao.updateRssUpdateEntity(RssUpdateEntity(rssLink, result))
         return result
     }
 
