@@ -49,6 +49,12 @@ class RssItemListScreenViewModel @Inject constructor(
 
     }
 
+    fun updateRss(rssLink: String) {
+        viewModelScope.launch {
+            updateUiState(rssLink)
+        }
+    }
+
     fun registerFeed(isRegister: Boolean) {
         val state = uiState.value
         if (state is RssItemListScreenUiState.Success) {
