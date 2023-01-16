@@ -4,13 +4,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
+import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray100
+import com.github.goutarouh.androidsampleapp.core.ui.theme.Red300
+import com.github.goutarouh.androidsampleapp.core.util.localdate.formatForUi
 import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemListScreenUiState.*
 
 interface RssItemScreenAction {
@@ -28,10 +34,7 @@ fun RssItemListScreen(
 
     Scaffold(
         topBar = {
-            RssItemListTopBar(uiState.value, rssItemScreenAction) { rssLink, isFavorite ->
-                viewModel.registerFeed(isFavorite)
-                viewModel.changeFavorite(rssLink, isFavorite)
-            }
+            RssItemListTopBar(uiState.value, rssItemScreenAction)
         }
     ) {
         Box(modifier = modifier.fillMaxSize()) {
@@ -45,8 +48,11 @@ fun RssItemListScreen(
                 is Success -> {
                     RssItemList(
                         rss = state.rss,
-                        subscribe = {
-                            viewModel.registerFeed(true)
+                        update = {
+                            viewModel.updateRss(it)
+                        },
+                        favorite = { rssLink, isFavorite ->
+                            viewModel.changeFavorite(rssLink, isFavorite)
                         }
                     ) {
                         rssItemScreenAction.itemClick(it)
@@ -61,12 +67,24 @@ fun RssItemListScreen(
 @Composable
 fun RssItemList(
     rss: Rss,
-    subscribe: (Boolean) -> Unit,
+    update: (String) -> Unit,
+    favorite: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
+        item {
+            RssItemListHeader(
+                rss = rss,
+                update = update,
+                favorite = favorite,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         items(rss.items) { rssItem ->
             RssItemCard(
                 rssItem = rssItem,
@@ -74,6 +92,61 @@ fun RssItemList(
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@Composable
+fun RssItemListHeader(
+    rss: Rss,
+    modifier: Modifier = Modifier,
+    update: (String) -> Unit,
+    favorite: (String, Boolean) -> Unit
+) {
+
+    var isFavorite by remember { mutableStateOf(rss.isFavorite) }
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            modifier = Modifier.weight(1f).padding(start = 16.dp),
+        ) {
+            Text(
+                text = "Last update: ",
+                style = MaterialTheme.typography.caption,
+            )
+            Text(
+                text = rss.lastFetchedAt.formatForUi(),
+                style = MaterialTheme.typography.caption,
+            )
+        }
+        IconButton(onClick = {
+            val newFavorite = !isFavorite
+            isFavorite = newFavorite
+            favorite(rss.rssLink, newFavorite)
+        }) {
+            if (isFavorite) {
+                Icon(
+                    imageVector = Icons.Outlined.Favorite,
+                    contentDescription = null,
+                    tint = Red300
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Outlined.Favorite,
+                    contentDescription = null,
+                    tint = BlueGray100
+                )
+            }
+        }
+        IconButton(onClick = { update(rss.rssLink) }) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = null,
+                tint = BlueGray100
+            )
         }
     }
 }

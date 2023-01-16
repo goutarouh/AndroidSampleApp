@@ -8,5 +8,5 @@ data class RssEntity(
     @PrimaryKey
     val rssLink: String = "",
     val title: String = "",
-    val imageLink: String
+    val imageLink: String = ""
 )

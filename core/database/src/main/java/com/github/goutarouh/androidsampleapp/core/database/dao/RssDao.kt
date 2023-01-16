@@ -3,6 +3,7 @@ package com.github.goutarouh.androidsampleapp.core.database.dao
 import androidx.room.*
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.*
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 @Dao
 interface RssDao {
@@ -19,9 +20,8 @@ interface RssDao {
     suspend fun getRssWrapperData(rssLink: String): RssWrapperData {
         return RssWrapperData(
             rssEntity = getRssEntity(rssLink),
-            rssFavoriteEntity = getRssFavoriteEntity(rssLink),
-            items = getRssItemEntityList(rssLink),
-            rssUpdateEntity = getRssUpdateEntity(rssLink)
+            rssMetaEntity = getRssMetaEntity(rssLink),
+            items = getRssItemEntityList(rssLink)
         )
     }
 
@@ -36,7 +36,7 @@ interface RssDao {
     fun getRssEntityList(): List<RssEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRssEntity(rssEntity: RssEntity)
+    suspend fun insertRssEntity(rssEntity: RssEntity)
 
     @Query("DELETE FROM RssEntity WHERE rssLink = :rssLink")
     fun deleteRssEntity(rssLink: String)
@@ -47,24 +47,18 @@ interface RssDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRssItemEntityList(rssItemEntityList: List<RssItemEntity>)
 
-    @Query("SELECT * FROM RssFavoriteEntity WHERE rssLink = :rssLink")
-    fun getRssFavoriteEntity(rssLink: String): RssFavoriteEntity
+    @Query("SELECT * FROM RssMetaEntity WHERE rssLink = :rssLink")
+    fun getRssMetaEntity(rssLink: String): RssMetaEntity
 
-    @Query("SELECT EXISTS(SELECT 1 FROM RssFavoriteEntity WHERE rssLink = :rssLink LIMIT 1)")
-    fun hasRssFavorite(rssLink: String): Boolean
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRssFavoriteEntity(rssFavoriteEntity: RssFavoriteEntity)
-
-    @Update
-    fun updateRssFavoriteEntity(rssFavoriteEntity: RssFavoriteEntity)
-
-    @Query("SELECT * FROM RssUpdateEntity WHERE rssLink = :rssLink")
-    suspend fun getRssUpdateEntity(rssLink: String): RssUpdateEntity
+    @Query("SELECT EXISTS(SELECT 1 FROM RssMetaEntity WHERE rssLink = :rssLink LIMIT 1)")
+    fun hasRssMeta(rssLink: String): Boolean
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRssUpdateEntity(rssUpdateEntity: RssUpdateEntity)
+    suspend fun insertRssMetaEntity(rssMetaEntity: RssMetaEntity)
 
-    @Update
-    suspend fun updateRssUpdateEntity(rssUpdateEntity: RssUpdateEntity)
+    @Query("UPDATE RssMetaEntity SET isFavorite = :isFavorite WHERE rssLink = :rssLink")
+    suspend fun updateRssMetaEntity(rssLink: String, isFavorite: Boolean)
+
+    @Query("UPDATE RssMetaEntity SET lastFetchedAt = :lastFetchedAt WHERE rssLink = :rssLink")
+    suspend fun updateRssMetaEntity(rssLink: String, lastFetchedAt: LocalDateTime)
 }

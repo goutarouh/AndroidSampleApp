@@ -2,21 +2,22 @@ package com.github.goutarouh.androidsampleapp.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.github.goutarouh.androidsampleapp.core.database.converter.LocalDateTimeConverter
 import com.github.goutarouh.androidsampleapp.core.database.dao.RssDao
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssFavoriteEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEntity
-import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssUpdateEntity
+import com.github.goutarouh.androidsampleapp.core.database.model.rss.*
 
 @Database(
     entities = [
         RssEntity::class,
         RssItemEntity::class,
-        RssFavoriteEntity::class,
-        RssUpdateEntity::class
+        RssMetaEntity::class
     ],
     version = 1,
     exportSchema = true
+)
+@TypeConverters(
+    LocalDateTimeConverter::class
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun rssDao(): RssDao

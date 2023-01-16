@@ -5,6 +5,7 @@ import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssItemEnti
 import com.github.goutarouh.androidsampleapp.core.database.model.rss.RssWrapperData
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssApiModel
 import com.github.goutarouh.androidsampleapp.core.network.data.rss.RssItemApiModel
+import java.time.LocalDateTime
 
 data class Rss (
     val title: String,
@@ -12,7 +13,7 @@ data class Rss (
     val imageLink: String,
     val items: List<RssItem>,
     val isFavorite: Boolean,
-    val isUpdated: Boolean,
+    val lastFetchedAt: LocalDateTime
 )
 
 data class RssItem(
@@ -40,8 +41,8 @@ internal fun RssWrapperData.toRss(): Rss = Rss(
     rssLink = rssEntity.rssLink,
     imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
-    isFavorite = rssFavoriteEntity.isFavorite,
-    isUpdated = rssUpdateEntity.updated
+    isFavorite = rssMetaEntity.isFavorite,
+    lastFetchedAt = rssMetaEntity.lastFetchedAt
 )
 
 internal fun RssItemEntity.toRssItem(): RssItem = RssItem(

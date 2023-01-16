@@ -11,17 +11,11 @@ data class RssWrapperData(
         parentColumn = "rssLink",
         entityColumn = "rssLink"
     )
-    val rssFavoriteEntity: RssFavoriteEntity,
+    val rssMetaEntity: RssMetaEntity,
 
     @Relation(
         parentColumn = "rssLink",
         entityColumn = "rssLink"
     )
     val items: List<RssItemEntity>,
-
-    @Relation(
-        parentColumn = "rssLink",
-        entityColumn = "rssLink"
-    )
-    val rssUpdateEntity: RssUpdateEntity
 )
