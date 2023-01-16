@@ -51,7 +51,12 @@ class RssItemListScreenViewModel @Inject constructor(
 
     fun updateRss(rssLink: String) {
         viewModelScope.launch {
-            updateUiState(rssLink)
+            try {
+                val rss = rssRepository.updateRss(rssLink, false)
+                _uiState.emit(RssItemListScreenUiState.Success(rss))
+            } catch (e: Exception) {
+                _uiState.emit(RssItemListScreenUiState.Error(e))
+            }
         }
     }
 

@@ -7,4 +7,4 @@ fun LocalDateTime.formatForUi(): String {
     return this.format(dateTimeFormatter)
 }
 
-val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")

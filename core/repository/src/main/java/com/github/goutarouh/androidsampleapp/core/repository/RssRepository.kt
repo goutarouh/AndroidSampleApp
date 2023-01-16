@@ -107,14 +107,17 @@ internal class RssRepositoryImpl(
         val rssItemEntityList = rssApiModel.items.mapIndexed { index, rssItemApiModel ->
             rssItemApiModel.toRssItemEntity(index, rssLink)
         }
-        val rssMetaEntity = RssMetaEntity(rssLink, lastFetchedAt = LocalDateTime.now())
 
         transactionProcessExecutor.doTransactionProcess {
+            val rssMetaEntity = if (isInit) {
+                RssMetaEntity(rssLink = rssLink, isFavorite = false, lastFetchedAt = LocalDateTime.now())
+            } else {
+                rssDao.getRssMetaEntity(rssLink)
+            }
+            rssDao.deleteRssEntity(rssLink)
             rssDao.insertRssEntity(rssEntity)
             rssDao.insertRssItemEntityList(rssItemEntityList)
-            if (isInit) {
-                rssDao.insertRssMetaEntity(rssMetaEntity)
-            }
+            rssDao.insertRssMetaEntity(rssMetaEntity)
         }
         return rssDao.getRssWrapperData(rssLink)
     }

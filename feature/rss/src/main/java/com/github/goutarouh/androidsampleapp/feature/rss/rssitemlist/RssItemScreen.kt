@@ -110,12 +110,18 @@ fun RssItemListHeader(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = rss.lastFetchedAt.formatForUi(),
-            style = MaterialTheme.typography.caption,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Start
-        )
+        Row(
+            modifier = Modifier.weight(1f).padding(start = 16.dp),
+        ) {
+            Text(
+                text = "Last update: ",
+                style = MaterialTheme.typography.caption,
+            )
+            Text(
+                text = rss.lastFetchedAt.formatForUi(),
+                style = MaterialTheme.typography.caption,
+            )
+        }
         IconButton(onClick = {
             val newFavorite = !isFavorite
             isFavorite = newFavorite
