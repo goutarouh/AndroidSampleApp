@@ -28,7 +28,7 @@ interface RssRepository {
     suspend fun updateRss(rssLink: String, isInit: Boolean): Rss
     suspend fun getRss(rssLink: String): Rss
     suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
-    suspend fun checkIfRssChanged(rssLink: String): Boolean
+    suspend fun checkUpdatedItemCount(rssLink: String): Int
     fun registerWorker(rssLink: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
 }
@@ -122,10 +122,11 @@ internal class RssRepositoryImpl(
         return rssDao.getRssWrapperData(rssLink)
     }
 
-    override suspend fun checkIfRssChanged(rssLink: String): Boolean {
+    override suspend fun checkUpdatedItemCount(rssLink: String): Int {
         val rssApiModel = withContext(Dispatchers.Default) {
             zennRssService.getRss(rssLink)
         }
+
         val fetchedRssItemEntityList = rssApiModel.items.mapIndexed { index, rssItemApiModel ->
             rssItemApiModel.toRssItemEntity(index, rssLink)
         }
@@ -133,21 +134,22 @@ internal class RssRepositoryImpl(
             rssDao.getRssItemEntityList(rssLink)
         }
 
-        var result = false
-
         if (existedRssItemEntityList.isEmpty()) {
-            result = true
-        }
-        if (fetchedRssItemEntityList.size != existedRssItemEntityList.size) {
-            result = true
-        }
-        fetchedRssItemEntityList.zip(existedRssItemEntityList).forEach { pair ->
-            if (pair.first != pair.second) {
-                result = true
-            }
+            return 0
         }
 
-        return result
+        if (fetchedRssItemEntityList.size != existedRssItemEntityList.size) {
+            return (fetchedRssItemEntityList.size - existedRssItemEntityList.size).coerceAtLeast(0)
+        }
+        val existedLatestItem = existedRssItemEntityList.first()
+
+        if (!fetchedRssItemEntityList.contains(existedLatestItem)) {
+            return fetchedRssItemEntityList.size
+        }
+
+        writeRssToDb(rssLink, rssApiModel, false)
+
+        return fetchedRssItemEntityList.dropLastWhile { it == existedLatestItem }.size
     }
 
 }
