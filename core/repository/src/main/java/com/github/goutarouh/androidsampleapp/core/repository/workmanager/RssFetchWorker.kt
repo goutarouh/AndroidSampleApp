@@ -17,10 +17,10 @@ class RssFetchWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val rssLink = inputData.getString(RSS_LINK) ?: return Result.failure()
-        val changed = try {
-            rssRepository.checkIfRssChanged(rssLink)
+        try {
+            rssRepository.updateRss(rssLink, false)
         } catch (e: Exception) {
-            false
+            return Result.retry()
         }
         return Result.success()
     }

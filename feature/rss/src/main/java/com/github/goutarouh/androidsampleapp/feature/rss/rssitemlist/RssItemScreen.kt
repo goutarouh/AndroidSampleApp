@@ -53,6 +53,7 @@ fun RssItemListScreen(
                         },
                         favorite = { rssLink, isFavorite ->
                             viewModel.changeFavorite(rssLink, isFavorite)
+                            viewModel.registerFeed(isFavorite)
                         }
                     ) {
                         rssItemScreenAction.itemClick(it)
