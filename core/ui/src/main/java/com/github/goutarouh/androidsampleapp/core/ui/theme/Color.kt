@@ -3,6 +3,7 @@ package com.github.goutarouh.androidsampleapp.core.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val BlueGray50 = Color(0xFFECEFF1)
+
 val BlueGray100 = Color(0xFFCFD8DC)
 val BlueGray200 = Color(0xFFB0BEC5)
 val BlueGray300 = Color(0xFF90A4AE)
