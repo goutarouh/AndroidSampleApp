@@ -6,7 +6,6 @@ sealed interface RssHomeScreenUiState {
     object Initial: RssHomeScreenUiState
     data class Error(val e: Exception): RssHomeScreenUiState
     data class Success(
-        val rssFavoriteList: List<Rss>,
-        val rssUnFavoriteList: List<Rss>
+        val rssList: List<Rss>
     ): RssHomeScreenUiState
 }

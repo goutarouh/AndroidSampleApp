@@ -119,16 +119,7 @@ fun RssHome(
             }
 
             RssList(
-                rssList = state.rssFavoriteList,
-                header = "Favorite",
-                onCardClick = openRssList,
-                onCardLongClick = { link, title ->
-                    showDeleteConfirmDialog = link to title
-                }
-            )
-            RssList(
-                rssList = state.rssUnFavoriteList,
-                header = "Other",
+                rssList = state.rssList,
                 onCardClick = openRssList,
                 onCardLongClick = { link, title ->
                     showDeleteConfirmDialog = link to title
@@ -153,21 +144,9 @@ fun RssHome(
 
 fun LazyListScope.RssList(
     rssList: List<Rss>,
-    header: String,
     onCardClick: (String) -> Unit,
     onCardLongClick: (String, String) -> Unit,
 ) {
-    if (rssList.isEmpty()) {
-        return
-    }
-    item {
-        Text(
-            text = header,
-            modifier = Modifier.padding(horizontal = 24.dp),
-            style = MaterialTheme.typography.h6
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-    }
     items(rssList) { rss ->
         RssCard(
             rss = rss,
