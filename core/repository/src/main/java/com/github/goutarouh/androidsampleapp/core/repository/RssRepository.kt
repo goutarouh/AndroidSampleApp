@@ -29,7 +29,7 @@ interface RssRepository {
     suspend fun getRss(rssLink: String): Rss
     suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
     suspend fun checkUpdatedItemCount(rssLink: String): Int
-    fun registerWorker(rssLink: String): Boolean
+    fun registerWorker(rssLink: String, title: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
 }
 
@@ -73,7 +73,7 @@ internal class RssRepositoryImpl(
         rssDao.updateRssMetaEntity(rssLink, isFavorite)
     }
 
-    override fun registerWorker(rssLink: String): Boolean {
+    override fun registerWorker(rssLink: String, title: String): Boolean {
         val request = PeriodicWorkRequestBuilder<RssFetchWorker>(
             24, TimeUnit.HOURS
         )
