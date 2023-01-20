@@ -104,7 +104,7 @@ fun RssItemListHeader(
     setAutoFetch: (String, Boolean) -> Unit
 ) {
 
-    var isAutoFetch by remember { mutableStateOf(rss.isFavorite) }
+    var isAutoFetch by remember { mutableStateOf(rss.isAutoFetch) }
 
     Row(
         modifier = modifier,

@@ -56,7 +56,7 @@ interface RssDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRssMetaEntity(rssMetaEntity: RssMetaEntity)
 
-    @Query("UPDATE RssMetaEntity SET isFavorite = :isAutoFetch WHERE rssLink = :rssLink")
+    @Query("UPDATE RssMetaEntity SET isAutoFetch = :isAutoFetch WHERE rssLink = :rssLink")
     suspend fun updateRssMetaEntity(rssLink: String, isAutoFetch: Boolean)
 
     @Query("UPDATE RssMetaEntity SET lastFetchedAt = :lastFetchedAt WHERE rssLink = :rssLink")

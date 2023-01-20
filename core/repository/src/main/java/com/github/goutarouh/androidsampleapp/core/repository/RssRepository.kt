@@ -122,7 +122,7 @@ internal class RssRepositoryImpl(
 
         transactionProcessExecutor.doTransactionProcess {
             val rssMetaEntity = if (isInit) {
-                RssMetaEntity(rssLink = rssLink, isFavorite = false, lastFetchedAt = LocalDateTime.now())
+                RssMetaEntity(rssLink = rssLink, isAutoFetch = false, lastFetchedAt = LocalDateTime.now())
             } else {
                 rssDao.getRssMetaEntity(rssLink).copy(lastFetchedAt = LocalDateTime.now())
             }
