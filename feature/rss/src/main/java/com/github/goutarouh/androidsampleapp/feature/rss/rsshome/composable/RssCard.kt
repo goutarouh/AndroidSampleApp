@@ -1,8 +1,6 @@
 package com.github.goutarouh.androidsampleapp.feature.rss.rsshome
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -19,10 +17,12 @@ import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray50
 import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray800
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RssCard(
     rss: Rss,
     onCardClick: (String) -> Unit,
+    onCardLongClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -33,6 +33,14 @@ fun RssCard(
             .clickable {
                 onCardClick(rss.rssLink)
             }
+            .combinedClickable(
+                onClick = {
+                          onCardClick(rss.rssLink)
+                },
+                onLongClick = {
+                      onCardLongClick(rss.rssLink, rss.title)
+                }
+            )
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .heightIn(80.dp)
             .fillMaxWidth(),
@@ -60,5 +68,5 @@ fun RssCard(
 )
 @Composable
 fun PreviewRssCard() {
-    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false, LocalDateTime.now()), onCardClick = {})
+    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false, LocalDateTime.now()), onCardClick = {}, onCardLongClick = { link, title ->})
 }
