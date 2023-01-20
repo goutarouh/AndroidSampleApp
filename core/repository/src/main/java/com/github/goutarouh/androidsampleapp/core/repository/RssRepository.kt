@@ -77,6 +77,7 @@ internal class RssRepositoryImpl(
         val request = PeriodicWorkRequestBuilder<RssFetchWorker>(
             24, TimeUnit.HOURS
         )
+            .setInitialDelay(12, TimeUnit.HOURS)
             .setInputData(
                 workDataOf(
                     RssFetchWorker.RSS_LINK to rssLink,
