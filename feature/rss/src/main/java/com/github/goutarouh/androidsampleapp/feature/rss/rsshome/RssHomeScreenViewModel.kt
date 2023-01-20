@@ -23,8 +23,7 @@ class RssHomeScreenViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             rssFavoriteList.collect {
-                val (favoriteList, unFavoriteList) = it.partition { it.isFavorite }
-                _uiState.emit(RssHomeScreenUiState.Success(favoriteList, unFavoriteList))
+                _uiState.emit(RssHomeScreenUiState.Success(it))
             }
         }
     }

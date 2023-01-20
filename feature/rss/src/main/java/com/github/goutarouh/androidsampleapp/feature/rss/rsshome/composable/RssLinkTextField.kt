@@ -18,9 +18,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.goutarouh.androidsampleapp.core.ui.theme.Red600
+import com.github.goutarouh.androidsampleapp.feature.rss.R
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model.RssLinkInputStatus
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.model.RssLinkInputText
 
@@ -52,7 +54,10 @@ fun RssLinkTextField(
                     isOnFocus = it.hasFocus
                 },
             placeholder = {
-                Text(text = "Rssのリンク")
+                Text(
+                    text = stringResource(id = R.string.rss_home_text_field_outline),
+                    color = MaterialTheme.colors.onSurface
+                )
             },
             isError = field.isError,
             leadingIcon = {
@@ -62,7 +67,8 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 } else {
@@ -72,7 +78,8 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 }
@@ -93,8 +100,7 @@ fun RssLinkTextField(
                         }
                     }
                 }
-            ),
-            colors = TextFieldDefaults.outlinedTextFieldColors()
+            )
         )
     }
 }

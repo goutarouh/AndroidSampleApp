@@ -12,7 +12,7 @@ data class Rss (
     val rssLink: String,
     val imageLink: String,
     val items: List<RssItem>,
-    val isFavorite: Boolean,
+    val isAutoFetch: Boolean,
     val lastFetchedAt: LocalDateTime
 )
 
@@ -41,7 +41,7 @@ internal fun RssWrapperData.toRss(): Rss = Rss(
     rssLink = rssEntity.rssLink,
     imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
-    isFavorite = rssMetaEntity.isFavorite,
+    isAutoFetch = rssMetaEntity.isAutoFetch,
     lastFetchedAt = rssMetaEntity.lastFetchedAt
 )
 

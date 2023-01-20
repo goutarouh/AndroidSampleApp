@@ -53,10 +53,11 @@ class MainActivity : ComponentActivity() {
     private fun UpdateSystemBarsColor() {
         val systemUiController = rememberSystemUiController()
         val useDarkIcons = !isSystemInDarkTheme()
+        val color = MaterialTheme.colors.background
 
         DisposableEffect(systemUiController, useDarkIcons) {
             systemUiController.setSystemBarsColor(
-                color = Color.Transparent,
+                color = color,
                 darkIcons = useDarkIcons
             )
 

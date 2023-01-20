@@ -3,6 +3,7 @@ package com.github.goutarouh.androidsampleapp.feature.rss.rsshome
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,8 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
-import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray50
-import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray800
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -29,7 +28,7 @@ fun RssCard(
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = 24.dp))
-            .background(color = BlueGray50)
+            .background(color = MaterialTheme.colors.primary)
             .clickable {
                 onCardClick(rss.rssLink)
             }

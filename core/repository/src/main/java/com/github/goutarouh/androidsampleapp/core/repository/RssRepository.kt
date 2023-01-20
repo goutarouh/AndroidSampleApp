@@ -27,7 +27,7 @@ interface RssRepository {
     fun getRssListFlow(): Flow<List<Rss>>
     suspend fun updateRss(rssLink: String, isInit: Boolean): Rss
     suspend fun getRss(rssLink: String): Rss
-    suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
+    suspend fun setAutoFetch(rssLink: String, isFavorite: Boolean)
     suspend fun checkUpdatedItemCount(rssLink: String): Int
     suspend fun deleteRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
@@ -44,7 +44,7 @@ internal class RssRepositoryImpl(
     override fun getRssListFlow(): Flow<List<Rss>> {
         val rssList = rssDao.getRssWrapperDataListFlow()
         return rssList.map {
-            it.map { it.toRss() }
+            it.map { it.toRss() }.sortedByDescending { it.lastFetchedAt }
         }
     }
 
@@ -70,8 +70,8 @@ internal class RssRepositoryImpl(
         }
     }
 
-    override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
-        rssDao.updateRssMetaEntity(rssLink, isFavorite)
+    override suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) = withContext(Dispatchers.IO) {
+        rssDao.updateRssMetaEntity(rssLink, isAutoFetch)
     }
 
     override suspend fun deleteRss(rssLink: String) {
@@ -122,7 +122,7 @@ internal class RssRepositoryImpl(
 
         transactionProcessExecutor.doTransactionProcess {
             val rssMetaEntity = if (isInit) {
-                RssMetaEntity(rssLink = rssLink, isFavorite = false, lastFetchedAt = LocalDateTime.now())
+                RssMetaEntity(rssLink = rssLink, isAutoFetch = false, lastFetchedAt = LocalDateTime.now())
             } else {
                 rssDao.getRssMetaEntity(rssLink).copy(lastFetchedAt = LocalDateTime.now())
             }

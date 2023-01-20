@@ -17,6 +17,6 @@ import java.time.LocalDateTime
 )
 data class RssMetaEntity(
     val rssLink: String,
-    val isFavorite: Boolean = false,
+    val isAutoFetch: Boolean = false,
     val lastFetchedAt: LocalDateTime
 )
