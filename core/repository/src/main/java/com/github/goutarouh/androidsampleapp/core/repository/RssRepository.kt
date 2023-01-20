@@ -29,6 +29,7 @@ interface RssRepository {
     suspend fun getRss(rssLink: String): Rss
     suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
     suspend fun checkUpdatedItemCount(rssLink: String): Int
+    suspend fun deleteRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
 }
@@ -71,6 +72,13 @@ internal class RssRepositoryImpl(
 
     override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
         rssDao.updateRssMetaEntity(rssLink, isFavorite)
+    }
+
+    override suspend fun deleteRss(rssLink: String) {
+        unRegisterWorker(rssLink)
+        withContext(Dispatchers.IO) {
+            rssDao.deleteRssEntity(rssLink)
+        }
     }
 
     override fun registerWorker(rssLink: String, title: String): Boolean {

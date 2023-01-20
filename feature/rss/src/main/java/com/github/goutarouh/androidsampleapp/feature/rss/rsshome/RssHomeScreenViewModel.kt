@@ -28,4 +28,10 @@ class RssHomeScreenViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteRss(rssLink: String) {
+        viewModelScope.launch {
+            rssRepository.deleteRss(rssLink)
+        }
+    }
 }

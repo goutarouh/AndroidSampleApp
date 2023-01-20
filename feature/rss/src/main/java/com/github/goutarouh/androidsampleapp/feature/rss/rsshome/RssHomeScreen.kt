@@ -85,7 +85,8 @@ fun RssHomeScreen(
             is Success -> {
                 RssHome(
                     state = state,
-                    onCardClick = navigateTo,
+                    openRssList = navigateTo,
+                    deleteRss = { viewModel.deleteRss(it) },
                     modifier = Modifier
                 )
             }
@@ -96,7 +97,8 @@ fun RssHomeScreen(
 @Composable
 fun RssHome(
     state: Success,
-    onCardClick: (String) -> Unit,
+    openRssList: (String) -> Unit,
+    deleteRss: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -108,7 +110,7 @@ fun RssHome(
         ) {
             item {
                 RssLinkTextField(
-                    searchClick = onCardClick,
+                    searchClick = openRssList,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
@@ -119,7 +121,7 @@ fun RssHome(
             RssList(
                 rssList = state.rssFavoriteList,
                 header = "Favorite",
-                onCardClick = onCardClick,
+                onCardClick = openRssList,
                 onCardLongClick = { link, title ->
                     showDeleteConfirmDialog = link to title
                 }
@@ -127,7 +129,7 @@ fun RssHome(
             RssList(
                 rssList = state.rssUnFavoriteList,
                 header = "Other",
-                onCardClick = onCardClick,
+                onCardClick = openRssList,
                 onCardLongClick = { link, title ->
                     showDeleteConfirmDialog = link to title
                 }
@@ -139,6 +141,7 @@ fun RssHome(
             DeleteConfirmDialog(
                 deleteTargetName = showDeleteConfirmDialog!!.second,
                 onConfirm = {
+                    deleteRss(showDeleteConfirmDialog!!.first)
                     showDeleteConfirmDialog = null
                 },
                 onDismiss = { showDeleteConfirmDialog = null }
