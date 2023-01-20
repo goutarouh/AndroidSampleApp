@@ -2,11 +2,13 @@ package com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 
@@ -56,6 +58,10 @@ private fun Success(
             IconButton(onClick = { rssItemScreenAction.navigateBack() }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
             }
-        }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colors.background,
+            titleContentColor = MaterialTheme.colors.onSurface
+        )
     )
 }
