@@ -64,7 +64,7 @@ class RssItemListScreenViewModel @Inject constructor(
         val state = uiState.value
         if (state is RssItemListScreenUiState.Success) {
             if (isRegister) {
-                rssRepository.registerWorker(state.rss.rssLink)
+                rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
             } else {
                 rssRepository.unRegisterWorker(state.rss.rssLink)
             }

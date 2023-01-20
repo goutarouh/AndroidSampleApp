@@ -15,14 +15,7 @@ fun MainScaffold(
     navController: NavHostController
 ) {
     Scaffold(
-        scaffoldState = scaffoldState,
-        bottomBar = {
-            if (mainUiState.isBottomBarShow.value) {
-                MainBottomNavigation() {
-                    navController.navigate(it)
-                }
-            }
-        }
+        scaffoldState = scaffoldState
     ) { paddingValues ->
         MainNavigation(
             navController = navController,
