@@ -61,8 +61,6 @@ dependencies {
     kapt libs.androidx.hilt.compiler
 
     implementation(project(":rss"))
-    implementation(project(":featureb"))
-    implementation(project(":featurec"))
     implementation(project(":ui"))
     implementation(project(":util"))
 }
