@@ -19,6 +19,7 @@ class RssFetchWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val rssLink = inputData.getString(RSS_LINK) ?: return Result.failure()
+        val rssTitle = inputData.getString(RSS_TITLE) ?: return Result.failure()
         try {
             rssRepository.updateRss(rssLink, false)
         } catch (e: Exception) {
@@ -32,5 +33,6 @@ class RssFetchWorker @AssistedInject constructor(
 
     companion object {
         const val RSS_LINK = "RSS_LINK"
+        const val RSS_TITLE = "RSS_TITLE"
     }
 }

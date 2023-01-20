@@ -78,7 +78,10 @@ internal class RssRepositoryImpl(
             24, TimeUnit.HOURS
         )
             .setInputData(
-                workDataOf(RssFetchWorker.RSS_LINK to rssLink)
+                workDataOf(
+                    RssFetchWorker.RSS_LINK to rssLink,
+                    RssFetchWorker.RSS_TITLE to title
+                )
             )
             .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
