@@ -27,15 +27,16 @@ object AppModule {
     ): AppConfig {
         return AppConfig(
             isDebug = BuildConfig.DEBUG,
-            postNotification = {
-                postNotification(context, "Rss")
+            postNotification = { link, title ->
+                postNotification(context, link, title)
             }
         )
     }
 
     private fun postNotification(
         context: Context,
-        title: String
+        rssLink: String,
+        rssTitle: String
     ) {
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent =

@@ -26,7 +26,7 @@ class RssFetchWorker @AssistedInject constructor(
             return Result.retry()
         }
 
-        appConfig.postNotification()
+        appConfig.postNotification(rssLink, rssTitle)
 
         return Result.success()
     }
