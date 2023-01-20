@@ -38,12 +38,21 @@ class RssItemListScreenViewModel @Inject constructor(
         }
     }
 
-    fun changeFavorite(rssLink: String, isFavorite: Boolean) {
+    fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) {
         viewModelScope.launch {
             try {
-                rssRepository.changeFavorite(rssLink, isFavorite)
+                rssRepository.changeFavorite(rssLink, isAutoFetch)
             } catch (e: Exception) {
                 // TODO uiStateに送出するほどのエラーではない
+            }
+
+            val state = uiState.value
+            if (state is RssItemListScreenUiState.Success) {
+                if (isAutoFetch) {
+                    rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
+                } else {
+                    rssRepository.unRegisterWorker(state.rss.rssLink)
+                }
             }
         }
 
@@ -59,18 +68,6 @@ class RssItemListScreenViewModel @Inject constructor(
             }
         }
     }
-
-    fun registerFeed(isRegister: Boolean) {
-        val state = uiState.value
-        if (state is RssItemListScreenUiState.Success) {
-            if (isRegister) {
-                rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
-            } else {
-                rssRepository.unRegisterWorker(state.rss.rssLink)
-            }
-        }
-    }
-
 }
 
 private const val rssLinkArg = "rssLink"

@@ -6,17 +6,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
 import com.github.goutarouh.androidsampleapp.core.ui.theme.BlueGray100
 import com.github.goutarouh.androidsampleapp.core.ui.theme.Red300
 import com.github.goutarouh.androidsampleapp.core.util.localdate.formatForUi
+import com.github.goutarouh.androidsampleapp.feature.rss.R
 import com.github.goutarouh.androidsampleapp.feature.rss.rssitemlist.RssItemListScreenUiState.*
 
 interface RssItemScreenAction {
@@ -51,9 +51,8 @@ fun RssItemListScreen(
                         update = {
                             viewModel.updateRss(it)
                         },
-                        favorite = { rssLink, isFavorite ->
-                            viewModel.changeFavorite(rssLink, isFavorite)
-                            viewModel.registerFeed(isFavorite)
+                        setAutoFetch = { rssLink, isAutoFetch ->
+                            viewModel.setAutoFetch(rssLink, isAutoFetch)
                         }
                     ) {
                         rssItemScreenAction.itemClick(it)
@@ -69,7 +68,7 @@ fun RssItemListScreen(
 fun RssItemList(
     rss: Rss,
     update: (String) -> Unit,
-    favorite: (String, Boolean) -> Unit,
+    setAutoFetch: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
     LazyColumn(
@@ -79,7 +78,7 @@ fun RssItemList(
             RssItemListHeader(
                 rss = rss,
                 update = update,
-                favorite = favorite,
+                setAutoFetch = setAutoFetch,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
         }
@@ -102,10 +101,10 @@ fun RssItemListHeader(
     rss: Rss,
     modifier: Modifier = Modifier,
     update: (String) -> Unit,
-    favorite: (String, Boolean) -> Unit
+    setAutoFetch: (String, Boolean) -> Unit
 ) {
 
-    var isFavorite by remember { mutableStateOf(rss.isFavorite) }
+    var isAutoFetch by remember { mutableStateOf(rss.isFavorite) }
 
     Row(
         modifier = modifier,
@@ -124,29 +123,21 @@ fun RssItemListHeader(
             )
         }
         IconButton(onClick = {
-            val newFavorite = !isFavorite
-            isFavorite = newFavorite
-            favorite(rss.rssLink, newFavorite)
+            val newAutoRenew = !isAutoFetch
+            isAutoFetch = newAutoRenew
+            setAutoFetch(rss.rssLink, newAutoRenew)
         }) {
-            if (isFavorite) {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = null,
-                    tint = Red300
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = null,
-                    tint = BlueGray100
-                )
-            }
+            Icon(
+                painter = painterResource(id = R.drawable.auto_renew),
+                contentDescription = null,
+                tint = if (isAutoFetch) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
+            )
         }
         IconButton(onClick = { update(rss.rssLink) }) {
             Icon(
                 imageVector = Icons.Default.Refresh,
                 contentDescription = null,
-                tint = BlueGray100
+                tint = MaterialTheme.colors.onPrimary
             )
         }
     }
