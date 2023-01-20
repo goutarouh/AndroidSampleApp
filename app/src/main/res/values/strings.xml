@@ -5,4 +5,5 @@
     <string name="rss_update_channel_id">Rss-Update-Id</string>
     <string name="rss_update_channel_name">Rss Update</string>
     <string name="rss_update_channel_description">This notification is used when there is an update on the RSS.</string>
+    <string name="rss_update_notification_text">There has been an update to the Rss.</string>
 </resources>
