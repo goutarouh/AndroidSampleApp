@@ -8,7 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +17,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.github.goutarouh.androidsampleapp.core.repository.model.rss.Rss
+import com.github.goutarouh.androidsampleapp.core.ui.dialog.DeleteConfirmDialog
 import com.github.goutarouh.androidsampleapp.core.util.string.decode64
 import com.github.goutarouh.androidsampleapp.core.util.string.encode64
 import com.github.goutarouh.androidsampleapp.feature.rss.rsshome.RssHomeScreenUiState.*
@@ -85,7 +85,8 @@ fun RssHomeScreen(
             is Success -> {
                 RssHome(
                     state = state,
-                    onCardClick = navigateTo,
+                    openRssList = navigateTo,
+                    deleteRss = { viewModel.deleteRss(it) },
                     modifier = Modifier
                 )
             }
@@ -96,31 +97,65 @@ fun RssHomeScreen(
 @Composable
 fun RssHome(
     state: Success,
-    onCardClick: (String) -> Unit,
+    openRssList: (String) -> Unit,
+    deleteRss: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize()
-    ) {
-        item {
-            RssLinkTextField(
-                searchClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+
+    var showDeleteConfirmDialog by remember { mutableStateOf<Pair<String, String>?>(null) }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            item {
+                RssLinkTextField(
+                    searchClick = openRssList,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            RssList(
+                rssList = state.rssFavoriteList,
+                header = "Favorite",
+                onCardClick = openRssList,
+                onCardLongClick = { link, title ->
+                    showDeleteConfirmDialog = link to title
+                }
+            )
+            RssList(
+                rssList = state.rssUnFavoriteList,
+                header = "Other",
+                onCardClick = openRssList,
+                onCardLongClick = { link, title ->
+                    showDeleteConfirmDialog = link to title
+                }
             )
         }
-        item {
-            Spacer(modifier = Modifier.height(12.dp))
+
+
+        if (showDeleteConfirmDialog != null) {
+            DeleteConfirmDialog(
+                deleteTargetName = showDeleteConfirmDialog!!.second,
+                onConfirm = {
+                    deleteRss(showDeleteConfirmDialog!!.first)
+                    showDeleteConfirmDialog = null
+                },
+                onDismiss = { showDeleteConfirmDialog = null }
+            )
         }
 
-        RssList(rssList = state.rssFavoriteList, header = "Favorite", onCardClick = onCardClick)
-        RssList(rssList = state.rssUnFavoriteList, header = "Other", onCardClick = onCardClick)
     }
 }
 
 fun LazyListScope.RssList(
     rssList: List<Rss>,
     header: String,
-    onCardClick: (String) -> Unit
+    onCardClick: (String) -> Unit,
+    onCardLongClick: (String, String) -> Unit,
 ) {
     if (rssList.isEmpty()) {
         return
@@ -137,6 +172,7 @@ fun LazyListScope.RssList(
         RssCard(
             rss = rss,
             onCardClick = onCardClick,
+            onCardLongClick = onCardLongClick,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
