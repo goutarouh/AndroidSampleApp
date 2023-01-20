@@ -41,14 +41,19 @@ object AppModule {
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val builder = NotificationCompat.Builder(context, "rss update")
+        val channelId = context.getString(R.string.rss_update_channel_id)
+        val title = context.getString(R.string.rss_update_notification_title)
+        val text = context.getString(R.string.rss_update_notification_text, rssTitle)
+
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.rss_feed)
             .setContentTitle(title)
-            .setContentText(context.getString(R.string.rss_update_notification_text))
+            .setContentText(text)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
         with(NotificationManagerCompat.from(context)) {
-            notify(12345, builder.build())
+            notify(rssLink.hashCode(), builder.build())
         }
     }
 
