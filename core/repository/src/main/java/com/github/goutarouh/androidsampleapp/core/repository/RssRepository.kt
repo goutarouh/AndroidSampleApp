@@ -44,7 +44,7 @@ internal class RssRepositoryImpl(
     override fun getRssListFlow(): Flow<List<Rss>> {
         val rssList = rssDao.getRssWrapperDataListFlow()
         return rssList.map {
-            it.map { it.toRss() }
+            it.map { it.toRss() }.sortedByDescending { it.lastFetchedAt }
         }
     }
 
