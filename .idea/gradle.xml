@@ -24,6 +24,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/core/database" />
@@ -32,8 +33,6 @@
             <option value="$PROJECT_DIR$/core/repository" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/util" />
-            <option value="$PROJECT_DIR$/feature/featureb" />
-            <option value="$PROJECT_DIR$/feature/featurec" />
             <option value="$PROJECT_DIR$/feature/rss" />
           </set>
         </option>
