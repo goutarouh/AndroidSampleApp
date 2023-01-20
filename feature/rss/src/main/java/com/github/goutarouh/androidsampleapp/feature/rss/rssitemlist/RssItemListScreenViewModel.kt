@@ -41,7 +41,7 @@ class RssItemListScreenViewModel @Inject constructor(
     fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) {
         viewModelScope.launch {
             try {
-                rssRepository.changeFavorite(rssLink, isAutoFetch)
+                rssRepository.setAutoFetch(rssLink, isAutoFetch)
             } catch (e: Exception) {
                 // TODO uiStateに送出するほどのエラーではない
             }

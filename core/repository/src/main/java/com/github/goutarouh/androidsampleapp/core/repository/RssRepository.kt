@@ -27,7 +27,7 @@ interface RssRepository {
     fun getRssListFlow(): Flow<List<Rss>>
     suspend fun updateRss(rssLink: String, isInit: Boolean): Rss
     suspend fun getRss(rssLink: String): Rss
-    suspend fun changeFavorite(rssLink: String, isFavorite: Boolean)
+    suspend fun setAutoFetch(rssLink: String, isFavorite: Boolean)
     suspend fun checkUpdatedItemCount(rssLink: String): Int
     suspend fun deleteRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
@@ -70,8 +70,8 @@ internal class RssRepositoryImpl(
         }
     }
 
-    override suspend fun changeFavorite(rssLink: String, isFavorite: Boolean) = withContext(Dispatchers.IO) {
-        rssDao.updateRssMetaEntity(rssLink, isFavorite)
+    override suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) = withContext(Dispatchers.IO) {
+        rssDao.updateRssMetaEntity(rssLink, isAutoFetch)
     }
 
     override suspend fun deleteRss(rssLink: String) {
