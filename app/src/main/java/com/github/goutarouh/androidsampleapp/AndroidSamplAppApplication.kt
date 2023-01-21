@@ -10,7 +10,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class AndroidSampleAppApplication: Application(), Configuration.Provider {
+class SimpleRssReaderApplication: Application(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
 
