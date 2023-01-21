@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d2959a043a50e5a02c095b4f71cd8f5b",
+    "identityHash": "1e46d8591ec63b96ba950dca152edc10",
     "entities": [
       {
         "tableName": "RssEntity",
@@ -89,7 +89,7 @@
       },
       {
         "tableName": "RssMetaEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `isFavorite` INTEGER NOT NULL, `lastFetchedAt` TEXT NOT NULL, PRIMARY KEY(`rssLink`), FOREIGN KEY(`rssLink`) REFERENCES `RssEntity`(`rssLink`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `isAutoFetch` INTEGER NOT NULL, `lastFetchedAt` TEXT NOT NULL, PRIMARY KEY(`rssLink`), FOREIGN KEY(`rssLink`) REFERENCES `RssEntity`(`rssLink`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "rssLink",
@@ -98,8 +98,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "isFavorite",
-            "columnName": "isFavorite",
+            "fieldPath": "isAutoFetch",
+            "columnName": "isAutoFetch",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -135,7 +135,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd2959a043a50e5a02c095b4f71cd8f5b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e46d8591ec63b96ba950dca152edc10')"
     ]
   }
 }
