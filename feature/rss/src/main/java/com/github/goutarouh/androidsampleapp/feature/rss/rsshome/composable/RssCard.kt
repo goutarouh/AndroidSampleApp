@@ -1,4 +1,4 @@
-package com.github.goutarouh.androidsampleapp.feature.rss.rsshome
+package com.github.goutarouh.androidsampleapp.feature.rss.rsshome.composable
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
