@@ -1,13 +1,13 @@
 plugins {
-    id "androidsampleapp.android.application"
-    id "androidsampleapp.android.hilt"
+    id "simplerssreader.android.application"
+    id "simplerssreader.android.hilt"
 }
 
 android {
-    namespace 'com.github.goutarouh.androidsampleapp'
+    namespace 'com.github.goutarouh.simplerssreader'
 
     defaultConfig {
-        applicationId "com.github.goutarouh.androidsampleapp"
+        applicationId "com.github.goutarouh.simplerssreader"
         versionCode 1
         versionName "1.0"
 

@@ -1,11 +1,11 @@
 plugins {
-    id("androidsampleapp.android.library")
-    id("androidsampleapp.android.hilt")
+    id("simplerssreader.android.library")
+    id("simplerssreader.android.hilt")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
-    namespace = "com.github.goutarouh.androidsampleapp.core.json"
+    namespace = "com.github.goutarouh.simplerssreader.core.json"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

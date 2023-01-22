@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.github.goutarouh.androidsampleapp.buildlogic"
+group = "com.github.goutarouh.simplerssreader.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -17,15 +17,15 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "androidsampleapp.android.application"
+            id = "simplerssreader.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidLibrary") {
-            id = "androidsampleapp.android.library"
+            id = "simplerssreader.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidHilt") {
-            id = "androidsampleapp.android.hilt"
+            id = "simplerssreader.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
     }

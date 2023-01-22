@@ -1,10 +1,10 @@
 plugins {
-    id "androidsampleapp.android.library"
-    id "androidsampleapp.android.hilt"
+    id "simplerssreader.android.library"
+    id "simplerssreader.android.hilt"
 }
 
 android {
-    namespace 'com.github.goutarouh.androidsampleapp.core.database'
+    namespace 'com.github.goutarouh.simplerssreader.core.database'
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

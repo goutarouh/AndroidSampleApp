@@ -1,4 +1,4 @@
-package com.github.goutarouh.androidsampleapp
+package com.github.goutarouh.simplerssreader
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
