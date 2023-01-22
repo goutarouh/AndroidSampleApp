@@ -1,9 +1,9 @@
 plugins {
-    id("androidsampleapp.android.library")
+    id("simplerssreader.android.library")
 }
 
 android {
-    namespace = "com.github.goutarouh.androidsampleapp.core.util"
+    namespace = "com.github.goutarouh.simplerssreader.core.util"
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

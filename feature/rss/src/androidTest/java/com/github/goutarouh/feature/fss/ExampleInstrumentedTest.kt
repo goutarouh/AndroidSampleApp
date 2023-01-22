@@ -1,4 +1,4 @@
-package com.github.goutarouh.androidsampleapp.feature.rss
+package com.github.goutarouh.simplerssreader.feature.rss
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.github.goutarouh.androidsampleapp.feature.rss.test", appContext.packageName)
+        assertEquals("com.github.goutarouh.simplerssreader.feature.rss.test", appContext.packageName)
     }
 }
