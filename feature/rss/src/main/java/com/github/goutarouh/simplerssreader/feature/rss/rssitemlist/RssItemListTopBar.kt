@@ -40,7 +40,11 @@ private fun LoadingOrError(
             IconButton(onClick = { rssItemScreenAction.navigateBack() }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
             }
-        }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colors.background,
+            titleContentColor = MaterialTheme.colors.onSurface
+        )
     )
 }
 
