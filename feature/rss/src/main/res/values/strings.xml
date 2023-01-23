@@ -2,5 +2,6 @@
 <resources>
     <string name="rss_home_text_field_outline">Please enter the Rss link.</string>
     <string name="rss_get_error">Please make sure the URL is correct.</string>
+    <string name="rss_get_error_no_item">Item not found.</string>
     <string name="rss_get_error_not_supported_format">The RSS format of the URL \n is not supported.</string>
 </resources>

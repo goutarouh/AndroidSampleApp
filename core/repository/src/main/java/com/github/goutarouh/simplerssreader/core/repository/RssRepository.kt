@@ -59,6 +59,9 @@ internal class RssRepositoryImpl(
 
         when (result) {
             is Result.Success -> {
+                if (result.data.items.isEmpty()) {
+                    return@withContext Result.Error(NoRssItemException(rssLink))
+                }
                 val rssWrapperData = writeRssToDb(rssLink, result.data, isInit)
                 return@withContext Result.Success(rssWrapperData.toRss())
             }

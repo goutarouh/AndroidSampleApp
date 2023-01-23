@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.goutarouh.simplerssreader.core.repository.model.rss.NoRssItemException
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.util.exception.ParseException
 import com.github.goutarouh.simplerssreader.core.util.exception.RssException
@@ -89,6 +90,14 @@ private fun ErrorScreen(
                 is ParseException -> {
                     Text(
                         text = stringResource(id = R.string.rss_get_error_not_supported_format),
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 14.sp
+                    )
+                }
+                is NoRssItemException -> {
+                    Text(
+                        text = stringResource(id = R.string.rss_get_error_no_item),
                         modifier = Modifier.padding(horizontal = 24.dp),
                         textAlign = TextAlign.Center,
                         fontSize = 14.sp
