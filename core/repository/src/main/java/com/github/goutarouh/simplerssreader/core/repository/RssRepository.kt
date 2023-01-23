@@ -10,12 +10,15 @@ import com.github.goutarouh.simplerssreader.core.database.dao.RssDao
 import com.github.goutarouh.simplerssreader.core.database.model.rss.RssMetaEntity
 import com.github.goutarouh.simplerssreader.core.database.model.rss.RssWrapperData
 import com.github.goutarouh.simplerssreader.core.network.data.rss.RssApiModel
+import com.github.goutarouh.simplerssreader.core.network.rssSafeCall
 import com.github.goutarouh.simplerssreader.core.network.service.ZennRssService
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.*
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.toRss
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.toRssEntity
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.toRssItemEntity
 import com.github.goutarouh.simplerssreader.core.repository.workmanager.RssFetchWorker
+import com.github.goutarouh.simplerssreader.core.util.data.Result
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -25,8 +28,8 @@ import java.util.concurrent.TimeUnit
 
 interface RssRepository {
     fun getRssListFlow(): Flow<List<Rss>>
-    suspend fun updateRss(rssLink: String, isInit: Boolean): Rss
-    suspend fun getRss(rssLink: String): Rss
+    suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss>
+    suspend fun getRss(rssLink: String): Result<Rss>
     suspend fun setAutoFetch(rssLink: String, isFavorite: Boolean)
     suspend fun checkUpdatedItemCount(rssLink: String): Int
     suspend fun deleteRss(rssLink: String)
@@ -48,23 +51,32 @@ internal class RssRepositoryImpl(
         }
     }
 
-    override suspend fun updateRss(rssLink: String, isInit: Boolean): Rss = withContext(Dispatchers.IO) {
-        val rssApiModel = zennRssService.getRss(rssLink)
+    override suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss> = withContext(Dispatchers.IO) {
 
-        if (rssApiModel.items.isEmpty()) {
-            throw NoRssItemException(rssLink)
+        val result = rssSafeCall(rssLink) {
+            zennRssService.getRss(rssLink)
         }
 
-        val rssWrapperData = writeRssToDb(rssLink, rssApiModel, isInit)
-        return@withContext rssWrapperData.toRss()
+        when (result) {
+            is Result.Success -> {
+                if (result.data.items.isEmpty()) {
+                    return@withContext Result.Error(NoRssItemException(rssLink))
+                }
+                val rssWrapperData = writeRssToDb(rssLink, result.data, isInit)
+                return@withContext Result.Success(rssWrapperData.toRss())
+            }
+            is Result.Error -> {
+                return@withContext Result.Error(result.e)
+            }
+        }
     }
 
-    override suspend fun getRss(rssLink: String): Rss = withContext(Dispatchers.IO) {
+    override suspend fun getRss(rssLink: String): Result<Rss> = withContext(Dispatchers.IO) {
 
         val hasRss = rssDao.hasRssEntity(rssLink)
         return@withContext if (hasRss) {
             val rssWrapperData = rssDao.getRssWrapperData(rssLink)
-            rssWrapperData.toRss()
+            Result.Success(rssWrapperData.toRss())
         } else {
             updateRss(rssLink, true)
         }

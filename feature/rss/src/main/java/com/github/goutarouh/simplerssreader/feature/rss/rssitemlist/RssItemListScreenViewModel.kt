@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.goutarouh.simplerssreader.core.repository.RssRepository
+import com.github.goutarouh.simplerssreader.core.util.data.Result
 import com.github.goutarouh.simplerssreader.core.util.string.decode64
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,11 +31,13 @@ class RssItemListScreenViewModel @Inject constructor(
     }
 
     private suspend fun updateUiState(rssLink: String) {
-        try {
-            val rss = rssRepository.getRss(rssLink)
-            _uiState.emit(RssItemListScreenUiState.Success(rss))
-        } catch (e: Exception) {
-            _uiState.emit(RssItemListScreenUiState.Error(e))
+        when (val result = rssRepository.getRss(rssLink)) {
+            is Result.Success -> {
+                _uiState.emit(RssItemListScreenUiState.Success(result.data))
+            }
+            is Result.Error -> {
+                _uiState.emit(RssItemListScreenUiState.Error(result.e))
+            }
         }
     }
 
@@ -60,11 +63,13 @@ class RssItemListScreenViewModel @Inject constructor(
 
     fun updateRss(rssLink: String) {
         viewModelScope.launch {
-            try {
-                val rss = rssRepository.updateRss(rssLink, false)
-                _uiState.emit(RssItemListScreenUiState.Success(rss))
-            } catch (e: Exception) {
-                _uiState.emit(RssItemListScreenUiState.Error(e))
+            when (val result = rssRepository.updateRss(rssLink, false)) {
+                is Result.Success -> {
+                    _uiState.emit(RssItemListScreenUiState.Success(result.data))
+                }
+                is Result.Error -> {
+                    _uiState.emit(RssItemListScreenUiState.Error(result.e))
+                }
             }
         }
     }

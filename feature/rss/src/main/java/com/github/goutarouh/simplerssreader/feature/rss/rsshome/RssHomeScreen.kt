@@ -4,12 +4,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -20,6 +26,7 @@ import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.ui.dialog.DeleteConfirmDialog
 import com.github.goutarouh.simplerssreader.core.util.string.decode64
 import com.github.goutarouh.simplerssreader.core.util.string.encode64
+import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.RssHomeScreenUiState.*
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable.RssCard
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable.RssLinkTextField
@@ -148,13 +155,56 @@ fun LazyListScope.RssList(
     onCardClick: (String) -> Unit,
     onCardLongClick: (String, String) -> Unit,
 ) {
-    items(rssList) { rss ->
-        RssCard(
-            rss = rss,
-            onCardClick = onCardClick,
-            onCardLongClick = onCardLongClick,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+
+    if (rssList.isEmpty()) {
+        item {
+            RssListEmpty(
+                modifier = Modifier
+            )
+        }
+    } else {
+        items(rssList) { rss ->
+            RssCard(
+                rss = rss,
+                onCardClick = onCardClick,
+                onCardLongClick = onCardLongClick,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@Composable
+private fun RssListEmpty(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 18.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.pan),
+                modifier = Modifier.size(40.dp),
+                contentDescription = null,
+                tint = MaterialTheme.colors.onPrimary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.rss_empty),
+                textAlign = TextAlign.Center,
+                fontSize = 14.sp
+            )
+            Text(
+                text = stringResource(id = R.string.rss_try_search),
+                textAlign = TextAlign.Center,
+                fontSize = 14.sp
+            )
+        }
     }
 }

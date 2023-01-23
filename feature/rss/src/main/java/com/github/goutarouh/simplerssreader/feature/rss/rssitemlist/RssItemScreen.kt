@@ -1,5 +1,6 @@
 package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,11 +11,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.goutarouh.simplerssreader.core.repository.model.rss.NoRssItemException
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
-import com.github.goutarouh.simplerssreader.core.ui.theme.BlueGray100
-import com.github.goutarouh.simplerssreader.core.ui.theme.Red300
+import com.github.goutarouh.simplerssreader.core.util.exception.ParseException
+import com.github.goutarouh.simplerssreader.core.util.exception.RssException
 import com.github.goutarouh.simplerssreader.core.util.localdate.formatForUi
 import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.RssItemListScreenUiState.*
@@ -43,7 +48,7 @@ fun RssItemListScreen(
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
                 is Error -> {
-                    Text(text = "${state.e}")
+                    ErrorScreen(e = state.e)
                 }
                 is Success -> {
                     RssItemList(
@@ -63,6 +68,60 @@ fun RssItemListScreen(
     }
 }
 
+@Composable
+private fun ErrorScreen(
+    e: RssException,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.error),
+                contentDescription = null,
+                modifier = Modifier.size(70.dp),
+                tint = MaterialTheme.colors.onPrimary
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            when (e) {
+                is ParseException -> {
+                    Text(
+                        text = stringResource(id = R.string.rss_get_error_not_supported_format),
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 14.sp
+                    )
+                }
+                is NoRssItemException -> {
+                    Text(
+                        text = stringResource(id = R.string.rss_get_error_no_item),
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 14.sp
+                    )
+                }
+                else -> {
+                    Text(
+                        text = stringResource(id = R.string.rss_get_error),
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = e.rssLink,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp
+            )
+        }
+    }
+}
 
 @Composable
 fun RssItemList(
@@ -111,7 +170,9 @@ fun RssItemListHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            modifier = Modifier.weight(1f).padding(start = 16.dp),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp),
         ) {
             Text(
                 text = "Last update: ",
