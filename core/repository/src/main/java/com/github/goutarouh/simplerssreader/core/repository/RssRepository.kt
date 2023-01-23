@@ -10,7 +10,7 @@ import com.github.goutarouh.simplerssreader.core.database.dao.RssDao
 import com.github.goutarouh.simplerssreader.core.database.model.rss.RssMetaEntity
 import com.github.goutarouh.simplerssreader.core.database.model.rss.RssWrapperData
 import com.github.goutarouh.simplerssreader.core.network.data.rss.RssApiModel
-import com.github.goutarouh.simplerssreader.core.network.safeCall
+import com.github.goutarouh.simplerssreader.core.network.rssSafeCall
 import com.github.goutarouh.simplerssreader.core.network.service.ZennRssService
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.*
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.toRss
@@ -53,7 +53,7 @@ internal class RssRepositoryImpl(
 
     override suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss> = withContext(Dispatchers.IO) {
 
-        val result = safeCall {
+        val result = rssSafeCall(rssLink) {
             zennRssService.getRss(rssLink)
         }
 
