@@ -1,6 +1,5 @@
 package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,7 +44,10 @@ fun RssItemListScreen(
             RssItemListTopBar(uiState.value, rssItemScreenAction)
         }
     ) {
-        Box(modifier = modifier.padding(it).fillMaxSize()) {
+        Box(modifier = modifier
+            .padding(it)
+            .fillMaxSize()
+        ) {
             when (val state = uiState.value) {
                 is Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -198,7 +200,7 @@ fun RssItemListHeader(
             .padding(start = 16.dp),
         ) {
             Text(
-                text = "Last update: ",
+                text = stringResource(id = R.string.rss_items_last_update),
                 style = MaterialTheme.typography.caption,
             )
             Text(
