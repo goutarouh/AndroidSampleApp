@@ -219,12 +219,5 @@ fun RssItemListHeader(
                 tint = if (isAutoFetch) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
             )
         }
-        IconButton(onClick = { update(rss.rssLink) }) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = null,
-                tint = MaterialTheme.colors.onPrimary
-            )
-        }
     }
 }
