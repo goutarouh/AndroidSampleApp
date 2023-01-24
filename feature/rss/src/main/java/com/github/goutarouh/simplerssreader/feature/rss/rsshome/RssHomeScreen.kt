@@ -44,7 +44,11 @@ fun NavGraphBuilder.rssHome(
 ) {
     composable(route = RSS_HOME_ROUTE) {
         RssHomeScreen(
-            navigateTo = { navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", it.encode64())) },
+            navigateTo = {
+                if (navController.currentDestination?.route == RSS_HOME_ROUTE) {
+                    navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", it.encode64()))
+                }
+            },
             modifier = modifier
         )
     }
@@ -56,7 +60,9 @@ fun NavGraphBuilder.rssHome(
             rssItemScreenAction = object: RssItemScreenAction {
                 override fun navigateBack() { navController.popBackStack() }
                 override fun itemClick(linkString: String) {
-                    navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", linkString.encode64()))
+                    if (navController.currentDestination?.route?.startsWith(RSS_LIST_ROUTE) == true) {
+                        navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", linkString.encode64()))
+                    }
                 }
             },
             modifier = modifier
@@ -75,7 +81,6 @@ fun NavGraphBuilder.rssHome(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RssHomeScreen(
     navigateTo: (String) -> Unit,

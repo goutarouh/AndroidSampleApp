@@ -37,8 +37,8 @@ fun RssLinkTextField(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
-    
-    BackHandler {
+
+    BackHandler(isOnFocus) {
         focusManager.clearFocus()
     }
 
