@@ -143,10 +143,12 @@ fun RssItemList(
         onRefresh = {
             refreshing = true
             update(rss.rssLink)
-            refreshing = false
-
         }
     )
+
+    LaunchedEffect(rss.lastFetchedAt) {
+        refreshing = false
+    }
 
     Box(Modifier.pullRefresh(state)) {
         LazyColumn(
