@@ -49,6 +49,8 @@ class RssItemListScreenViewModel @Inject constructor(
                 // TODO uiStateに送出するほどのエラーではない
             }
 
+            updateUiState(rssLink)
+
             val state = uiState.value
             if (state is RssItemListScreenUiState.Success) {
                 if (isAutoFetch) {

@@ -1,12 +1,14 @@
 package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +44,10 @@ fun RssItemListScreen(
             RssItemListTopBar(uiState.value, rssItemScreenAction)
         }
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = modifier
+            .padding(it)
+            .fillMaxSize()
+        ) {
             when (val state = uiState.value) {
                 is Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -123,6 +128,8 @@ private fun ErrorScreen(
     }
 }
 
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RssItemList(
     rss: Rss,
@@ -130,28 +137,47 @@ fun RssItemList(
     setAutoFetch: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp)
-    ) {
-        item {
-            RssItemListHeader(
-                rss = rss,
-                update = update,
-                setAutoFetch = setAutoFetch,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
+    var refreshing by remember { mutableStateOf(false) }
+    val state = rememberPullRefreshState(
+        refreshing = refreshing,
+        onRefresh = {
+            refreshing = true
+            update(rss.rssLink)
         }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
+    )
+
+    LaunchedEffect(rss.lastFetchedAt) {
+        refreshing = false
+    }
+
+    Box(Modifier.pullRefresh(state)) {
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            item {
+                RssItemListHeader(
+                    rss = rss,
+                    setAutoFetch = setAutoFetch,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            items(rss.items) { rssItem ->
+                RssItemCard(
+                    rssItem = rssItem,
+                    onCardClick = onCardClick,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
-        items(rss.items) { rssItem ->
-            RssItemCard(
-                rssItem = rssItem,
-                onCardClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+        PullRefreshIndicator(
+            refreshing = refreshing,
+            state = state,
+            Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -159,23 +185,20 @@ fun RssItemList(
 fun RssItemListHeader(
     rss: Rss,
     modifier: Modifier = Modifier,
-    update: (String) -> Unit,
     setAutoFetch: (String, Boolean) -> Unit
 ) {
-
-    var isAutoFetch by remember { mutableStateOf(rss.isAutoFetch) }
 
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp),
+        modifier = Modifier
+            .weight(1f)
+            .padding(start = 16.dp),
         ) {
             Text(
-                text = "Last update: ",
+                text = stringResource(id = R.string.rss_items_last_update),
                 style = MaterialTheme.typography.caption,
             )
             Text(
@@ -183,23 +206,6 @@ fun RssItemListHeader(
                 style = MaterialTheme.typography.caption,
             )
         }
-        IconButton(onClick = {
-            val newAutoRenew = !isAutoFetch
-            isAutoFetch = newAutoRenew
-            setAutoFetch(rss.rssLink, newAutoRenew)
-        }) {
-            Icon(
-                painter = painterResource(id = R.drawable.auto_renew),
-                contentDescription = null,
-                tint = if (isAutoFetch) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
-            )
-        }
-        IconButton(onClick = { update(rss.rssLink) }) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = null,
-                tint = MaterialTheme.colors.onPrimary
-            )
-        }
+        RssSubscribeButton(rss = rss, setAutoFetch = setAutoFetch)
     }
 }

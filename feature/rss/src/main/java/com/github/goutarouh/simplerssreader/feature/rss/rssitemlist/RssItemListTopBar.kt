@@ -43,7 +43,7 @@ private fun LoadingOrError(
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colors.background,
-            titleContentColor = MaterialTheme.colors.onSurface
+            titleContentColor = MaterialTheme.colors.onBackground
         )
     )
 }
@@ -65,7 +65,7 @@ private fun Success(
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colors.background,
-            titleContentColor = MaterialTheme.colors.onSurface
+            titleContentColor = MaterialTheme.colors.onBackground
         )
     )
 }

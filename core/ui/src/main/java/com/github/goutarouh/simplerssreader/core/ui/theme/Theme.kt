@@ -11,7 +11,7 @@ private val DarkColorPalette = darkColors(
     secondary = BlueGray900,
     onSecondary = BlueGray100,
     background = Black,
-    onSurface = White,
+    onBackground = White,
     error = Red300
 )
 
@@ -21,12 +21,12 @@ private val LightColorPalette = lightColors(
     secondary = BlueGray100,
     onSecondary = BlueGray900,
     background = White,
-    onSurface = Black,
+    onBackground = Black,
     error = Red600
 )
 
 @Composable
-fun AndroidSampleTheme(
+fun SrrTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

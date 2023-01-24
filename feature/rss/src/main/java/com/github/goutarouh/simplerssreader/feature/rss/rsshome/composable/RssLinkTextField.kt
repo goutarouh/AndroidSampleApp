@@ -56,7 +56,7 @@ fun RssLinkTextField(
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.rss_home_text_field_outline),
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colors.onBackground
                 )
             },
             isError = field.isError,
@@ -68,7 +68,7 @@ fun RssLinkTextField(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
-                            tint = MaterialTheme.colors.onSurface
+                            tint = MaterialTheme.colors.onBackground
                         )
                     }
                 } else {
@@ -79,7 +79,7 @@ fun RssLinkTextField(
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = null,
-                            tint = MaterialTheme.colors.onSurface
+                            tint = MaterialTheme.colors.onBackground
                         )
                     }
                 }
