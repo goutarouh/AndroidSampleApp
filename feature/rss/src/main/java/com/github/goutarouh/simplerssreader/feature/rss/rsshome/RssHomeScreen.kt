@@ -75,7 +75,6 @@ fun NavGraphBuilder.rssHome(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RssHomeScreen(
     navigateTo: (String) -> Unit,
