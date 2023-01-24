@@ -155,7 +155,6 @@ fun RssItemList(
             item {
                 RssItemListHeader(
                     rss = rss,
-                    update = update,
                     setAutoFetch = setAutoFetch,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
@@ -184,11 +183,8 @@ fun RssItemList(
 fun RssItemListHeader(
     rss: Rss,
     modifier: Modifier = Modifier,
-    update: (String) -> Unit,
     setAutoFetch: (String, Boolean) -> Unit
 ) {
-
-    var isAutoFetch by remember { mutableStateOf(rss.isAutoFetch) }
 
     Row(
         modifier = modifier,
@@ -208,16 +204,6 @@ fun RssItemListHeader(
                 style = MaterialTheme.typography.caption,
             )
         }
-        IconButton(onClick = {
-            val newAutoRenew = !isAutoFetch
-            isAutoFetch = newAutoRenew
-            setAutoFetch(rss.rssLink, newAutoRenew)
-        }) {
-            Icon(
-                painter = painterResource(id = R.drawable.auto_renew),
-                contentDescription = null,
-                tint = if (isAutoFetch) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
-            )
-        }
+        RssSubscribeButton(rss = rss, setAutoFetch = setAutoFetch)
     }
 }

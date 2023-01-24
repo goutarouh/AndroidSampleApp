@@ -7,4 +7,5 @@
     <string name="rss_get_error_no_item">Item not found.</string>
     <string name="rss_get_error_not_supported_format">The RSS format of the URL \n is not supported.</string>
     <string name="rss_items_last_update">Last update: </string>
+    <string name="rss_subscribe">SUBSCRIBE</string>
 </resources>
