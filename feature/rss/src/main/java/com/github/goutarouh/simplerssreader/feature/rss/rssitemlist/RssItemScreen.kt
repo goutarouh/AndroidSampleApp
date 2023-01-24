@@ -7,6 +7,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +45,7 @@ fun RssItemListScreen(
             RssItemListTopBar(uiState.value, rssItemScreenAction)
         }
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = modifier.padding(it).fillMaxSize()) {
             when (val state = uiState.value) {
                 is Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -123,6 +126,8 @@ private fun ErrorScreen(
     }
 }
 
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RssItemList(
     rss: Rss,
@@ -130,28 +135,46 @@ fun RssItemList(
     setAutoFetch: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp)
-    ) {
-        item {
-            RssItemListHeader(
-                rss = rss,
-                update = update,
-                setAutoFetch = setAutoFetch,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
+    var refreshing by remember { mutableStateOf(false) }
+    val state = rememberPullRefreshState(
+        refreshing = refreshing,
+        onRefresh = {
+            refreshing = true
+            update(rss.rssLink)
+            refreshing = false
+
         }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
+    )
+
+    Box(Modifier.pullRefresh(state)) {
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            item {
+                RssItemListHeader(
+                    rss = rss,
+                    update = update,
+                    setAutoFetch = setAutoFetch,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            items(rss.items) { rssItem ->
+                RssItemCard(
+                    rssItem = rssItem,
+                    onCardClick = onCardClick,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
-        items(rss.items) { rssItem ->
-            RssItemCard(
-                rssItem = rssItem,
-                onCardClick = onCardClick,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+        PullRefreshIndicator(
+            refreshing = refreshing,
+            state = state,
+            Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -170,9 +193,9 @@ fun RssItemListHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp),
+        modifier = Modifier
+            .weight(1f)
+            .padding(start = 16.dp),
         ) {
             Text(
                 text = "Last update: ",
