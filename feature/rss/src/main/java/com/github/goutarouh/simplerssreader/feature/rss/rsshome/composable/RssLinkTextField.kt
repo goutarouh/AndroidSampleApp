@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -78,6 +79,19 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
+                }
+            },
+            trailingIcon = {
+                if (field.input.isNotEmpty()) {
+                    IconButton(onClick = {
+                        field = RssLinkInputText(input = "")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
                             contentDescription = null,
                             tint = MaterialTheme.colors.onBackground
                         )
