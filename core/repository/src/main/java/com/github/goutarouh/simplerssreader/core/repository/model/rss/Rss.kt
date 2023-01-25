@@ -8,18 +8,21 @@ import com.github.goutarouh.simplerssreader.core.network.data.rss.RssItemApiMode
 import java.time.LocalDateTime
 
 data class Rss (
-    val title: String,
-    val rssLink: String,
-    val imageLink: String,
-    val items: List<RssItem>,
-    val isAutoFetch: Boolean,
-    val lastFetchedAt: LocalDateTime,
-    val unReadItemCount: Int
-)
+    val title: String = "",
+    val rssLink: String = "",
+    val imageLink: String = "",
+    val items: List<RssItem> = listOf(),
+    val isAutoFetch: Boolean = false,
+    val lastFetchedAt: LocalDateTime = LocalDateTime.now(),
+    val unReadItemCount: Int = 0
+) {
+    val hasUnreadItems: Boolean
+        get() = unReadItemCount != 0
+}
 
 data class RssItem(
-    val title: String,
-    val pageLink: String
+    val title: String = "",
+    val pageLink: String = ""
 )
 
 // --------------------- ApiModel -> Entity --------------------
