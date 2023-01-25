@@ -49,7 +49,7 @@ fun RssSubscribeButton(
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES, backgroundColor = 0xFFFFFF)
 @Composable
 fun PreviewRssSubscribeButtonNightYes() {
-    val rss = Rss("", "", "", listOf(), true, LocalDateTime.now())
+    val rss = Rss("", "", "", listOf(), true, LocalDateTime.now(), 0)
     SrrTheme() {
         RssSubscribeButton(rss = rss, setAutoFetch = { _, _ -> })
     }
@@ -59,7 +59,7 @@ fun PreviewRssSubscribeButtonNightYes() {
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO, backgroundColor = 0x000000)
 @Composable
 fun PreviewRssSubscribeButtonNightNo() {
-    val rss = Rss("", "", "", listOf(), true, LocalDateTime.now())
+    val rss = Rss("", "", "", listOf(), true, LocalDateTime.now(), 0)
     SrrTheme() {
         RssSubscribeButton(rss = rss, setAutoFetch = { _, _ -> })
     }

@@ -1,0 +1,147 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "b53520c38473563c4cfa0907a8572753",
+    "entities": [
+      {
+        "tableName": "RssEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `title` TEXT NOT NULL, `imageLink` TEXT NOT NULL, PRIMARY KEY(`rssLink`))",
+        "fields": [
+          {
+            "fieldPath": "rssLink",
+            "columnName": "rssLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageLink",
+            "columnName": "imageLink",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rssLink"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RssItemEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`order` INTEGER NOT NULL, `rssLink` TEXT NOT NULL, `title` TEXT NOT NULL, `pageLink` TEXT NOT NULL, PRIMARY KEY(`rssLink`, `pageLink`), FOREIGN KEY(`rssLink`) REFERENCES `RssEntity`(`rssLink`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rssLink",
+            "columnName": "rssLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pageLink",
+            "columnName": "pageLink",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rssLink",
+            "pageLink"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "RssEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rssLink"
+            ],
+            "referencedColumns": [
+              "rssLink"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "RssMetaEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rssLink` TEXT NOT NULL, `isAutoFetch` INTEGER NOT NULL, `lastFetchedAt` TEXT NOT NULL, `unReadItemCount` INTEGER NOT NULL, PRIMARY KEY(`rssLink`), FOREIGN KEY(`rssLink`) REFERENCES `RssEntity`(`rssLink`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "rssLink",
+            "columnName": "rssLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAutoFetch",
+            "columnName": "isAutoFetch",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetchedAt",
+            "columnName": "lastFetchedAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unReadItemCount",
+            "columnName": "unReadItemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rssLink"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "RssEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rssLink"
+            ],
+            "referencedColumns": [
+              "rssLink"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b53520c38473563c4cfa0907a8572753')"
+    ]
+  }
+}

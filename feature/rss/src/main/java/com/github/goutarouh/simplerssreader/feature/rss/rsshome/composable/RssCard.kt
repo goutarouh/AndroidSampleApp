@@ -67,5 +67,5 @@ fun RssCard(
 )
 @Composable
 fun PreviewRssCard() {
-    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false, LocalDateTime.now()), onCardClick = {}, onCardLongClick = { link, title ->})
+    RssCard(rss = Rss("a".repeat(1000),"", "", listOf(), false, LocalDateTime.now(), 0), onCardClick = {}, onCardLongClick = { link, title ->})
 }
