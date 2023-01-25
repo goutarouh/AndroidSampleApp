@@ -61,4 +61,8 @@ interface RssDao {
 
     @Query("UPDATE RssMetaEntity SET lastFetchedAt = :lastFetchedAt WHERE rssLink = :rssLink")
     suspend fun updateRssMetaEntity(rssLink: String, lastFetchedAt: LocalDateTime)
+
+    @Query("UPDATE RssMetaEntity SET unReadItemCount = :unReadItemCount WHERE rssLink = :rssLink")
+    suspend fun updateRssMetaEntity(rssLink: String, unReadItemCount: Int)
+
 }

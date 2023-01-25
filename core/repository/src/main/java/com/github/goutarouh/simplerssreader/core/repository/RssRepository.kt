@@ -25,13 +25,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 interface RssRepository {
     fun getRssListFlow(): Flow<List<Rss>>
     suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss>
     suspend fun getRss(rssLink: String): Result<Rss>
     suspend fun setAutoFetch(rssLink: String, isFavorite: Boolean)
-    suspend fun checkUpdatedItemCount(rssLink: String): Int
+    suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int
     suspend fun deleteRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
@@ -146,34 +147,30 @@ internal class RssRepositoryImpl(
         return rssDao.getRssWrapperData(rssLink)
     }
 
-    override suspend fun checkUpdatedItemCount(rssLink: String): Int {
-        val rssApiModel = withContext(Dispatchers.Default) {
-            zennRssService.getRss(rssLink)
-        }
+    override suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int {
 
-        val fetchedRssItemEntityList = rssApiModel.items.mapIndexed { index, rssItemApiModel ->
-            rssItemApiModel.toRssItemEntity(index, rssLink)
-        }
-        val existedRssItemEntityList = withContext(Dispatchers.IO) {
-            rssDao.getRssItemEntityList(rssLink)
-        }
+        val currentItems = rssDao.getRssWrapperData(rssLink).items.map { it.toRssItem() }
 
-        if (existedRssItemEntityList.isEmpty()) {
-            return 0
+        return when (val result = updateRss(rssLink, false)) {
+            is Result.Success -> {
+                val newItems = result.data.items
+                calculateDiffOfTwoList(currentItems, newItems)
+            }
+            is Result.Error -> {
+                0
+            }
         }
+    }
 
-        if (fetchedRssItemEntityList.size != existedRssItemEntityList.size) {
-            return (fetchedRssItemEntityList.size - existedRssItemEntityList.size).coerceAtLeast(0)
+    private fun calculateDiffOfTwoList(old: List<RssItem>, new: List<RssItem>): Int {
+        if (old.isEmpty()) return new.size
+        if (old.size != new.size) {
+            max(new.size - old.size,0)
         }
-        val existedLatestItem = existedRssItemEntityList.first()
-
-        if (!fetchedRssItemEntityList.contains(existedLatestItem)) {
-            return fetchedRssItemEntityList.size
+        new.forEachIndexed { index, rssItem ->
+            if (rssItem == old[0]) return index
         }
-
-        writeRssToDb(rssLink, rssApiModel, false)
-
-        return fetchedRssItemEntityList.dropLastWhile { it == existedLatestItem }.size
+        return new.size
     }
 
 }
