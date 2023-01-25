@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.ui.annotation.DayAndNightPreviews
+import com.github.goutarouh.simplerssreader.core.ui.annotation.MultiFontScalePreviews
 import com.github.goutarouh.simplerssreader.core.ui.theme.SrrTheme
 import com.github.goutarouh.simplerssreader.feature.rss.R
 
@@ -81,6 +82,7 @@ fun RssCard(
 
 
 @DayAndNightPreviews
+@MultiFontScalePreviews
 @Composable
 fun PreviewRssCard(
     @PreviewParameter(PreviewRssProvider::class) rss: Rss
@@ -101,6 +103,6 @@ class PreviewRssProvider: PreviewParameterProvider<Rss> {
     override val values: Sequence<Rss>
         get() = sequenceOf(
             Rss(title = "PreviewRssProvider", unReadItemCount = 0),
-            Rss(title = "PreviewRssProvider", unReadItemCount = 1),
+            Rss(title = "PreviewRssProvider".repeat(5), unReadItemCount = 1),
         )
 }
