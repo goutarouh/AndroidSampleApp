@@ -31,7 +31,7 @@ interface RssRepository {
     fun getRssListFlow(): Flow<List<Rss>>
     suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss>
     suspend fun getRss(rssLink: String): Result<Rss>
-    suspend fun setAutoFetch(rssLink: String, isFavorite: Boolean)
+    suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
     suspend fun setUnReadItemCount(rssLink: String, count: Int)
     suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int
     suspend fun deleteRss(rssLink: String)
