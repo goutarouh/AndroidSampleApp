@@ -27,6 +27,7 @@ class RssItemListScreenViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             updateUiState(rssItemLink)
+            rssRepository.setUnReadItemCount(rssItemLink, 0)
         }
     }
 
