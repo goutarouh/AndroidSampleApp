@@ -34,7 +34,7 @@ interface RssRepository {
     suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
     suspend fun setUnReadItemCount(rssLink: String, count: Int)
     suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int
-    suspend fun deleteRss(rssLink: String)
+    suspend fun deleteAndUnregisterRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
 }
@@ -92,7 +92,7 @@ internal class RssRepositoryImpl(
         rssDao.updateRssMetaEntity(rssLink, count)
     }
 
-    override suspend fun deleteRss(rssLink: String) {
+    override suspend fun deleteAndUnregisterRss(rssLink: String) {
         unRegisterWorker(rssLink)
         withContext(Dispatchers.IO) {
             rssDao.deleteRssEntity(rssLink)
