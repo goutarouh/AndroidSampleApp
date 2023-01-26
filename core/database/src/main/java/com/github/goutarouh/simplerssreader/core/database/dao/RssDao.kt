@@ -39,7 +39,7 @@ interface RssDao {
     suspend fun insertRssEntity(rssEntity: RssEntity)
 
     @Query("DELETE FROM RssEntity WHERE rssLink = :rssLink")
-    fun deleteRssEntity(rssLink: String)
+    suspend fun deleteRssEntity(rssLink: String)
 
     @Query("SELECT * FROM RssItemEntity WHERE rssLink = :rssLink ORDER BY `order`")
     fun getRssItemEntityList(rssLink: String): List<RssItemEntity>

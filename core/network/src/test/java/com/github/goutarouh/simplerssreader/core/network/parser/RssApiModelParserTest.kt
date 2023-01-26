@@ -61,6 +61,7 @@ internal class RssParserTest {
 
 private val RSS_ALL = RssApiModel(
     title = "Zennの「Android」のフィード",
+    imageLink = "",
     items = List(2) { RssItemApiModel() },
 )
 private val RSS_ALL_XML = """
