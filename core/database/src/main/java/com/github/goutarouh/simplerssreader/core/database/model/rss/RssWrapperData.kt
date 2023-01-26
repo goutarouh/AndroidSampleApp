@@ -5,17 +5,17 @@ import androidx.room.Relation
 
 data class RssWrapperData(
     @Embedded
-    val rssEntity: RssEntity,
+    val rssEntity: RssEntity = RssEntity(),
 
     @Relation(
         parentColumn = "rssLink",
         entityColumn = "rssLink"
     )
-    val rssMetaEntity: RssMetaEntity,
+    val rssMetaEntity: RssMetaEntity = RssMetaEntity(),
 
     @Relation(
         parentColumn = "rssLink",
         entityColumn = "rssLink"
     )
-    val items: List<RssItemEntity>,
+    val items: List<RssItemEntity> = listOf(),
 )
