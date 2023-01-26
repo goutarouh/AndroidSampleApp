@@ -45,7 +45,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://zenn.dev")
+            .baseUrl("https://anything-for-rss") // Add this line not to crash
             .addConverterFactory(RssConverterFactory.create())
             .client(okHttpClient)
             .build()
