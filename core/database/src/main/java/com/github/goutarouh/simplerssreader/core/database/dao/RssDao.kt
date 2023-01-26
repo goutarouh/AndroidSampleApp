@@ -39,7 +39,7 @@ interface RssDao {
     suspend fun insertRssEntity(rssEntity: RssEntity)
 
     @Query("DELETE FROM RssEntity WHERE rssLink = :rssLink")
-    fun deleteRssEntity(rssLink: String)
+    suspend fun deleteRssEntity(rssLink: String)
 
     @Query("SELECT * FROM RssItemEntity WHERE rssLink = :rssLink ORDER BY `order`")
     fun getRssItemEntityList(rssLink: String): List<RssItemEntity>
@@ -61,4 +61,8 @@ interface RssDao {
 
     @Query("UPDATE RssMetaEntity SET lastFetchedAt = :lastFetchedAt WHERE rssLink = :rssLink")
     suspend fun updateRssMetaEntity(rssLink: String, lastFetchedAt: LocalDateTime)
+
+    @Query("UPDATE RssMetaEntity SET unReadItemCount = :unReadItemCount WHERE rssLink = :rssLink")
+    suspend fun updateRssMetaEntity(rssLink: String, unReadItemCount: Int)
+
 }

@@ -86,7 +86,7 @@ fun RssLinkTextField(
                 }
             },
             trailingIcon = {
-                if (field.input.isNotEmpty()) {
+                if (field.input.isNotEmpty() && isOnFocus) {
                     IconButton(onClick = {
                         field = RssLinkInputText(input = "")
                     }) {

@@ -20,8 +20,10 @@ class RssFetchWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         val rssLink = inputData.getString(RSS_LINK) ?: return Result.failure()
         val rssTitle = inputData.getString(RSS_TITLE) ?: return Result.failure()
+
+        val newItemCount = rssRepository.updateRssAndCheckNewItemCount(rssLink)
         try {
-            rssRepository.updateRss(rssLink, false)
+            rssRepository.setUnReadItemCount(rssLink, newItemCount)
         } catch (e: Exception) {
             return Result.retry()
         }

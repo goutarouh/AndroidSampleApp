@@ -6,7 +6,6 @@ import com.github.goutarouh.simplerssreader.core.repository.RssRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +29,7 @@ class RssHomeScreenViewModel @Inject constructor(
 
     fun deleteRss(rssLink: String) {
         viewModelScope.launch {
-            rssRepository.deleteRss(rssLink)
+            rssRepository.deleteAndUnregisterRss(rssLink)
         }
     }
 }
