@@ -2,7 +2,7 @@ package com.github.goutarouh.simplerssreader.core.network.di
 
 import com.github.goutarouh.simplerssreader.core.network.MyApiService
 import com.github.goutarouh.simplerssreader.core.network.factory.RssConverterFactory
-import com.github.goutarouh.simplerssreader.core.network.service.ZennRssService
+import com.github.goutarouh.simplerssreader.core.network.service.RssService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,8 +55,8 @@ object NetworkModule {
     @Provides
     fun provideZennRssService(
         retrofit: Retrofit
-    ): ZennRssService {
-        return retrofit.create(ZennRssService::class.java)
+    ): RssService {
+        return retrofit.create(RssService::class.java)
     }
 
     @Singleton
