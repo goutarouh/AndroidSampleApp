@@ -17,14 +17,19 @@ import com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.settings.Rss
 @Composable
 fun RssItemListTopBar(
     state: RssItemListScreenUiState,
-    rssItemScreenAction: RssItemScreenAction
+    rssItemScreenAction: RssItemScreenAction,
+    rssItemSettingAction: RssItemSettingAction,
 ) {
     when (state) {
         is RssItemListScreenUiState.Loading, is RssItemListScreenUiState.Error -> {
             LoadingOrError(rssItemScreenAction)
         }
         is RssItemListScreenUiState.Success -> {
-            Success(state.rss, rssItemScreenAction)
+            Success(
+                rss = state.rss,
+                rssItemScreenAction = rssItemScreenAction,
+                rssItemSettingAction = rssItemSettingAction
+            )
         }
     }
 }
@@ -55,10 +60,14 @@ private fun LoadingOrError(
 private fun Success(
     rss: Rss,
     rssItemScreenAction: RssItemScreenAction,
+    rssItemSettingAction: RssItemSettingAction,
 ) {
     var showRssSettingDialog by remember { mutableStateOf(false) }
     if (showRssSettingDialog) {
-        RssItemSettingDialog {
+        RssItemSettingDialog(
+            rss = rss,
+            rssItemSettingAction = rssItemSettingAction
+        ) {
             showRssSettingDialog = false
         }
     }

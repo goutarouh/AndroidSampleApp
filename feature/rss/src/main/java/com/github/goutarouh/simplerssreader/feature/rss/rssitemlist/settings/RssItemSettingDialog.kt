@@ -12,9 +12,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
+import com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.RssItemSettingAction
 
 @Composable
 fun RssItemSettingDialog(
+    rss: Rss,
+    rssItemSettingAction: RssItemSettingAction,
     onDismiss: () -> Unit
 ) {
     Dialog(
@@ -27,6 +31,8 @@ fun RssItemSettingDialog(
                 .clickable { onDismiss() }
         ) {
             RssItemSettingContents(
+                rss = rss,
+                rssItemSettingAction = rssItemSettingAction,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
@@ -35,6 +41,8 @@ fun RssItemSettingDialog(
 
 @Composable
 fun RssItemSettingContents(
+    rss: Rss,
+    rssItemSettingAction: RssItemSettingAction,
     modifier: Modifier
 ) {
     Box(
@@ -45,7 +53,9 @@ fun RssItemSettingContents(
             .clickable { }
     ) {
         Column {
-            RssItemSettingAutoUpdateRow()
+            RssItemSettingAutoUpdateRow(rss.isAutoFetch) { isAutoFetch ->
+                rssItemSettingAction.setAutoFetch(rss.rssLink, isAutoFetch)
+            }
             Spacer(modifier = Modifier.height(32.dp))
             RssItemSettingNotificationRow()
         }

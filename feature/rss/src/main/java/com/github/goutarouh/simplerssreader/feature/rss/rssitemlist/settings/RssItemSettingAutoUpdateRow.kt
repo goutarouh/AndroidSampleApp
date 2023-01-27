@@ -23,9 +23,11 @@ import com.github.goutarouh.simplerssreader.feature.rss.R
 
 @Composable
 fun RssItemSettingAutoUpdateRow(
-    modifier: Modifier = Modifier
+    isAutoFetch: Boolean,
+    modifier: Modifier = Modifier,
+    setAutoFetch: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(isAutoFetch) }
     Column {
         Row(
             modifier
@@ -47,7 +49,11 @@ fun RssItemSettingAutoUpdateRow(
             )
             Switch(
                 checked = checked,
-                onCheckedChange = { checked = it }
+                onCheckedChange = {
+                    val newAutoRenew = !isAutoFetch
+                    checked = newAutoRenew
+                    setAutoFetch(newAutoRenew)
+                }
             )
         }
         Text(
@@ -64,7 +70,7 @@ fun RssItemSettingAutoUpdateRow(
 fun PreviewRssItemSettingAutoUpdateRow() {
     SrrTheme {
         Surface {
-            RssItemSettingAutoUpdateRow()
+            RssItemSettingAutoUpdateRow(false) { }
         }
     }
 }

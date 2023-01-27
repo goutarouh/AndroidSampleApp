@@ -30,6 +30,11 @@ interface RssItemScreenAction {
     fun itemClick(linkString: String)
 }
 
+interface RssItemSettingAction {
+    fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
+    fun setNotificationEnabled(rssLink: String, enabled: Boolean)
+}
+
 @Composable
 fun RssItemListScreen(
     rssItemScreenAction: RssItemScreenAction,
@@ -40,7 +45,20 @@ fun RssItemListScreen(
 
     Scaffold(
         topBar = {
-            RssItemListTopBar(uiState.value, rssItemScreenAction)
+            RssItemListTopBar(
+                state = uiState.value,
+                rssItemScreenAction = rssItemScreenAction,
+                rssItemSettingAction = object: RssItemSettingAction {
+                    override fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) {
+                        viewModel.setAutoFetch(rssLink, isAutoFetch)
+                    }
+
+                    override fun setNotificationEnabled(rssLink: String, enabled: Boolean) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+            )
         }
     ) {
         Box(modifier = modifier
