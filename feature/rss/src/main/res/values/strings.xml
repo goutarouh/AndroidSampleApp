@@ -18,6 +18,6 @@
     <string name="rss_settings_notification">Notification</string>"
     <string name="rss_settings_notification_description">
         Notification is pushed when there is an update.\n
-        (can only be set if auto update is enabled.)
+        (Valid only when auto update is on.)
     </string>
 </resources>
