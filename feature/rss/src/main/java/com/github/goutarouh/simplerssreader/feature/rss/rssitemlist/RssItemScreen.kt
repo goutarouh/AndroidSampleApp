@@ -3,9 +3,8 @@ package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -118,12 +117,14 @@ private fun ErrorScreen(
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = e.rssLink,
-                modifier = Modifier.padding(horizontal = 24.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp
-            )
+            SelectionContainer {
+                Text(
+                    text = e.rssLink,
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }
