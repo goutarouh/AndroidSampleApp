@@ -54,7 +54,7 @@ fun RssItemListScreen(
                     }
 
                     override fun setNotificationEnabled(rssLink: String, enabled: Boolean) {
-                        TODO("Not yet implemented")
+                        viewModel.setPushNotification(rssLink, enabled)
                     }
 
                 }
