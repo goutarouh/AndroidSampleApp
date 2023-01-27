@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SimpleRssReader</string>
+    <string name="app_name">SimpleRss</string>
 
     <!-- Notification -->
     <string name="rss_update_channel_id">Rss-Update-Id</string>
