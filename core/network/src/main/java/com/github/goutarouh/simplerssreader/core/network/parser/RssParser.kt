@@ -93,9 +93,7 @@ class RssParser {
 
     private fun skip(parser: XmlPullParser) {
         if (parser.eventType != XmlPullParser.START_TAG) {
-            val currentName = parser.name
-            parser.next()
-            throw ParseException("current: $currentName  next: ${parser.name}")
+            throw ParseException("")
         }
         var depth = 1
         while (depth != 0) {
