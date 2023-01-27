@@ -207,6 +207,5 @@ fun RssItemListHeader(
                 style = MaterialTheme.typography.caption,
             )
         }
-        RssSubscribeButton(rss = rss, setAutoFetch = setAutoFetch)
     }
 }
