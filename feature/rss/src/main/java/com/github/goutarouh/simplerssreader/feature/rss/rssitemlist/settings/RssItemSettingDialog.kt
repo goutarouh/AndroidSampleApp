@@ -58,7 +58,7 @@ fun RssItemSettingContents(
             }
             Spacer(modifier = Modifier.height(32.dp))
             RssItemSettingNotificationRow(
-                isPushNotification = false,
+                isPushNotification = rss.isPushNotification,
                 isAutoFetch = rss.isAutoFetch
             ) {
 
