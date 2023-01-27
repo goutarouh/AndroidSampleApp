@@ -11,6 +11,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,7 +44,10 @@ fun RssItemListScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             RssItemListTopBar(
                 state = uiState.value,
@@ -73,6 +77,14 @@ fun RssItemListScreen(
                     ErrorScreen(e = state.e)
                 }
                 is Success -> {
+                    val context = LocalContext.current
+                    LaunchedEffect(state) {
+                        val workerEvent = state.workerEvent
+                        if (workerEvent != null) {
+                            scaffoldState.snackbarHostState.showSnackbar(message = context.getString(workerEvent.stringId), duration = SnackbarDuration.Short)
+                            viewModel.setWorkerEventDone()
+                        }
+                    }
                     RssItemList(
                         rss = state.rss,
                         update = {

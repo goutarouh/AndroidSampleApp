@@ -34,7 +34,7 @@ class RssItemListScreenViewModel @Inject constructor(
     private suspend fun updateUiState(rssLink: String) {
         when (val result = rssRepository.getRss(rssLink)) {
             is Result.Success -> {
-                _uiState.emit(RssItemListScreenUiState.Success(result.data))
+                _uiState.emit(RssItemListScreenUiState.Success(result.data, null))
             }
             is Result.Error -> {
                 _uiState.emit(RssItemListScreenUiState.Error(result.e))
@@ -47,10 +47,23 @@ class RssItemListScreenViewModel @Inject constructor(
             try {
                 rssRepository.setAutoFetch(rssLink, isAutoFetch)
             } catch (e: Exception) {
+                when (val state = _uiState.value) {
+                    is RssItemListScreenUiState.Success -> {
+                        _uiState.emit(state.copy(workerEvent = if (isAutoFetch) SetWorkerEvent.RegisteredFailed else SetWorkerEvent.UnRegisteredFailed))
+                    }
+                    else -> {}
+                }
                 // TODO uiStateに送出するほどのエラーではない
             }
             updateUiState(rssLink)
-            setAutoFetchWorker(isAutoFetch)
+
+            val setWorkerEvent = setAutoFetchWorker(isAutoFetch)
+            when (val state = _uiState.value) {
+                is RssItemListScreenUiState.Success -> {
+                    _uiState.emit(state.copy(workerEvent = setWorkerEvent))
+                }
+                else -> {}
+            }
         }
     }
 
@@ -65,14 +78,18 @@ class RssItemListScreenViewModel @Inject constructor(
         }
     }
 
-    private fun setAutoFetchWorker(isAutoFetch: Boolean) {
+    private fun setAutoFetchWorker(isAutoFetch: Boolean): SetWorkerEvent? {
         val state = uiState.value
-        if (state is RssItemListScreenUiState.Success) {
+        return if (state is RssItemListScreenUiState.Success) {
             if (isAutoFetch) {
-                rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
+                val result = rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
+                if (result) SetWorkerEvent.RegisteredSuccess else SetWorkerEvent.RegisteredFailed
             } else {
-                rssRepository.unRegisterWorker(state.rss.rssLink)
+                val result = rssRepository.unRegisterWorker(state.rss.rssLink)
+                if (result) SetWorkerEvent.UnRegisteredSuccess else SetWorkerEvent.UnRegisteredFailed
             }
+        } else {
+            null
         }
     }
 
@@ -80,11 +97,22 @@ class RssItemListScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = rssRepository.updateRss(rssLink, false)) {
                 is Result.Success -> {
-                    _uiState.emit(RssItemListScreenUiState.Success(result.data))
+                    _uiState.emit(RssItemListScreenUiState.Success(result.data, null))
                 }
                 is Result.Error -> {
                     _uiState.emit(RssItemListScreenUiState.Error(result.e))
                 }
+            }
+        }
+    }
+
+    fun setWorkerEventDone() {
+        viewModelScope.launch {
+            when (val state = _uiState.value) {
+                is RssItemListScreenUiState.Success -> {
+                    _uiState.emit(state.copy(workerEvent = null))
+                }
+                else -> {}
             }
         }
     }
