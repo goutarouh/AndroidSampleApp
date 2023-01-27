@@ -28,7 +28,6 @@ fun RssItemSettingNotificationRow(
     modifier: Modifier = Modifier,
     setPushNotification: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(if (isAutoFetch) isPushNotification else false) }
     Column {
         Row(
             modifier
@@ -49,11 +48,9 @@ fun RssItemSettingNotificationRow(
                 style = MaterialTheme.typography.h4
             )
             Switch(
-                checked = checked,
+                checked = isPushNotification,
                 onCheckedChange = {
-                    val newPushNotification = !isPushNotification
-                    checked = newPushNotification
-                    setPushNotification(newPushNotification)
+                    setPushNotification(it)
                 },
                 enabled = isAutoFetch
             )

@@ -27,7 +27,6 @@ fun RssItemSettingAutoUpdateRow(
     modifier: Modifier = Modifier,
     setAutoFetch: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(isAutoFetch) }
     Column {
         Row(
             modifier
@@ -48,11 +47,9 @@ fun RssItemSettingAutoUpdateRow(
                 style = MaterialTheme.typography.h4
             )
             Switch(
-                checked = checked,
+                checked = isAutoFetch,
                 onCheckedChange = {
-                    val newAutoRenew = !isAutoFetch
-                    checked = newAutoRenew
-                    setAutoFetch(newAutoRenew)
+                    setAutoFetch(it)
                 }
             )
         }
