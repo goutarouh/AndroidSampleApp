@@ -50,6 +50,7 @@ class RssItemListScreenViewModel @Inject constructor(
                 // TODO uiStateに送出するほどのエラーではない
             }
             updateUiState(rssLink)
+            setAutoFetchWorker(isAutoFetch)
         }
     }
 
@@ -64,11 +65,10 @@ class RssItemListScreenViewModel @Inject constructor(
         }
     }
 
-    // TODO 設定ダイアログを閉じたとき
-    fun registerWork() {
+    private fun setAutoFetchWorker(isAutoFetch: Boolean) {
         val state = uiState.value
         if (state is RssItemListScreenUiState.Success) {
-            if (false) {
+            if (isAutoFetch) {
                 rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
             } else {
                 rssRepository.unRegisterWorker(state.rss.rssLink)
