@@ -13,7 +13,7 @@
     <!-- 設定 -->
     <string name="rss_settings_auto_update">Auto Update for rss</string>
     <string name="rss_settings_auto_update_description">
-        Automatically updated once a day without opening the application.
+        Automatically update rss once a day without opening the application.
     </string>
     <string name="rss_settings_notification">Notification</string>"
     <string name="rss_settings_notification_description">
