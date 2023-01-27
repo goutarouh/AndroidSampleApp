@@ -28,7 +28,7 @@ fun RssItemSettingNotificationRow(
     modifier: Modifier = Modifier,
     setPushNotification: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(isPushNotification) }
+    var checked by remember { mutableStateOf(if (isAutoFetch) isPushNotification else false) }
     Column {
         Row(
             modifier
