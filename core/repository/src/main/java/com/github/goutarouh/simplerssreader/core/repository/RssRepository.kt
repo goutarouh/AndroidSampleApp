@@ -116,12 +116,16 @@ internal class RssRepositoryImpl(
                 )
             )
             .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            rssLink,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            request
-        )
-        return true
+        return try {
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                rssLink,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                request
+            )
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     override fun unRegisterWorker(rssLink: String): Boolean {

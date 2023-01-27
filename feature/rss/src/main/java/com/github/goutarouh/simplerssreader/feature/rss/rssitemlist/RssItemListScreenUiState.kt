@@ -14,3 +14,13 @@ sealed interface RssItemListScreenUiState {
     ): RssItemListScreenUiState
 
 }
+
+
+enum class SetWorkerEvent(
+    val stringId: Int
+) {
+    RegisteredSuccess(R.string.rss_register_success),
+    RegisteredFailed(R.string.rss_register_failed),
+    UnRegisteredSuccess(R.string.rss_unregister_success),
+    UnRegisteredFailed(R.string.rss_unregister_failed),
+}
