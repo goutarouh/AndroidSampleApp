@@ -60,8 +60,8 @@ fun RssItemSettingContents(
             RssItemSettingNotificationRow(
                 isPushNotification = rss.isPushNotification,
                 isAutoFetch = rss.isAutoFetch
-            ) {
-
+            ) { isPushNotification ->
+                rssItemSettingAction.setNotificationEnabled(rss.rssLink, isPushNotification)
             }
         }
     }
