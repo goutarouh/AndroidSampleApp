@@ -77,9 +77,6 @@ fun RssItemListScreen(
                         rss = state.rss,
                         update = {
                             viewModel.updateRss(it)
-                        },
-                        setAutoFetch = { rssLink, isAutoFetch ->
-                            viewModel.setAutoFetch(rssLink, isAutoFetch)
                         }
                     ) {
                         rssItemScreenAction.itemClick(it)
@@ -153,7 +150,6 @@ private fun ErrorScreen(
 fun RssItemList(
     rss: Rss,
     update: (String) -> Unit,
-    setAutoFetch: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
     var refreshing by remember { mutableStateOf(false) }
@@ -176,7 +172,6 @@ fun RssItemList(
             item {
                 RssItemListHeader(
                     rss = rss,
-                    setAutoFetch = setAutoFetch,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
             }
@@ -203,8 +198,7 @@ fun RssItemList(
 @Composable
 fun RssItemListHeader(
     rss: Rss,
-    modifier: Modifier = Modifier,
-    setAutoFetch: (String, Boolean) -> Unit
+    modifier: Modifier = Modifier
 ) {
 
     Row(
