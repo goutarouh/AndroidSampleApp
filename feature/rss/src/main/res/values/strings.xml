@@ -9,6 +9,12 @@
     <string name="rss_items_last_update">Last update: </string>
     <string name="rss_subscribe">SUBSCRIBE</string>
 
+    <!-- 自動更新の設定の完了ステータス -->
+    <string name="rss_register_success">Auto updates have been set up.</string>
+    <string name="rss_register_failed">Could not set up auto updates.</string>
+    <string name="rss_unregister_success">Auto updates has been cancelled.</string>
+    <string name="rss_unregister_failed">Auto updates could not be canceled.</string>
+
 
     <!-- 設定 -->
     <string name="rss_settings_auto_update">Auto update</string>
