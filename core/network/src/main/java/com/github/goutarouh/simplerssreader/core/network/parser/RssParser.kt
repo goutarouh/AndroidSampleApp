@@ -3,6 +3,7 @@ package com.github.goutarouh.simplerssreader.core.network.parser
 import android.util.Xml
 import com.github.goutarouh.simplerssreader.core.network.data.rss.RssApiModel
 import com.github.goutarouh.simplerssreader.core.network.data.rss.RssItemApiModel
+import com.github.goutarouh.simplerssreader.core.util.exception.ParseException
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 
@@ -92,7 +93,9 @@ class RssParser {
 
     private fun skip(parser: XmlPullParser) {
         if (parser.eventType != XmlPullParser.START_TAG) {
-            throw IllegalStateException()
+            val currentName = parser.name
+            parser.next()
+            throw ParseException("current: $currentName  next: ${parser.name}")
         }
         var depth = 1
         while (depth != 0) {

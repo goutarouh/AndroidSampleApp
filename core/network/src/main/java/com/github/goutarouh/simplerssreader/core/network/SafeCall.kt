@@ -22,6 +22,8 @@ suspend fun <T> rssSafeCall(rssLink: String, apiCall: suspend () -> T): Result<T
         return Result.Error(PageNotFoundException(rssLink))
     } catch (e: XmlPullParserException) {
         Result.Error(ParseException(rssLink))
+    } catch (e: ParseException) {
+        throw e
     } catch (e: Exception) {
         Result.Error(ApiException(rssLink))
     }
