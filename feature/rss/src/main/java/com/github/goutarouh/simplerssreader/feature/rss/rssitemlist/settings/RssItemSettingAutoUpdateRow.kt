@@ -56,7 +56,7 @@ fun RssItemSettingAutoUpdateRow(
         Text(
             text = stringResource(id = R.string.rss_settings_auto_update_description),
             fontSize = 13.sp,
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = Modifier.padding(start = 8.dp, end = 4.dp),
             style = MaterialTheme.typography.caption,
         )
     }

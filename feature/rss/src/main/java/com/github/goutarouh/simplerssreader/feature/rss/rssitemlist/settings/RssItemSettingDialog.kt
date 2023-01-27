@@ -49,7 +49,7 @@ fun RssItemSettingContents(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colors.background)
-            .padding(horizontal = 8.dp, vertical = 32.dp)
+            .padding(horizontal = 4.dp, vertical = 32.dp)
             .clickable { }
     ) {
         Column {
