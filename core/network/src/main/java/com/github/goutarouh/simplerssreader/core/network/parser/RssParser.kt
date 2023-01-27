@@ -28,6 +28,9 @@ class RssParser {
         val items = mutableListOf<RssItemApiModel>()
 
         while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
             when (parser.name) {
                 "title" -> title = readItemContent(parser, "title")
                 "image" -> imageLink = readImage(parser)
@@ -42,6 +45,9 @@ class RssParser {
         var imageLink  = ""
         parser.require(XmlPullParser.START_TAG, null, "image")
         while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
             if (parser.name == "url") {
                 imageLink =  readItemContent(parser, "url")
             } else {
@@ -56,6 +62,9 @@ class RssParser {
         var link = ""
         parser.require(XmlPullParser.START_TAG, null, "item")
         while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
             when (parser.name) {
                 "title" -> title = readItemContent(parser, "title")
                 "link" -> link = readItemContent(parser, "link")
