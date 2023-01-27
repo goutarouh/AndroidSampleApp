@@ -57,7 +57,7 @@ interface RssDao {
     suspend fun insertRssMetaEntity(rssMetaEntity: RssMetaEntity)
 
     @Query("UPDATE RssMetaEntity SET isAutoFetch = :isAutoFetch WHERE rssLink = :rssLink")
-    suspend fun updateRssMetaEntity(rssLink: String, isAutoFetch: Boolean)
+    suspend fun updateRssMetaEntityWithAutoFetch(rssLink: String, isAutoFetch: Boolean)
 
     @Query("UPDATE RssMetaEntity SET lastFetchedAt = :lastFetchedAt WHERE rssLink = :rssLink")
     suspend fun updateRssMetaEntity(rssLink: String, lastFetchedAt: LocalDateTime)
@@ -65,4 +65,6 @@ interface RssDao {
     @Query("UPDATE RssMetaEntity SET unReadItemCount = :unReadItemCount WHERE rssLink = :rssLink")
     suspend fun updateRssMetaEntity(rssLink: String, unReadItemCount: Int)
 
+    @Query("UPDATE RssMetaEntity SET isPushNotification = :isPushNotification WHERE rssLink = :rssLink")
+    suspend fun updateRssMetaEntityWithPushNotification(rssLink: String, isPushNotification: Boolean)
 }
