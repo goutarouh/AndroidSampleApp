@@ -18,7 +18,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.ui.annotation.DayAndNightPreviews
 import com.github.goutarouh.simplerssreader.core.ui.annotation.MultiFontScalePreviews
@@ -62,11 +64,27 @@ fun RssCard(
                 modifier = iconModifier
             )
         } else {
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = rss.imageLink,
-                contentDescription = null,
-                modifier = iconModifier
-            )
+                contentDescription = null
+            ) {
+                when (painter.state) {
+                    is AsyncImagePainter.State.Error -> {
+                        Icon(
+                            painter = painterResource(id = R.drawable.rss),
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onPrimary,
+                            modifier = iconModifier
+                        )
+                    }
+                    is AsyncImagePainter.State.Success -> {
+                        SubcomposeAsyncImageContent(modifier = Modifier.size(60.dp))
+                    }
+                    else -> {
+                        Box(modifier = Modifier.size(60.dp))
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.width(16.dp))
         Text(
