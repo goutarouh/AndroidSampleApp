@@ -49,19 +49,31 @@ class RssItemListScreenViewModel @Inject constructor(
             } catch (e: Exception) {
                 // TODO uiStateに送出するほどのエラーではない
             }
-
             updateUiState(rssLink)
+        }
+    }
 
-            val state = uiState.value
-            if (state is RssItemListScreenUiState.Success) {
-                if (isAutoFetch) {
-                    rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
-                } else {
-                    rssRepository.unRegisterWorker(state.rss.rssLink)
-                }
+    fun setPushNotification(rssLink: String, isPushNotification: Boolean) {
+        viewModelScope.launch {
+            try {
+                rssRepository.setPushNotification(rssLink, isPushNotification)
+            } catch (e: Exception) {
+                // TODO uiStateに送出するほどのエラーではない
+            }
+            updateUiState(rssLink)
+        }
+    }
+
+    // TODO 設定ダイアログを閉じたとき
+    fun registerWork() {
+        val state = uiState.value
+        if (state is RssItemListScreenUiState.Success) {
+            if (false) {
+                rssRepository.registerWorker(state.rss.rssLink, state.rss.title)
+            } else {
+                rssRepository.unRegisterWorker(state.rss.rssLink)
             }
         }
-
     }
 
     fun updateRss(rssLink: String) {
