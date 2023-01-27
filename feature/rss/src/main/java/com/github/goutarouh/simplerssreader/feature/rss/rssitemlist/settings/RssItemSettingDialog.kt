@@ -57,7 +57,12 @@ fun RssItemSettingContents(
                 rssItemSettingAction.setAutoFetch(rss.rssLink, isAutoFetch)
             }
             Spacer(modifier = Modifier.height(32.dp))
-            RssItemSettingNotificationRow()
+            RssItemSettingNotificationRow(
+                isPushNotification = false,
+                isAutoFetch = rss.isAutoFetch
+            ) {
+
+            }
         }
     }
 }

@@ -23,9 +23,12 @@ import com.github.goutarouh.simplerssreader.feature.rss.R
 
 @Composable
 fun RssItemSettingNotificationRow(
-    modifier: Modifier = Modifier
+    isPushNotification: Boolean,
+    isAutoFetch: Boolean,
+    modifier: Modifier = Modifier,
+    setPushNotification: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(isPushNotification) }
     Column {
         Row(
             modifier
@@ -47,7 +50,12 @@ fun RssItemSettingNotificationRow(
             )
             Switch(
                 checked = checked,
-                onCheckedChange = { checked = it }
+                onCheckedChange = {
+                    val newPushNotification = !isPushNotification
+                    checked = newPushNotification
+                    setPushNotification(newPushNotification)
+                },
+                enabled = isAutoFetch
             )
         }
         Text(
@@ -64,7 +72,7 @@ fun RssItemSettingNotificationRow(
 fun PreviewRssItemSettingNotificationRow() {
     SrrTheme {
         Surface {
-            RssItemSettingNotificationRow()
+            RssItemSettingNotificationRow(isPushNotification = false, isAutoFetch = false) {}
         }
     }
 }
