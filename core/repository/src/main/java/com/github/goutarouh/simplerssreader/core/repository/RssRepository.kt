@@ -32,6 +32,7 @@ interface RssRepository {
     suspend fun updateRss(rssLink: String, isInit: Boolean): Result<Rss>
     suspend fun getRss(rssLink: String): Result<Rss>
     suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
+    suspend fun setPushNotification(rssLink: String, isPushNotification: Boolean)
     suspend fun setUnReadItemCount(rssLink: String, count: Int)
     suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int
     suspend fun deleteAndUnregisterRss(rssLink: String)
@@ -85,7 +86,11 @@ internal class RssRepositoryImpl(
     }
 
     override suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) = withContext(Dispatchers.IO) {
-        rssDao.updateRssMetaEntity(rssLink, isAutoFetch)
+        rssDao.updateRssMetaEntityWithAutoFetch(rssLink, isAutoFetch)
+    }
+
+    override suspend fun setPushNotification(rssLink: String, isPushNotification: Boolean) {
+        rssDao.updateRssMetaEntityWithPushNotification(rssLink, isPushNotification)
     }
 
     override suspend fun setUnReadItemCount(rssLink: String, count: Int) {
@@ -111,12 +116,16 @@ internal class RssRepositoryImpl(
                 )
             )
             .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            rssLink,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            request
-        )
-        return true
+        return try {
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                rssLink,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                request
+            )
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     override fun unRegisterWorker(rssLink: String): Boolean {

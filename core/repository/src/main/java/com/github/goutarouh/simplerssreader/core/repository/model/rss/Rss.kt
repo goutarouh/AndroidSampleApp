@@ -13,6 +13,7 @@ data class Rss (
     val imageLink: String = "",
     val items: List<RssItem> = listOf(),
     val isAutoFetch: Boolean = false,
+    val isPushNotification: Boolean = false,
     val lastFetchedAt: LocalDateTime = LocalDateTime.now(),
     val unReadItemCount: Int = 0
 ) {
@@ -46,6 +47,7 @@ internal fun RssWrapperData.toRss(): Rss = Rss(
     imageLink = rssEntity.imageLink,
     items = items.map { it.toRssItem() },
     isAutoFetch = rssMetaEntity.isAutoFetch,
+    isPushNotification = rssMetaEntity.isPushNotification,
     lastFetchedAt = rssMetaEntity.lastFetchedAt,
     unReadItemCount = rssMetaEntity.unReadItemCount
 )

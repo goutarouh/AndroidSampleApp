@@ -3,15 +3,15 @@ package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +31,11 @@ interface RssItemScreenAction {
     fun itemClick(linkString: String)
 }
 
+interface RssItemSettingAction {
+    fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
+    fun setNotificationEnabled(rssLink: String, enabled: Boolean)
+}
+
 @Composable
 fun RssItemListScreen(
     rssItemScreenAction: RssItemScreenAction,
@@ -39,9 +44,25 @@ fun RssItemListScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            RssItemListTopBar(uiState.value, rssItemScreenAction)
+            RssItemListTopBar(
+                state = uiState.value,
+                rssItemScreenAction = rssItemScreenAction,
+                rssItemSettingAction = object: RssItemSettingAction {
+                    override fun setAutoFetch(rssLink: String, isAutoFetch: Boolean) {
+                        viewModel.setAutoFetch(rssLink, isAutoFetch)
+                    }
+
+                    override fun setNotificationEnabled(rssLink: String, enabled: Boolean) {
+                        viewModel.setPushNotification(rssLink, enabled)
+                    }
+
+                }
+            )
         }
     ) {
         Box(modifier = modifier
@@ -56,13 +77,18 @@ fun RssItemListScreen(
                     ErrorScreen(e = state.e)
                 }
                 is Success -> {
+                    val context = LocalContext.current
+                    LaunchedEffect(state) {
+                        val workerEvent = state.workerEvent
+                        if (workerEvent != null) {
+                            scaffoldState.snackbarHostState.showSnackbar(message = context.getString(workerEvent.stringId), duration = SnackbarDuration.Short)
+                            viewModel.setWorkerEventDone()
+                        }
+                    }
                     RssItemList(
                         rss = state.rss,
                         update = {
                             viewModel.updateRss(it)
-                        },
-                        setAutoFetch = { rssLink, isAutoFetch ->
-                            viewModel.setAutoFetch(rssLink, isAutoFetch)
                         }
                     ) {
                         rssItemScreenAction.itemClick(it)
@@ -118,12 +144,14 @@ private fun ErrorScreen(
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = e.rssLink,
-                modifier = Modifier.padding(horizontal = 24.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp
-            )
+            SelectionContainer {
+                Text(
+                    text = e.rssLink,
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }
@@ -134,7 +162,6 @@ private fun ErrorScreen(
 fun RssItemList(
     rss: Rss,
     update: (String) -> Unit,
-    setAutoFetch: (String, Boolean) -> Unit,
     onCardClick: (String) -> Unit
 ) {
     var refreshing by remember { mutableStateOf(false) }
@@ -157,7 +184,6 @@ fun RssItemList(
             item {
                 RssItemListHeader(
                     rss = rss,
-                    setAutoFetch = setAutoFetch,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
             }
@@ -184,8 +210,7 @@ fun RssItemList(
 @Composable
 fun RssItemListHeader(
     rss: Rss,
-    modifier: Modifier = Modifier,
-    setAutoFetch: (String, Boolean) -> Unit
+    modifier: Modifier = Modifier
 ) {
 
     Row(
@@ -206,6 +231,5 @@ fun RssItemListHeader(
                 style = MaterialTheme.typography.caption,
             )
         }
-        RssSubscribeButton(rss = rss, setAutoFetch = setAutoFetch)
     }
 }

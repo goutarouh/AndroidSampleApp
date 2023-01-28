@@ -8,4 +8,23 @@
     <string name="rss_get_error_not_supported_format">The RSS format of the URL \n is not supported.</string>
     <string name="rss_items_last_update">Last update: </string>
     <string name="rss_subscribe">SUBSCRIBE</string>
+
+    <!-- 自動更新の設定の完了ステータス -->
+    <string name="rss_register_success">Auto updates have been set up.</string>
+    <string name="rss_register_failed">Could not set up auto updates.</string>
+    <string name="rss_unregister_success">Auto updates has been cancelled.</string>
+    <string name="rss_unregister_failed">Auto updates could not be canceled.</string>
+
+
+    <!-- 設定 -->
+    <string name="rss_settings_dialog_title">Settings for</string>
+    <string name="rss_settings_auto_update">Auto update</string>
+    <string name="rss_settings_auto_update_description">
+        Automatically update rss once a day without opening the application.
+    </string>
+    <string name="rss_settings_notification">Notification</string>"
+    <string name="rss_settings_notification_description">
+        Notification is pushed when there is an update.\n
+        (Valid only when auto update is on.)
+    </string>
 </resources>
