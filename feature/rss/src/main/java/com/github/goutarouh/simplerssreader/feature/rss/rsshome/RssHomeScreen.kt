@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +23,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.ui.dialog.DeleteConfirmDialog
-import com.github.goutarouh.simplerssreader.core.util.string.decode64
-import com.github.goutarouh.simplerssreader.core.util.string.encode64
+import com.github.goutarouh.simplerssreader.core.util.navigation.navArgDecode
+import com.github.goutarouh.simplerssreader.core.util.navigation.navArgEncode
 import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.RssHomeScreenUiState.*
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable.RssCard
@@ -46,7 +45,7 @@ fun NavGraphBuilder.rssHome(
         RssHomeScreen(
             navigateTo = {
                 if (navController.currentDestination?.route == RSS_HOME_ROUTE) {
-                    navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", it.encode64()))
+                    navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", it.navArgEncode()))
                 }
             },
             modifier = modifier
@@ -61,7 +60,7 @@ fun NavGraphBuilder.rssHome(
                 override fun navigateBack() { navController.popBackStack() }
                 override fun itemClick(linkString: String) {
                     if (navController.currentDestination?.route?.startsWith(RSS_LIST_ROUTE) == true) {
-                        navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", linkString.encode64()))
+                        navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", linkString.navArgEncode()))
                     }
                 }
             },
@@ -72,7 +71,7 @@ fun NavGraphBuilder.rssHome(
         route = RSS_WEB_ROUTE,
         arguments = listOf(navArgument("rssLink") { type = NavType.StringType }),
     ) {
-        val rssLink = it.arguments?.getString("rssLink")!!.decode64()
+        val rssLink = it.arguments?.getString("rssLink")!!.navArgDecode()
         RssWebViewScreen(
             rssLink = rssLink,
             navigationBack = { navController.popBackStack() },
