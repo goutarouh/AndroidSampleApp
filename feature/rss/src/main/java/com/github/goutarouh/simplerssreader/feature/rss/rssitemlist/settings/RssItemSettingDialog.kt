@@ -5,14 +5,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
+import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.RssItemSettingAction
 
 @Composable
@@ -78,6 +83,22 @@ fun RssItemSettingContents(
             .clickable { }
     ) {
         Column {
+            Text(
+                text = stringResource(id = R.string.rss_settings_dialog_title, rss.title),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h3
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = rss.title,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h4,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(32.dp))
             RssItemSettingAutoUpdateRow(rss.isAutoFetch) { isAutoFetch ->
                 rssItemSettingAction.setAutoFetch(rss.rssLink, isAutoFetch)
             }
