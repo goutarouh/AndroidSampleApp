@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
+import com.github.goutarouh.simplerssreader.core.ui.modifier.noRippleClickable
 import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.RssItemSettingAction
 
@@ -33,7 +34,7 @@ fun RssItemSettingDialog(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onDismiss() }
+                .noRippleClickable { onDismiss() }
         ) {
             RssItemSettingContents(
                 rss = rss,
@@ -80,7 +81,7 @@ fun RssItemSettingContents(
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colors.background)
             .padding(horizontal = 4.dp, vertical = 32.dp)
-            .clickable { }
+            .noRippleClickable {  }
     ) {
         Column {
             Text(
