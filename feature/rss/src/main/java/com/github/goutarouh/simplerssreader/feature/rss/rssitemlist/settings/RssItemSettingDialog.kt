@@ -37,6 +37,31 @@ fun RssItemSettingDialog(
             )
         }
     }
+
+    // 通知機能の権限はUI調整が完了するまでpending
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//        val permissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+//        when {
+//            permissionState.hasPermission -> {}
+//            permissionState.shouldShowRationale -> {
+//                AlertDialog(
+//                    text = {},
+//                    onDismissRequest = {},
+//                    confirmButton = {
+//                        TextButton(onClick = { permissionState.launchPermissionRequest() }) {
+//                            Text(text = "OK")
+//                        }
+//                    }
+//                )
+//            }
+//            permissionState.permissionRequested -> {}
+//            else -> {
+//                SideEffect {
+//                    permissionState.launchPermissionRequest()
+//                }
+//            }
+//        }
+//    }
 }
 
 @Composable
@@ -56,13 +81,15 @@ fun RssItemSettingContents(
             RssItemSettingAutoUpdateRow(rss.isAutoFetch) { isAutoFetch ->
                 rssItemSettingAction.setAutoFetch(rss.rssLink, isAutoFetch)
             }
-            Spacer(modifier = Modifier.height(32.dp))
-            RssItemSettingNotificationRow(
-                isPushNotification = rss.isPushNotification,
-                isAutoFetch = rss.isAutoFetch
-            ) { isPushNotification ->
-                rssItemSettingAction.setNotificationEnabled(rss.rssLink, isPushNotification)
-            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // 通知機能はいったんpending
+//            RssItemSettingNotificationRow(
+//                isPushNotification = rss.isPushNotification,
+//                isAutoFetch = rss.isAutoFetch
+//            ) { isPushNotification ->
+//                rssItemSettingAction.setNotificationEnabled(rss.rssLink, isPushNotification)
+//            }
         }
     }
 }
