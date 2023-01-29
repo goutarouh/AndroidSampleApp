@@ -27,8 +27,8 @@ object AppModule {
     ): AppConfig {
         return AppConfig(
             isDebug = BuildConfig.DEBUG,
-            postNotification = { link, title ->
-                postNotification(context, link, title)
+            postNotification = { link, title, newItemCount->
+                postNotification(context, link, title, newItemCount)
             }
         )
     }
@@ -36,14 +36,21 @@ object AppModule {
     private fun postNotification(
         context: Context,
         rssLink: String,
-        rssTitle: String
+        rssTitle: String,
+        newItemCount: Int
     ) {
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val channelId = context.getString(R.string.rss_update_channel_id)
         val title = context.getString(R.string.rss_update_notification_title)
-        val text = context.getString(R.string.rss_update_notification_text, rssTitle)
+
+        if (newItemCount <= 0) return
+        val text = if (newItemCount > 1) {
+            context.getString(R.string.rss_update_notification_text_more_two, newItemCount, rssTitle)
+        } else {
+            context.getString(R.string.rss_update_notification_text_1, 1, rssTitle)
+        }
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.rss_feed)
