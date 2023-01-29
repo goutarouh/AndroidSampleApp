@@ -34,7 +34,7 @@ interface RssRepository {
     suspend fun setAutoFetch(rssLink: String, isAutoFetch: Boolean)
     suspend fun setPushNotification(rssLink: String, isPushNotification: Boolean)
     suspend fun setUnReadItemCount(rssLink: String, count: Int)
-    suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int
+    suspend fun updateRssAndCheckNewItemCount(rssLink: String): Result<Int>
     suspend fun deleteAndUnregisterRss(rssLink: String)
     fun registerWorker(rssLink: String, title: String): Boolean
     fun unRegisterWorker(rssLink: String): Boolean
@@ -161,17 +161,17 @@ internal class RssRepositoryImpl(
         return rssDao.getRssWrapperData(rssLink)
     }
 
-    override suspend fun updateRssAndCheckNewItemCount(rssLink: String): Int {
+    override suspend fun updateRssAndCheckNewItemCount(rssLink: String): Result<Int> {
 
         val currentItems = rssDao.getRssWrapperData(rssLink).items.map { it.toRssItem() }
 
         return when (val result = updateRss(rssLink, false)) {
             is Result.Success -> {
                 val newItems = result.data.items
-                calculateDiffOfTwoList(currentItems, newItems)
+                Result.Success(calculateDiffOfTwoList(currentItems, newItems))
             }
             is Result.Error -> {
-                0
+                Result.Error(result.e)
             }
         }
     }
