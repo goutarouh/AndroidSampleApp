@@ -115,9 +115,12 @@ internal class RssRepositoryImpl(
                     RssFetchWorker.RSS_TITLE to title
                 )
             )
+            .addTag(rssLink)
             .build()
         return try {
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            val wm = WorkManager.getInstance(context)
+            wm.cancelAllWorkByTag(rssLink)
+            wm.enqueueUniquePeriodicWork(
                 rssLink,
                 ExistingPeriodicWorkPolicy.REPLACE,
                 request
