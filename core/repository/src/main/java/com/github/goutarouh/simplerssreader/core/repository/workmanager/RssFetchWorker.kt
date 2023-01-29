@@ -27,13 +27,13 @@ class RssFetchWorker @AssistedInject constructor(
         try {
             rssRepository.setUnReadItemCount(rssLink, newItemCount)
         } catch (e: Exception) {
-            return Result.retry()
+            return Result.failure()
         }
 
         val result = rssRepository.getRss(rssLink)
         if (result is Success) {
-            if (NotificationUtil.areNotificationEnabled(appContext)) {
-                appConfig.postNotification(rssLink, rssTitle)
+            if (NotificationUtil.areNotificationEnabled(appContext) && newItemCount > 0) {
+                appConfig.postNotification(rssLink, rssTitle, newItemCount)
             }
         }
 
