@@ -106,7 +106,8 @@ internal class RssRepositoryImpl(
 
     override fun registerWorker(rssLink: String, title: String): Boolean {
         val request = PeriodicWorkRequestBuilder<RssFetchWorker>(
-            24, TimeUnit.HOURS
+            12, TimeUnit.HOURS,
+            10, TimeUnit.MINUTES
         )
             .setInitialDelay(12, TimeUnit.HOURS)
             .setInputData(
