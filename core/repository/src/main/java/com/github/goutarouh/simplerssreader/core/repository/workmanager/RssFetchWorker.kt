@@ -7,12 +7,13 @@ import androidx.work.WorkerParameters
 import com.github.goutarouh.simplerssreader.core.repository.RssRepository
 import com.github.goutarouh.simplerssreader.core.util.data.AppConfig
 import com.github.goutarouh.simplerssreader.core.util.data.Result.Success
+import com.github.goutarouh.simplerssreader.core.util.notification.NotificationUtil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 @HiltWorker
 class RssFetchWorker @AssistedInject constructor(
-    @Assisted appContext: Context,
+    @Assisted val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val rssRepository: RssRepository,
     private val appConfig: AppConfig
@@ -31,7 +32,7 @@ class RssFetchWorker @AssistedInject constructor(
 
         val result = rssRepository.getRss(rssLink)
         if (result is Success) {
-            if (result.data.isPushNotification) {
+            if (NotificationUtil.areNotificationEnabled(appContext)) {
                 appConfig.postNotification(rssLink, rssTitle)
             }
         }
