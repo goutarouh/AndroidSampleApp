@@ -23,8 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.github.goutarouh.simplerssreader.core.repository.model.rss.Rss
 import com.github.goutarouh.simplerssreader.core.ui.dialog.DeleteConfirmDialog
-import com.github.goutarouh.simplerssreader.core.util.navigation.navArgDecode
-import com.github.goutarouh.simplerssreader.core.util.navigation.navArgEncode
+import com.github.goutarouh.simplerssreader.core.util.navigation.UrlNavArg
 import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.RssHomeScreenUiState.*
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable.RssCard
@@ -45,7 +44,8 @@ fun NavGraphBuilder.rssHome(
         RssHomeScreen(
             navigateTo = {
                 if (navController.currentDestination?.route == RSS_HOME_ROUTE) {
-                    navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", it.navArgEncode()))
+                    val url = with(UrlNavArg) { it.navArgEncode() }
+                    navController.navigate(RSS_LIST_ROUTE.replace("{rssLink}", url))
                 }
             },
             modifier = modifier
@@ -60,7 +60,8 @@ fun NavGraphBuilder.rssHome(
                 override fun navigateBack() { navController.popBackStack() }
                 override fun itemClick(linkString: String) {
                     if (navController.currentDestination?.route?.startsWith(RSS_LIST_ROUTE) == true) {
-                        navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", linkString.navArgEncode()))
+                        val url = with(UrlNavArg) { linkString.navArgEncode() }
+                        navController.navigate(RSS_WEB_ROUTE.replace("{rssLink}", url))
                     }
                 }
             },
@@ -71,7 +72,7 @@ fun NavGraphBuilder.rssHome(
         route = RSS_WEB_ROUTE,
         arguments = listOf(navArgument("rssLink") { type = NavType.StringType }),
     ) {
-        val rssLink = it.arguments?.getString("rssLink")!!.navArgDecode()
+        val rssLink = with(UrlNavArg) { it.arguments?.getString("rssLink")!!.navArgDecode() }
         RssWebViewScreen(
             rssLink = rssLink,
             navigationBack = { navController.popBackStack() },
