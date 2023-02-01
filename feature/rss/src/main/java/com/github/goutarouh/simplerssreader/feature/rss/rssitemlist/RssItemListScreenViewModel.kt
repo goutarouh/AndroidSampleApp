@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.goutarouh.simplerssreader.core.repository.RssRepository
 import com.github.goutarouh.simplerssreader.core.util.data.Result
-import com.github.goutarouh.simplerssreader.core.util.navigation.navArgDecode
+import com.github.goutarouh.simplerssreader.core.util.navigation.UrlNavArg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +19,7 @@ class RssItemListScreenViewModel @Inject constructor(
 ): ViewModel() {
 
     private val rssItemListNavArgs = RssItemListNavArgs(savedStateHandle)
-    val rssItemLink = rssItemListNavArgs.rssLink.navArgDecode()
+    private val rssItemLink = with(UrlNavArg) { rssItemListNavArgs.rssLink.navArgDecode() }
 
     private val _uiState = MutableStateFlow<RssItemListScreenUiState>(RssItemListScreenUiState.Loading)
     val uiState = _uiState.asStateFlow()
