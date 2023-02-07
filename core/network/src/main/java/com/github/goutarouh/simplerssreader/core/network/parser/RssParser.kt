@@ -10,13 +10,6 @@ import java.io.InputStream
  * 参考：https://developer.android.com/training/basics/network-ops/xml?hl=ja#consume
  */
 class RssParser {
-    fun parse(input: InputStream): RssApiModel {
-        val parser = Xml.newPullParser()
-        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-        parser.setInput(input, null)
-        parser.nextTag()
-        return readRss(parser)
-    }
 
     internal fun readRss(parser: XmlPullParser): RssApiModel {
         parser.require(XmlPullParser.START_TAG, null, "rss")

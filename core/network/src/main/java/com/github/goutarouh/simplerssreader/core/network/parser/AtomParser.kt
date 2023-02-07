@@ -8,6 +8,7 @@ class AtomParser {
 
     internal fun readFeed(parser: XmlPullParser): RssApiModel {
         parser.require(XmlPullParser.START_TAG, null, "feed")
+
         var title = ""
         val items = mutableListOf<RssItemApiModel>()
 
