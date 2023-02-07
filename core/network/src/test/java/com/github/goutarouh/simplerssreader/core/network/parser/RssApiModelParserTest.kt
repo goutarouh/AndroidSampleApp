@@ -52,7 +52,7 @@ internal class RssParserTest {
         parser.setInput(RSS_TEXT_XML.byteInputStream(), null)
         parser.nextTag()
 
-        val actual = rssParser.readText(parser)
+        val actual = parser.readText()
         Assert.assertEquals(RSS_TEXT, actual)
     }
 
