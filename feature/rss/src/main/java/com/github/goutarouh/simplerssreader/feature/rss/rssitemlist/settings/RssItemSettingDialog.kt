@@ -31,7 +31,7 @@ fun RssItemSettingDialog(
     ) {
         Surface(
             modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(8.dp)),
         ) {
             Box(
                 modifier = Modifier

@@ -1,6 +1,7 @@
 package com.github.goutarouh.simplerssreader.core.ui.dialog
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -44,7 +45,8 @@ private fun ConfirmButton(
 ) {
     TextButton(onClick = onConfirm) {
         Text(
-            text = text
+            text = text,
+            color = MaterialTheme.colorScheme.error
         )
     }
 }
@@ -55,7 +57,10 @@ private fun DismissButton(
     text: String
 ) {
     TextButton(onClick = onDismiss) {
-        Text(text = text)
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
