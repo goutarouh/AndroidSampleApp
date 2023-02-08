@@ -1,12 +1,9 @@
 package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,23 +22,27 @@ fun RssItemCard(
     onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Card(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(size = 24.dp))
-            .background(color = MaterialTheme.colors.primary)
+            .fillMaxWidth()
+            .height(80.dp)
+            .clip(shape = RoundedCornerShape(size = 12.dp))
             .clickable {
                 onCardClick(rssItem.pageLink)
             }
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .heightIn(min = 80.dp)
-            .fillMaxWidth()
     ) {
-        Text(
-            text = rssItem.title,
-            modifier = Modifier.align(Alignment.CenterStart),
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+        ) {
+            Text(
+                text = rssItem.title,
+                modifier = Modifier.align(Alignment.CenterStart),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 

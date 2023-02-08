@@ -3,10 +3,10 @@ package com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +35,11 @@ fun RssCard(
     onCardLongClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    Row(
+    Card(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(size = 24.dp))
-            .background(color = MaterialTheme.colors.primary)
+            .fillMaxWidth()
+            .height(80.dp)
+            .clip(shape = RoundedCornerShape(size = 12.dp))
             .combinedClickable(
                 onClick = {
                     onCardClick(rss.rssLink)
@@ -48,53 +48,54 @@ fun RssCard(
                     onCardLongClick(rss.rssLink, rss.title)
                 }
             )
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .heightIn(80.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        val iconModifier = Modifier
-            .clip(shape = RoundedCornerShape(size = 8.dp))
-            .size(60.dp)
-        if (rss.imageLink.isEmpty()) {
-            Icon(
-                painter = painterResource(id = R.drawable.rss),
-                contentDescription = null,
-                tint = MaterialTheme.colors.onPrimary,
-                modifier = iconModifier
-            )
-        } else {
-            SubcomposeAsyncImage(
-                model = rss.imageLink,
-                contentDescription = null
-            ) {
-                when (painter.state) {
-                    is AsyncImagePainter.State.Error -> {
-                        Icon(
-                            painter = painterResource(id = R.drawable.rss),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.onPrimary,
-                            modifier = iconModifier
-                        )
-                    }
-                    is AsyncImagePainter.State.Success -> {
-                        SubcomposeAsyncImageContent(modifier = Modifier.size(60.dp))
-                    }
-                    else -> {
-                        Box(modifier = Modifier.size(60.dp))
+        Row(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val iconModifier = Modifier
+                .clip(shape = RoundedCornerShape(size = 8.dp))
+                .size(60.dp)
+            if (rss.imageLink.isEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.rss),
+                    contentDescription = null,
+                    modifier = iconModifier
+                )
+            } else {
+                SubcomposeAsyncImage(
+                    model = rss.imageLink,
+                    contentDescription = null
+                ) {
+                    when (painter.state) {
+                        is AsyncImagePainter.State.Error -> {
+                            Icon(
+                                painter = painterResource(id = R.drawable.rss),
+                                contentDescription = null,
+                                modifier = iconModifier
+                            )
+                        }
+                        is AsyncImagePainter.State.Success -> {
+                            SubcomposeAsyncImageContent(modifier = Modifier.size(60.dp))
+                        }
+                        else -> {
+                            Box(modifier = Modifier.size(60.dp))
+                        }
                     }
                 }
             }
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = rss.title,
+                modifier = Modifier.weight(1f),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = if (rss.hasUnreadItems) FontWeight.Bold else null,
+                fontSize = if (rss.hasUnreadItems) 16.sp else 15.sp
+            )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = rss.title,
-            modifier = Modifier.weight(1f),
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = if (rss.hasUnreadItems) FontWeight.Bold else null,
-            fontSize = if (rss.hasUnreadItems) 16.sp else 15.sp
-        )
     }
 }
 

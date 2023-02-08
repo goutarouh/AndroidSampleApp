@@ -4,9 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -196,8 +195,7 @@ private fun RssListEmpty(
             Icon(
                 painter = painterResource(id = R.drawable.pan),
                 modifier = Modifier.size(40.dp),
-                contentDescription = null,
-                tint = MaterialTheme.colors.onPrimary
+                contentDescription = null
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

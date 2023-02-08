@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -36,6 +38,7 @@ interface RssItemSettingAction {
     fun setNotificationEnabled(rssLink: String, enabled: Boolean)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RssItemListScreen(
     rssItemScreenAction: RssItemScreenAction,
@@ -44,10 +47,8 @@ fun RssItemListScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
-
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
-        scaffoldState = scaffoldState,
         topBar = {
             RssItemListTopBar(
                 state = uiState.value,
@@ -81,7 +82,7 @@ fun RssItemListScreen(
                     LaunchedEffect(state) {
                         val workerEvent = state.workerEvent
                         if (workerEvent != null) {
-                            scaffoldState.snackbarHostState.showSnackbar(message = context.getString(workerEvent.stringId), duration = SnackbarDuration.Short)
+                            snackbarHostState.showSnackbar(message = context.getString(workerEvent.stringId), duration = SnackbarDuration.Short)
                             viewModel.setWorkerEventDone()
                         }
                     }
@@ -113,8 +114,7 @@ private fun ErrorScreen(
             Icon(
                 painter = painterResource(id = R.drawable.error),
                 contentDescription = null,
-                modifier = Modifier.size(70.dp),
-                tint = MaterialTheme.colors.onPrimary
+                modifier = Modifier.size(70.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             when (e) {
@@ -223,12 +223,10 @@ fun RssItemListHeader(
             .padding(start = 16.dp),
         ) {
             Text(
-                text = stringResource(id = R.string.rss_items_last_update),
-                style = MaterialTheme.typography.caption,
+                text = stringResource(id = R.string.rss_items_last_update)
             )
             Text(
-                text = rss.lastFetchedAt.formatForUi(),
-                style = MaterialTheme.typography.caption,
+                text = rss.lastFetchedAt.formatForUi()
             )
         }
     }
