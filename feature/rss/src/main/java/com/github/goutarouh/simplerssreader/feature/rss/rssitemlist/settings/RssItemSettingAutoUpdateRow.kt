@@ -4,10 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,8 +42,7 @@ fun RssItemSettingAutoUpdateRow(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 16.dp),
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.h4
+                textAlign = TextAlign.Start
             )
             Switch(
                 checked = isAutoFetch,
@@ -56,8 +54,7 @@ fun RssItemSettingAutoUpdateRow(
         Text(
             text = stringResource(id = R.string.rss_settings_auto_update_description),
             fontSize = 13.sp,
-            modifier = Modifier.padding(start = 8.dp, end = 4.dp),
-            style = MaterialTheme.typography.caption,
+            modifier = Modifier.padding(start = 8.dp, end = 4.dp)
         )
     }
 }

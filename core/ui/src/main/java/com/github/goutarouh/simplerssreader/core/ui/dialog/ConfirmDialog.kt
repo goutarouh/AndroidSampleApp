@@ -1,10 +1,9 @@
 package com.github.goutarouh.simplerssreader.core.ui.dialog
 
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.github.goutarouh.simplerssreader.core.ui.R
 
@@ -13,8 +12,7 @@ internal fun ConfirmDialog(
     title: String,
     text: String,
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-    confirmButtonColor: Color,
+    onDismiss: () -> Unit
 ) {
     AlertDialog(
         title = {
@@ -27,8 +25,7 @@ internal fun ConfirmDialog(
         confirmButton = {
             ConfirmButton(
                 onConfirm = onConfirm,
-                text = stringResource(id = R.string.alert_dialog_delete_confirm),
-                confirmButtonColor = confirmButtonColor
+                text = stringResource(id = R.string.alert_dialog_delete_confirm)
             )
         },
         dismissButton = {
@@ -44,12 +41,10 @@ internal fun ConfirmDialog(
 private fun ConfirmButton(
     onConfirm: () -> Unit,
     text: String,
-    confirmButtonColor: Color,
 ) {
     TextButton(onClick = onConfirm) {
         Text(
-            text = text,
-            color = confirmButtonColor
+            text = text
         )
     }
 }

@@ -4,13 +4,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,12 +21,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import com.github.goutarouh.simplerssreader.core.ui.theme.Red600
 import com.github.goutarouh.simplerssreader.feature.rss.R
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.model.RssLinkInputStatus
 import com.github.goutarouh.simplerssreader.feature.rss.rsshome.model.RssLinkInputText
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun RssLinkTextField(
     searchClick: (String) -> Unit,
@@ -56,8 +54,7 @@ fun RssLinkTextField(
                 },
             placeholder = {
                 Text(
-                    text = stringResource(id = R.string.rss_home_text_field_outline),
-                    color = MaterialTheme.colors.onBackground
+                    text = stringResource(id = R.string.rss_home_text_field_outline)
                 )
             },
             isError = field.isError,
@@ -68,8 +65,7 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.onBackground
+                            contentDescription = null
                         )
                     }
                 } else {
@@ -79,8 +75,7 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.onBackground
+                            contentDescription = null
                         )
                     }
                 }
@@ -92,8 +87,7 @@ fun RssLinkTextField(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.onBackground
+                            contentDescription = null
                         )
                     }
                 }

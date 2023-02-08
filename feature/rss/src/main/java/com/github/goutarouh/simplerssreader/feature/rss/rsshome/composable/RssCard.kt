@@ -3,10 +3,9 @@ package com.github.goutarouh.simplerssreader.feature.rss.rsshome.composable
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +34,10 @@ fun RssCard(
     onCardLongClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+    // https://engawapg.net/android/1667/m3-color-theme/
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = 24.dp))
-            .background(color = MaterialTheme.colors.primary)
             .combinedClickable(
                 onClick = {
                     onCardClick(rss.rssLink)
@@ -60,7 +58,6 @@ fun RssCard(
             Icon(
                 painter = painterResource(id = R.drawable.rss),
                 contentDescription = null,
-                tint = MaterialTheme.colors.onPrimary,
                 modifier = iconModifier
             )
         } else {
@@ -73,7 +70,6 @@ fun RssCard(
                         Icon(
                             painter = painterResource(id = R.drawable.rss),
                             contentDescription = null,
-                            tint = MaterialTheme.colors.onPrimary,
                             modifier = iconModifier
                         )
                     }
