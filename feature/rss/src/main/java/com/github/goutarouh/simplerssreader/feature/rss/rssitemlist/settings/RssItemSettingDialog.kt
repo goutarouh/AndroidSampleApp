@@ -1,9 +1,8 @@
 package com.github.goutarouh.simplerssreader.feature.rss.rssitemlist.settings
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,16 +29,21 @@ fun RssItemSettingDialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties()
     ) {
-        Box(
+        Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .noRippleClickable { onDismiss() }
+                .clip(RoundedCornerShape(8.dp))
         ) {
-            RssItemSettingContents(
-                rss = rss,
-                rssItemSettingAction = rssItemSettingAction,
-                modifier = Modifier.align(Alignment.Center)
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .noRippleClickable { onDismiss() }
+            ) {
+                RssItemSettingContents(
+                    rss = rss,
+                    rssItemSettingAction = rssItemSettingAction,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
     }
 
